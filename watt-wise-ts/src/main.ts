@@ -1,4 +1,7 @@
+import { createApi } from './api';
+import type { MockApi } from './api/mock';
 import { clearSession, loadSession, saveSession } from './auth';
+import { resolveConfig } from './config';
 import { $, esc } from './dom';
 import { mountLogin } from './login';
 import { mountManager } from './manager';
@@ -24,12 +27,12 @@ function render(): void {
   renderUserArea();
   if (!s) {
     document.title = 'Watt Wise · Sign in';
-    mountLogin(root, signIn);
+    mountLogin(root, signIn, async () => (await state.api!.flats()).map((f) => f.flat_id));
     return;
   }
   if (s.role === 'student') {
     document.title = 'Watt Wise · Student view';
-    mountStudent(root);
+    mountStudent(root, s.flatId);
   } else {
     document.title = 'Watt Wise · Manager view';
     mountManager(root);
@@ -38,7 +41,6 @@ function render(): void {
 
 function signIn(session: Session): void {
   state.session = session;
-  if (session.role === 'student') state.flatId = session.flatId;
   saveSession(session);
   render();
   $('#app').focus();
@@ -52,9 +54,17 @@ function signOut(): void {
   window.scrollTo(0, 0);
 }
 
-const saved = loadSession();
-if (saved) {
-  state.session = saved;
-  if (saved.role === 'student') state.flatId = saved.flatId;
+state.config = resolveConfig(window.WATTWISE_CONFIG, window.location.search);
+state.api = createApi(state.config, () => (state.session?.role === 'student' ? state.session.flatId : null));
+const src = document.getElementById('data-source');
+if (src) {
+  src.textContent = `Data: ${state.api.describe}`;
+  if (state.api.mode === 'mock') {
+    void (state.api as MockApi).meta().then(
+      (m) => (src.textContent = `Data: offline fixtures recorded from the real engine (references ${m.references_hash})`),
+      () => (src.textContent = 'Data: offline fixtures could not be loaded'),
+    );
+  }
 }
+state.session = loadSession();
 render();

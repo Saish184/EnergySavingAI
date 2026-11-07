@@ -1,6 +1,6 @@
 import { DEMO_MODE, loginManager, loginStudent, MIN_PASSWORD_LENGTH } from './auth';
-import { FLATS } from './data';
 import { $ } from './dom';
+import { errorMessage } from './ui';
 import type { Session } from './types';
 
 type Role = 'student' | 'manager';
@@ -11,9 +11,9 @@ function setError(input: HTMLInputElement, box: HTMLElement, message: string): v
   else input.removeAttribute('aria-invalid');
 }
 
-export function mountLogin(root: HTMLElement, onLogin: (session: Session) => void): void {
-  const first = FLATS[0].id;
-  const last = FLATS[FLATS.length - 1].id;
+/** `flatIds` loads the valid flats from the backend (GET /flats); students are checked against it. */
+export function mountLogin(root: HTMLElement, onLogin: (session: Session) => void, flatIds: () => Promise<string[]>): void {
+  let known: string[] | null = null;
 
   root.innerHTML = `
   <div class="login-wrap">
@@ -31,7 +31,7 @@ export function mountLogin(root: HTMLElement, onLogin: (session: Session) => voi
         <div class="field">
           <label for="l-flat">Flat number</label>
           <input id="l-flat" name="flat" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="e.g. 3 or F003" aria-describedby="l-flat-hint l-flat-err">
-          <div class="hint" id="l-flat-hint">Flats run from ${first} to ${last}.</div>
+          <div class="hint" id="l-flat-hint">Loading the list of flats…</div>
           <div class="error" id="l-flat-err" role="alert"></div>
         </div>
         <button class="btn" type="submit">Continue</button>
@@ -57,7 +57,7 @@ export function mountLogin(root: HTMLElement, onLogin: (session: Session) => voi
 
       ${
         DEMO_MODE
-          ? `<p class="demo-note"><strong>Demo mode.</strong> There are no real accounts. Any well-formed email and a password of ${MIN_PASSWORD_LENGTH}+ characters will sign you in as a manager. A real version needs a server to check passwords.</p>`
+          ? `<p class="demo-note"><strong>Demo sign-in, not security.</strong> There are no real accounts. Any well-formed email and a password of ${MIN_PASSWORD_LENGTH}+ characters opens the manager view, and a flat number is not a secret. The backend only checks an X-Flat-Id header, which is not authentication.</p>`
           : ''
       }
     </section>
@@ -86,9 +86,29 @@ export function mountLogin(root: HTMLElement, onLogin: (session: Session) => voi
     b.addEventListener('click', () => showRole(b.dataset.role === 'manager' ? 'manager' : 'student'));
   });
 
-  studentForm.addEventListener('submit', (e) => {
+  const hint = $('#l-flat-hint');
+  const studentBtn = $<HTMLButtonElement>('#l-student button[type=submit]');
+  const loadFlats = async (): Promise<string[] | null> => {
+    if (known) return known;
+    try {
+      known = await flatIds();
+      hint.textContent = known.length ? `Flats run from ${known[0]} to ${known[known.length - 1]}.` : 'No flats are available.';
+      return known;
+    } catch (e) {
+      hint.textContent = 'The list of flats could not be loaded.';
+      setError(flatInput, flatErr, `${errorMessage(e)} Try again when the data service is running.`);
+      return null;
+    }
+  };
+  void loadFlats();
+
+  studentForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const result = loginStudent(flatInput.value);
+    studentBtn.disabled = true;
+    const list = await loadFlats();
+    studentBtn.disabled = false;
+    if (!list) return;
+    const result = loginStudent(flatInput.value, list);
     if (!result.ok) {
       setError(flatInput, flatErr, result.message);
       flatInput.focus();

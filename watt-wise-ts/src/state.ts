@@ -1,23 +1,46 @@
-import type { AlertStatus, ScenarioState, Session } from './types';
+import type { Api } from './api/client';
+import type { TariffSpec } from './api/contracts';
+import type { AppConfig } from './config';
+import type { Session } from './types';
 
 export interface AppState {
   session: Session | null;
-  /** The flat the student view shows. Set from the student session at sign-in. */
-  flatId: string;
-  scenario: ScenarioState;
-  /** Share of flats that adopt the scenario in the manager's portfolio estimate. */
-  adoptionPct: number;
-  alertStatus: Record<string, AlertStatus>;
+  config: AppConfig | null;
+  api: Api | null;
+  /** The student's electricity contract: a condition on money figures (never changes kWh or CO2e). */
+  tariff: TariffSpec;
 }
+
+const TARIFF_KEY = 'wattwise.tariff';
 
 export const state: AppState = {
   session: null,
-  flatId: 'F001',
-  scenario: { id: 'shift-evening', sharePct: 30 },
-  adoptionPct: 50,
-  alertStatus: {},
+  config: null,
+  api: null,
+  tariff: loadTariff(),
 };
 
-export function alertStatusOf(id: string): AlertStatus {
-  return state.alertStatus[id] ?? 'open';
+function loadTariff(): TariffSpec {
+  try {
+    const raw = typeof sessionStorage === 'undefined' ? null : sessionStorage.getItem(TARIFF_KEY);
+    const t = raw ? (JSON.parse(raw) as TariffSpec) : null;
+    if (t && typeof t.type === 'string') return t;
+  } catch {
+    /* storage blocked: default below */
+  }
+  return { type: 'unknown' };
+}
+
+export function setTariff(t: TariffSpec): void {
+  state.tariff = t;
+  try {
+    sessionStorage.setItem(TARIFF_KEY, JSON.stringify(t));
+  } catch {
+    /* ignore */
+  }
+}
+
+export function api(): Api {
+  if (!state.api) throw new Error('API not initialised');
+  return state.api;
 }

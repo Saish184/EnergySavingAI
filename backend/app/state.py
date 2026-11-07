@@ -137,6 +137,25 @@ class AppState:
                             "note": "hours with missing kWh or price are excluded from measured sums, not set to zero"},
         }
 
+    def local_profile(self, flat_id: str) -> dict:
+        """Measured hour-of-day profile and daily totals in Europe/Stockholm time (additive view for the frontend)."""
+        self.check_flat(flat_id)
+        R = self.ev["references"]
+        prof = metrics.local_profile(self.ds.flats[flat_id], set(self.ds.refs.peak_hours))
+        return {
+            "flat_id": flat_id, "timezone": C.TZ_LOCAL, "horizon": "28d measured", "status": "measured",
+            "period_utc": {"start": C.PERIOD_START, "end_exclusive": "2026-10-29T00:00:00Z"},
+            "peak_hours_local": R["peak_hours_local"], "time_avg_price_sek_per_kwh": R["time_avg_price_sek_per_kwh"],
+            **prof,
+            "assumptions": [
+                "local clock hours in Europe/Stockholm; 25 October has 25 hours (the 02:00 hour occurs twice)",
+                "means and sums of observed readings only: missing readings are excluded, never treated as 0",
+                "mean_kwh is null for an hour if a channel has no observed reading at that hour",
+                "SEK = kWh x spot price (excl. VAT, network fee, energy tax); hours without a price are excluded",
+                "first and last local dates are partial (22 h and 1 h) because the data period is defined in UTC",
+            ],
+        }
+
     def flat_findings(self, flat_id: str) -> list[dict]:
         self.check_flat(flat_id)
         return [f for f in self.findings if f["flat_id"] == flat_id]

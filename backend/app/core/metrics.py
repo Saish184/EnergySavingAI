@@ -70,3 +70,48 @@ def daily_flat_series(fd: FlatData, traj: Trajectory | None = None) -> pd.DataFr
         rows.append({"day": str((pd.Timestamp(C.PERIOD_START) + pd.Timedelta(days=d)).date()),
                      "kwh": t["kwh"], "sek": t["sek_spot_hourly"], "co2_kg": t["co2e_kg"]})
     return pd.DataFrame(rows).set_index("day")
+
+
+def local_profile(fd: FlatData, peak_hours: set, tz: str = C.TZ_LOCAL) -> dict:
+    """Measured hour-of-day profile and daily totals in LOCAL time (Europe/Stockholm), observed readings only.
+
+    hour_of_day: for each local clock hour, the mean observed kWh per channel (NaN readings excluded, never 0) and their sum,
+                 the mean spot price and carbon factor of those hours, and whether the hour is a peak-price hour.
+    daily:       measured kWh / spot SEK / kgCO2e per LOCAL date. The period is 2026-10-01 00:00 UTC .. 2026-10-29 00:00 UTC,
+                 so the first local day has 22 hours, 25 October has 25 hours (DST ends) and 29 October 1 hour.
+    No arithmetic beyond means and sums of measured values; no extrapolation."""
+    from .hourly import T0
+    utc = pd.date_range(T0, periods=N_HOURS, freq="h", tz="UTC")
+    local = utc.tz_convert(tz)
+    lh = fd.local_hour.to_numpy()
+    x = fd.kwh[CHANNELS].to_numpy(dtype=float)
+    price = fd.price.to_numpy(dtype=float)
+    carbon = fd.carbon.to_numpy(dtype=float)
+    hours = []
+    for h in range(24):
+        m = lh == h
+        by_ch = {c: (float(np.nanmean(x[m, j])) if np.isfinite(x[m, j]).any() else None) for j, c in enumerate(CHANNELS)}
+        known = [v for v in by_ch.values() if v is not None]
+        p = price[m][np.isfinite(price[m])]
+        g = carbon[m][np.isfinite(carbon[m])]
+        hours.append({
+            "local_hour": h, "hours_in_period": int(m.sum()),
+            "mean_kwh": float(sum(known)) if len(known) == len(CHANNELS) else None,
+            "mean_kwh_by_channel": by_ch,
+            "observed_share": float(np.isfinite(x[m]).mean()) if m.any() else None,
+            "mean_spot_sek_per_kwh": float(p.mean()) if p.size else None,
+            "mean_carbon_g_per_kwh": float(g.mean()) if g.size else None,
+            "is_peak": h in peak_hours,
+        })
+    dates = np.array([str(d) for d in local.date])
+    daily = []
+    for d in sorted(set(dates)):
+        pos = np.where(dates == d)[0]
+        a, b = int(pos.min()), int(pos.max()) + 1                # local dates are contiguous runs of UTC hours
+        t = totals(fd, window=(a, b))                           # same accounting as every other measured total
+        daily.append({
+            "local_date": d, "hours_in_period": b - a, "complete_day": bool(b - a >= 23),
+            "kwh": t["kwh"], "sek": t["sek_spot_hourly"], "co2_kg": t["co2e_kg"],
+            "observed_share": float(np.isfinite(x[a:b]).mean()),
+        })
+    return {"hour_of_day": hours, "daily": daily}

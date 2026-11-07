@@ -29,6 +29,12 @@ def breakdown(flat_id: str, request: Request, x_flat_id: str | None = Header(Non
     return jsonable(_engine(request, flat_id, x_flat_id).breakdown(flat_id))
 
 
+@router.get("/profile")
+def profile(flat_id: str, request: Request, x_flat_id: str | None = Header(None)):
+    """Measured hour-of-day profile and daily totals in Europe/Stockholm time (additive)."""
+    return jsonable(_engine(request, flat_id, x_flat_id).local_profile(flat_id))
+
+
 @router.get("/findings")
 def findings(flat_id: str, request: Request, x_flat_id: str | None = Header(None)):
     return jsonable(_engine(request, flat_id, x_flat_id).flat_findings(flat_id))

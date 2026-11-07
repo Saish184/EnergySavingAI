@@ -33,7 +33,16 @@ api:
 mock:
 	cd backend && python mock_data.py
 
-web:
-	cd frontend && npm run dev
+fixtures:   ## record real engine responses for the frontend's offline mode (watt-wise-ts/fixtures/)
+	cd backend && python -m scripts.frontend_fixtures
 
-.PHONY: pipeline engine examples audit test all api mock web
+web:        ## frontend at http://localhost:5173 (offline fixtures by default; ?mode=live uses `make api`)
+	cd watt-wise-ts && npm install && npm run serve
+
+web-build:
+	cd watt-wise-ts && npm install && npm run build
+
+web-smoke:  ## needs `make web` running
+	cd watt-wise-ts && npm run smoke
+
+.PHONY: pipeline engine examples audit test all api mock web fixtures web-build web-smoke

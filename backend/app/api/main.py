@@ -52,6 +52,24 @@ def references(request: Request):
     return jsonable({"references": s.ev["references"], "detectors": s.detector_summary()})
 
 
+@app.get("/interventions")
+def interventions():
+    """Supported scenarios, tariffs and each intervention's documented parameters (default + scenario grid).
+    Lets clients offer only parameter values the engine accepts (additive, read-only)."""
+    from ..core import interventions as IV
+    from ..core.counterfactual import SCENARIOS
+    from ..core.valuation import TARIFFS
+    return jsonable({
+        "scenarios": list(SCENARIOS), "tariffs": list(TARIFFS),
+        "tariff_requirements": {"fixed_price": ["fixed_price_sek_per_kwh"]},
+        "parameters": {t: {k: {"default": v[0], "grid": v[1]} for k, v in ps.items()} for t, ps in IV.PARAMS.items()},
+        "common_parameters": {"adoption": {"default": 1.0, "range": [0.0, 1.0],
+                                           "meaning": "share of the intervention the household actually carries out"},
+                              "quiet_hours": {"default": [], "meaning": "local hours a shifted run must avoid (peak_usage only)"}},
+        "kind": {t: IV.KIND.get(t, "reduction") for t in IV.PARAMS},
+    })
+
+
 @app.post("/recompute")
 def recompute(request: Request):
     """Reload files from disk (e.g. teammate dropped new processed/ files) and recompute everything."""

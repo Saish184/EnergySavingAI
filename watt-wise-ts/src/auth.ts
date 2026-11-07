@@ -1,4 +1,3 @@
-import { FLATS } from './data';
 import type { Session } from './types';
 
 /**
@@ -16,25 +15,24 @@ export type ManagerResult =
   | { ok: true; session: Session }
   | { ok: false; field: 'email' | 'password'; message: string };
 
-/** Accepts "3", "03", "F3", "f003" and returns "F003", or null if no such flat. */
-export function parseFlatNumber(input: string): string | null {
+/** Accepts "3", "03", "F3", "f003" and returns "F003" if it is one of `known` (from GET /flats), else null. */
+export function parseFlatNumber(input: string, known: readonly string[]): string | null {
   const m = /^\s*f?\s*0*(\d{1,3})\s*$/i.exec(input);
   if (!m) return null;
   const id = `F${m[1].padStart(3, '0')}`;
-  return FLATS.some((f) => f.id === id) ? id : null;
+  return known.includes(id) ? id : null;
 }
 
 export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export function loginStudent(input: string): StudentResult {
+export function loginStudent(input: string, known: readonly string[]): StudentResult {
   if (input.trim() === '') return { ok: false, message: 'Enter your flat number.' };
-  const flatId = parseFlatNumber(input);
+  const flatId = parseFlatNumber(input, known);
   if (!flatId) {
-    const first = FLATS[0].id;
-    const last = FLATS[FLATS.length - 1].id;
-    return { ok: false, message: `We could not find that flat. Try a number like 3 or F003 (${first} to ${last}).` };
+    const range = known.length ? ` (${known[0]} to ${known[known.length - 1]})` : '';
+    return { ok: false, message: `We could not find that flat. Try a number like 3 or F003${range}.` };
   }
   return { ok: true, session: { role: 'student', flatId } };
 }
@@ -82,7 +80,7 @@ export function loadSession(): Session | null {
     const data: unknown = JSON.parse(raw);
     if (typeof data !== 'object' || data === null) return null;
     const d = data as Record<string, unknown>;
-    if (d.role === 'student' && typeof d.flatId === 'string' && FLATS.some((f) => f.id === d.flatId)) {
+    if (d.role === 'student' && typeof d.flatId === 'string' && /^F\d{3}$/.test(d.flatId)) {
       return { role: 'student', flatId: d.flatId };
     }
     if (d.role === 'manager' && typeof d.email === 'string' && isValidEmail(d.email)) {

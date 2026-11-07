@@ -2,11 +2,13 @@
   "name": "watt-wise",
   "version": "0.1.0",
   "private": true,
-  "description": "Provisional Student and Manager views for the AI for Energy Saving hackathon",
+  "description": "Watt Wise: student and manager views connected to the Flat Energy Coach engine (mina)",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && esbuild src/main.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js",
-    "watch": "esbuild src/main.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js --watch"
+    "watch": "esbuild src/main.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js --watch",
+    "serve": "esbuild src/main.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js --servedir=. --serve=5173",
+    "smoke": "node tests/smoke.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",
