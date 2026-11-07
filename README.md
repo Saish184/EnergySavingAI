@@ -1,39 +1,113 @@
-# AI for Energy Saving — participant dataset
+# Flat Energy Coach
 
-Entirely synthetic, fictional Swedish student flats. No personal data. Created for this hackathon; free to use, modify and redistribute. Not real meter, Nord Pool, weather or emissions observations and not calibrated to a representative Swedish population.
+An energy coach for shared student flats with two views:
 
-## Included files
+- **Student**: sees only their own flat. Gets scores, findings, tips and what-if scenarios.
+- **Manager**: sees all flats. Gets the portfolio, findings and work orders, and can verify repairs.
 
-| File | Contents | Rows |
-|---|---|---:|
-| energy_readings.csv | Hourly appliance/circuit energy readings | 37,715 |
-| flats.csv | Resident counts, floor areas and price areas | 8 |
-| hourly_context.csv | Weather, indoor temperature and estimated occupancy | 5,376 |
-| hourly_prices.csv | Synthetic spot prices and carbon factors | 672 |
+The data is the hackathon's synthetic dataset: 8 flats, SE3 price area, hourly UTC readings from 1 to 28 October 2026. The organisers' original README and data dictionary are in [data/raw/](data/raw/).
 
-See DATA_DICTIONARY.md for column definitions. The four CSV files contain 43,771 rows in total.
+The engine produces every number in the app. No demo result is hard-coded. Every output says:
 
-## Start here
-1. Open energy_readings.csv and flats.csv. Choose one flat or appliance_id first.
-2. Profile missing values, units, identifiers and duplicated records before calculating totals. Zero can mean an appliance was off; missing does not mean zero.
-3. Join readings to flats on flat_id, context on flat_id + timestamp_utc, and prices on timestamp_utc + the flat's price_area. Check join cardinality and identifier consistency before aggregating.
-4. Build an actionable recommendation and explain its estimated kWh, SEK and CO2e effects and uncertainty.
+- its claim **status**
+- who is **responsible** for acting on it
+- its **horizon**: 28 days measured, or an annual projection
+- its **assumptions**
+- its **uncertainty**
 
-There are eight flats, 25 residents, 56 appliances and 672 hourly intervals, from 2026-10-01 00:00 UTC inclusive to 2026-10-29 00:00 UTC exclusive. Rows are intentionally imperfect and not sorted. UTF-8 comma-separated CSV with quoted fields where needed. Do not let an importer silently replace invalid data with zeros.
+## Run it
 
-Each energy reading is energy consumed in the one-hour interval beginning at timestamp_utc, not instantaneous power or a cumulative register. Seven mutually exclusive appliance/circuit channels cover the modeled electricity of each flat. No appliance lookup is included, so appliance_id is an identifier without a supplied type, rated power or shiftability label. Any inferred appliance type or scheduling constraint must be stated as an assumption. No total-meter channel is included: do not invent one as independent validation.
+```bash
+pip install -r requirements.txt
+cd backend
+python mock_data.py                              # only needed until the teammate's files exist
+uvicorn app.api.main:app --reload --port 8000    # interactive docs: http://localhost:8000/docs
+python -m pytest -q                              # tests
+python -m app.export                             # writes out/*.json as a static fallback for the frontend
+```
 
-Main district heating and hot water are excluded, as are campus rooms, EV charging, bills/images and nudge experiments. Portable heaters are supplementary electricity. Hourly data supports energy coaching and load timing, but not high-frequency appliance identification. Occupancy is a simulated sensor estimate, not personal tracking.
+You can use `make api | test | export | mock` instead if `make` is installed. Copy `.env.example` to `.env` and add `ANTHROPIC_API_KEY` to get LLM-worded tips. Without a key the app uses template text, which contains the same numbers.
 
-## Time and prices
-Canonical timestamps are UTC. A legacy export may use YYYY/MM/DD HH:MM (still UTC). Local timestamps include offsets for Europe/Stockholm; the repeated clock hour on 25 October is legitimate. Join and measure elapsed time using UTC.
+## Switching from mock data to the teammate's real files
 
-Prices are synthetic hourly scenario inputs, not the format or granularity of a live market feed. Negative spot prices are valid. spot_sek_per_kwh excludes VAT. No tariff table is included; tariff_id in flats.csv is a retained reference with no matching lookup in this package.
+1. The teammate writes `data/processed/clean_readings.csv` and `data/processed/anomalies.json`. The schemas are in [docs/data_contract.md](docs/data_contract.md).
+2. Nothing else needs to change. With the default `FEC_DATA_SOURCE=auto`, the engine uses `processed/` as soon as **both** files exist, and falls back to `data/mock/` otherwise.
+3. If the API is already running, call `POST /recompute` to reload. Check `GET /health` → `data_source` to see which data is in use.
+4. You can force a source with `FEC_DATA_SOURCE=mock` or `FEC_DATA_SOURCE=processed`.
 
-Spot-energy cost (SEK, excluding VAT) = kWh × spot_sek_per_kwh, summed across intervals after cleaning and unit conversion. This is only the spot-price component, not a full electricity bill. Retailer markup, network fees, energy tax, VAT and fixed fees are not supplied; any full-bill estimate needs separately stated assumptions or sources. Fixed fees do not disappear when consumption is reduced.
+The engine does **not** clean data or detect anomalies. The loader only parses types, and turns impossible values into *unknown* (NaN) so they never quietly become zero. These are:
 
-Carbon kgCO2e = kWh × carbon_gco2e_per_kwh / 1000; this is a synthetic operational factor, not lifecycle or marginal emissions.
+- occupancy higher than the resident count
+- an outdoor temperature of −99
+- missing prices
 
-Moving a load can reduce cost without reducing kWh. Carbon savings depend on the destination hour's factor. Respect practical schedules and appliance constraints. Comparing flats requires resident counts, floor areas and occupancy context. Four autumn weeks do not establish annual savings: state seasonal assumptions, uncertainty and rebound effects explicitly. Synthetic factors are suitable for a demo, not evidence for real-world savings claims.
+Each of these guards is counted in `/health` → `data_quality`.
 
-Suggested starting questions: Which flat has potentially avoidable overnight electricity use? Which consumption peaks coincide with expensive hours? Which changes appear to be equipment faults rather than corrupt readings? How should a recommendation handle missing occupancy or price information?
+## The two scores, in plain words
+
+Each flat gets two scores from 0 to 100, both banded A (≥90), B (≥80), C (≥70), D (≥55), E (≥40), F (≥20) and G (below 20).
+
+| | **Apartment Performance** (for the manager) | **Resident Actions** (for students) |
+|---|---|---|
+| Question it answers | How well does this flat perform overall, including its equipment? | How well are the residents doing with the things *they* control? |
+| Pillars (weights) | Use 40%, Waste 25%, Timing 20%, Health 15% | Use 50%, Waste 30%, Timing 20% |
+| Equipment faults | Included | **Removed**: residents are never scored on a broken fridge |
+
+The pillars, each 0 to 100 where higher is better:
+
+- **Use**: how much electricity the flat uses compared with the most efficient flats. The measure is kWh per day divided by √residents, because a shared fridge doesn't double when there are twice as many people. The benchmark is the 20th percentile of the flats, so being as good as the best fifth of flats gives 100.
+- **Waste**: electricity used above the flat's normal base load while the occupancy sensor says nobody is home. Hours with unknown occupancy are not counted as "away". Heater-like use only counts once a person has confirmed it.
+- **Timing**: whether flexible use, meaning anything above base load, runs in low-carbon hours. 100 means it runs in the cleanest hour of the day, and 0 means the dirtiest.
+- **Health** (apartment score only): the share of electricity going to equipment faults that are at least *possible faults*.
+
+The pillars are combined with a **weighted geometric mean**, so a very weak pillar can't be hidden by strong ones. The arithmetic mean is returned as well.
+
+The score also comes with its **sensitivity**. The engine redraws the weights 2000 times, and the p5–p95 range shows how much the score and rank depend on the choice of weights.
+
+## Claim levels: what we are allowed to say
+
+| Status | Wording in the app | Who sets it |
+|---|---|---|
+| DETECTED | "unusual pattern" | Engine (default) |
+| PLAUSIBLE | "possible fault" | Engine, when the detector's confidence is ≥ 0.7 **and** the pattern lasts ≥ 3 days |
+| CONFIRMED | "confirmed" | A person: the manager opens a work order |
+| REPAIRED | "repaired, awaiting data" | A person: the manager marks the work order repaired |
+| VERIFIED | "saving measured" | Only the verification step, after ≥ 7 days of post-repair data that shows a saving (90% interval above zero) |
+
+Heating findings say "possible heating opportunity, needs confirmation" until a person confirms them.
+
+Every finding is assigned to someone:
+
+- **manager**: equipment problems (`fault_step_change`, `peer_outlier`)
+- **resident**: behaviour (`away_usage`, `night_baseload`, `peak_usage`)
+- **unknown**: `heater_pattern`
+
+## Numbers: measured vs projected
+
+- **Measured over 28 days**: kWh, SEK and kgCO2e from the data.
+  - SEK = kWh × spot price. This is the spot price only, excluding VAT, network fee and energy tax.
+  - kgCO2e = kWh × the dataset's synthetic carbon factor ÷ 1000.
+- **Savings**: the engine changes a *copy* of the data in a physically plausible way, re-runs itself with the same method, and reports the difference.
+  - A fault returns to its baseline.
+  - Peak load is moved to the cheapest hour within the next 12 hours, so kWh stays the same.
+  - Use while nobody is home is reduced.
+- **Annual**: always labelled **projection**. It is the 28-day value × 365/28 (× 182/28 for heater-like channels). The range is the wider of ±30% and a day-bootstrap. Its assumptions always include "October data only" and "spot price only".
+
+Channel types such as "fridge-like" (A01), "dishwasher-like" (A04) and "heater-like" (A07) are **assumptions**. The dataset has no appliance labels.
+
+## Layout
+
+```
+backend/app/core/       pure math: metrics, claims, attribution, pillars, score, sensitivity,
+                        counterfactual, projection, verification (+ evaluate, dataset)
+backend/app/services/   findings, workorders, reports, tips (LLM), live_prices, business_case, notifications
+backend/app/api/        FastAPI routers (student, manager, prices)
+backend/app/state.py    loaded data + views shared by the API and the export
+backend/mock_data.py    mock data/processed files (same schema)
+data/raw/               organiser files (never edited)
+data/processed/         teammate output (the contract)
+```
+
+More detail: [docs/score_method.md](docs/score_method.md), [docs/claims_and_wording.md](docs/claims_and_wording.md), [docs/data_contract.md](docs/data_contract.md).
+
+The entire dataset is synthetic. The numbers are fine for a demo, but they are not evidence of real-world savings.
