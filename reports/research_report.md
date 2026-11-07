@@ -2,6 +2,7 @@
 
 **Dataset:** synthetic EnergySavingAI participant data: 8 fictional Swedish student flats, 25 residents, 7 appliance/circuit channels per flat, hourly, 1–28 Oct 2026 (672 h, SE3).
 **Branch:** `mina`. **Pipeline:** `analysis/clean_data.py` → `analysis/validate.py` → `analysis/eda.py` (see *Reproducing*).
+**Follow-up:** the five priority opportunities are validated in [`opportunity_report.md`](opportunity_report.md) (machine-readable: `opportunities.json`). Where the figures differ, that report replaces §3–4 here; for example, F007 empty-flat heating has a realistic central value of 9.2 kWh, not 23.3.
 **Scope note:** The data are synthetic and are not calibrated to a real population. Every number below describes this dataset. None of it is evidence about real-world savings.
 
 ---
@@ -63,7 +64,7 @@ Full detail, with one row per correction, is in [`data_quality_report.md`](data_
 
 ### 1.4 Daylight-saving check (25 Oct)
 
-Context timestamps use offsets +02:00 (4,616 rows) and +01:00 (760 rows). `timestamp_local` matches the IANA `Europe/Stockholm` conversion of `timestamp_utc` on all 5,376 rows. The repeated wall-clock hour is legitimate: 2026-10-25 00:00Z = 02:00+02:00 and 01:00Z = 02:00+01:00. All joins use UTC, and local hour and day are derived from UTC. As a result, local day 25 Oct has 25 hours, 1 Oct has 22 hours and 29 Oct has 2. Daily statistics use only complete local days (2–28 Oct), normalised to 24 h.
+Context timestamps use offsets +02:00 (4,616 rows) and +01:00 (760 rows). `timestamp_local` matches the IANA `Europe/Stockholm` conversion of `timestamp_utc` on all 5,376 rows. The repeated wall-clock hour is legitimate: 2026-10-25 00:00Z = 02:00+02:00 and 01:00Z = 02:00+01:00. All joins use UTC, and local hour and day are derived from UTC. As a result, local day 25 Oct has 25 hours, 1 Oct has 22 hours and 29 Oct has 1 (00:00+01:00). See `opportunity_report.md` §1 for the 672-vs-673-hour reconciliation. Daily statistics use only complete local days (2–28 Oct), normalised to 24 h.
 
 ### 1.5 Join validation and the analytical table
 
@@ -297,6 +298,8 @@ pip install -r analysis/requirements.txt
 python analysis/clean_data.py   # writes data/processed/* and reports/data_quality_report.md
 python analysis/validate.py     # 30 checks; exit code 1 on failure
 python analysis/eda.py          # writes reports/figures/*, reports/eda_results.json, reports/eda_tables.md
+python analysis/opportunities.py         # writes reports/opportunities.json and reports/opportunity_report.md
+python analysis/verify_opportunities.py  # 46 independent checks
 ```
 
 Every number in this report comes from `reports/eda_results.json`, `reports/eda_tables.md` or `data/processed/cleaning_summary.json`. The bootstrap uses a fixed seed (20261107).

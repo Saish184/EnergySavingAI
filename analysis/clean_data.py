@@ -414,7 +414,7 @@ def write_report(st, imp, hashes):
         f"- The repeated wall-clock hour is legitimate: {C['repeated_local_wall_times']} (per flat). "
         "UTC has no gap or repeat, so all joins use UTC; local hour/day fields are derived from UTC.",
         "- Consequence: local date 2026-10-25 has 25 hours, 2026-10-01 has 22 hours (data start at 02:00 local) and "
-        "2026-10-29 has 2 hours. Daily statistics use only complete local days and are reported per hour where day lengths differ.",
+        "2026-10-29 has 1 hour (00:00+01:00). Daily statistics use only complete local days and are reported per hour where day lengths differ.",
         "",
         "## Join validation",
         "",

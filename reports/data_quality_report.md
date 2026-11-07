@@ -76,7 +76,7 @@ Hours without a spot price: 2026-10-03T03:00Z, 2026-10-04T09:00Z, 2026-10-04T13:
 - Local offsets present: {'+02:00': 4616, '+01:00': 760}.
 - `timestamp_local` agrees with the IANA `Europe/Stockholm` conversion of `timestamp_utc` on every row (0 mismatches) and denotes the same instant (0 mismatches).
 - The repeated wall-clock hour is legitimate: [['2026-10-25 00:00:00+00:00', '2026-10-25T02:00:00+02:00'], ['2026-10-25 01:00:00+00:00', '2026-10-25T02:00:00+01:00']] (per flat). UTC has no gap or repeat, so all joins use UTC; local hour/day fields are derived from UTC.
-- Consequence: local date 2026-10-25 has 25 hours, 2026-10-01 has 22 hours (data start at 02:00 local) and 2026-10-29 has 2 hours. Daily statistics use only complete local days and are reported per hour where day lengths differ.
+- Consequence: local date 2026-10-25 has 25 hours, 2026-10-01 has 22 hours (data start at 02:00 local) and 2026-10-29 has 1 hour (00:00+01:00). Daily statistics use only complete local days and are reported per hour where day lengths differ.
 
 ## Join validation
 
