@@ -1,5 +1,7 @@
 # Decision report: mathematical validation and implementation readiness
 
+> **Status (update):** D1–D8 are fixed in the engine now developed on `mina` (`backend/`), each pinned by a regression test in `backend/tests/test_regressions.py`. See [../engine_changes.md](../engine_changes.md). This document describes the original `saish@ddc02ce` and is kept unchanged below as the audit record.
+
 **For:** the team mathematician. **Branch:** `mina` (local commits only; nothing pushed or merged; no teammate code modified).
 **Evidence:**
 - `python -m pytest`: 35 pass, 1 skipped (the teammate model, unavailable).

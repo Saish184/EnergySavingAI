@@ -1,0 +1,50 @@
+[
+  {
+    "flat_id": "F001",
+    "residents": 2,
+    "floor_area_m2": 56,
+    "price_area": "SE3"
+  },
+  {
+    "flat_id": "F002",
+    "residents": 3,
+    "floor_area_m2": 69,
+    "price_area": "SE3"
+  },
+  {
+    "flat_id": "F003",
+    "residents": 4,
+    "floor_area_m2": 82,
+    "price_area": "SE3"
+  },
+  {
+    "flat_id": "F004",
+    "residents": 2,
+    "floor_area_m2": 56,
+    "price_area": "SE3"
+  },
+  {
+    "flat_id": "F005",
+    "residents": 5,
+    "floor_area_m2": 95,
+    "price_area": "SE3"
+  },
+  {
+    "flat_id": "F006",
+    "residents": 3,
+    "floor_area_m2": 69,
+    "price_area": "SE3"
+  },
+  {
+    "flat_id": "F007",
+    "residents": 4,
+    "floor_area_m2": 82,
+    "price_area": "SE3"
+  },
+  {
+    "flat_id": "F008",
+    "residents": 2,
+    "floor_area_m2": 56,
+    "price_area": "SE3"
+  }
+]

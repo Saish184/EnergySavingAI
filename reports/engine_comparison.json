@@ -1,0 +1,1142 @@
+{
+  "references": {
+    "peak_hours_local": [
+      7,
+      8,
+      9,
+      17,
+      18,
+      19,
+      20
+    ],
+    "equivalence_exponent": 0.5,
+    "eq_residents": {
+      "F001": 1.414214,
+      "F002": 1.732051,
+      "F003": 2.0,
+      "F004": 1.414214,
+      "F005": 2.236068,
+      "F006": 1.732051,
+      "F007": 2.0,
+      "F008": 1.414214
+    },
+    "use_bench_kwh_per_eq_resident_day": {
+      "apartment": 2.900819,
+      "resident": 2.778953
+    },
+    "K_kwh_per_eq_resident_day": 3.272999,
+    "K_T_kwh_per_eq_resident_day": 0.401778,
+    "use_bench_percentile": 20,
+    "time_avg_price_sek_per_kwh": 0.477727,
+    "hash": "a0b4475d31be9674"
+  },
+  "new_scores": {
+    "apartment": {
+      "F001": {
+        "use": 26.0,
+        "waste": 100.0,
+        "timing": 44.5,
+        "health": 100.0,
+        "score": 49.6,
+        "arithmetic_mean": 59.3,
+        "rank": 8.0,
+        "band": "E"
+      },
+      "F002": {
+        "use": 92.4,
+        "waste": 100.0,
+        "timing": 50.3,
+        "health": 87.0,
+        "score": 82.7,
+        "arithmetic_mean": 85.1,
+        "rank": 3.0,
+        "band": "B"
+      },
+      "F003": {
+        "use": 100.0,
+        "waste": 100.0,
+        "timing": 54.1,
+        "health": 100.0,
+        "score": 88.4,
+        "arithmetic_mean": 90.8,
+        "rank": 2.0,
+        "band": "B"
+      },
+      "F004": {
+        "use": 84.2,
+        "waste": 89.9,
+        "timing": 56.7,
+        "health": 100.0,
+        "score": 81.1,
+        "arithmetic_mean": 82.5,
+        "rank": 5.0,
+        "band": "B"
+      },
+      "F005": {
+        "use": 100.0,
+        "waste": 76.2,
+        "timing": 54.0,
+        "health": 100.0,
+        "score": 82.6,
+        "arithmetic_mean": 84.9,
+        "rank": 4.0,
+        "band": "B"
+      },
+      "F006": {
+        "use": 93.1,
+        "waste": 100.0,
+        "timing": 62.8,
+        "health": 100.0,
+        "score": 88.5,
+        "arithmetic_mean": 89.8,
+        "rank": 1.0,
+        "band": "B"
+      },
+      "F007": {
+        "use": 33.1,
+        "waste": 95.2,
+        "timing": 64.8,
+        "health": 100.0,
+        "score": 58.2,
+        "arithmetic_mean": 65.0,
+        "rank": 7.0,
+        "band": "D"
+      },
+      "F008": {
+        "use": 85.2,
+        "waste": 100.0,
+        "timing": 45.5,
+        "health": 100.0,
+        "score": 80.1,
+        "arithmetic_mean": 83.2,
+        "rank": 6.0,
+        "band": "B"
+      }
+    },
+    "resident": {
+      "F001": {
+        "use": 76.0,
+        "waste": 100.0,
+        "timing": 44.5,
+        "score": 74.1,
+        "arithmetic_mean": 76.9,
+        "rank": 8.0,
+        "band": "C"
+      },
+      "F002": {
+        "use": 88.5,
+        "waste": 100.0,
+        "timing": 50.3,
+        "score": 82.0,
+        "arithmetic_mean": 84.3,
+        "rank": 4.0,
+        "band": "B"
+      },
+      "F003": {
+        "use": 100.0,
+        "waste": 100.0,
+        "timing": 54.1,
+        "score": 88.4,
+        "arithmetic_mean": 90.8,
+        "rank": 2.0,
+        "band": "B"
+      },
+      "F004": {
+        "use": 80.6,
+        "waste": 89.9,
+        "timing": 56.7,
+        "score": 77.6,
+        "arithmetic_mean": 78.6,
+        "rank": 6.0,
+        "band": "C"
+      },
+      "F005": {
+        "use": 100.0,
+        "waste": 76.2,
+        "timing": 54.0,
+        "score": 81.5,
+        "arithmetic_mean": 83.7,
+        "rank": 5.0,
+        "band": "B"
+      },
+      "F006": {
+        "use": 89.2,
+        "waste": 100.0,
+        "timing": 62.8,
+        "score": 86.0,
+        "arithmetic_mean": 87.1,
+        "rank": 3.0,
+        "band": "B"
+      },
+      "F007": {
+        "use": 98.8,
+        "waste": 95.2,
+        "timing": 64.8,
+        "score": 89.8,
+        "arithmetic_mean": 90.9,
+        "rank": 1.0,
+        "band": "B"
+      },
+      "F008": {
+        "use": 81.6,
+        "waste": 100.0,
+        "timing": 45.5,
+        "score": 77.2,
+        "arithmetic_mean": 79.9,
+        "rank": 7.0,
+        "band": "C"
+      }
+    }
+  },
+  "new_detected": [
+    {
+      "id": "PK-F001-A03",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 6.09,
+      "evidence": "9 of 9 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F001-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 13.6,
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "FS-F002-A01",
+      "type": "fault_step_change",
+      "status": "PLAUSIBLE",
+      "responsibility": "manager",
+      "excess_kwh": 23.36,
+      "evidence": "lasting level increase from 2026-10-15 00:00 UTC: 0.0517 -> 0.1220 kWh/h (permutation p = 0.001)"
+    },
+    {
+      "id": "PK-F002-A03",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 6.33,
+      "evidence": "10 of 10 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F002-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 12.94,
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F003-A03",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 7.8,
+      "evidence": "11 of 11 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F003-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 11.15,
+      "evidence": "12 of 12 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "SB-F004-A05",
+      "type": "scheduled_block",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 14.3,
+      "evidence": "69 W at local hours 09-17 on every week, also with nobody home (24 days); other flats <= 4 W"
+    },
+    {
+      "id": "PK-F004-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 12.06,
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "BL-F005-A06",
+      "type": "base_load_outlier",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 62.79,
+      "evidence": "always-on level 128 W vs 33 W in the other flats, above their range in 4/4 weeks"
+    },
+    {
+      "id": "PK-F005-A03",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 9.44,
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F005-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 12.0,
+      "evidence": "13 of 13 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F006-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 11.39,
+      "evidence": "13 of 13 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "HU-F007-A07",
+      "type": "heater_pattern",
+      "status": "PLAUSIBLE",
+      "responsibility": "unknown",
+      "excess_kwh": 9.19,
+      "evidence": "heater-like use in 22 unoccupied hours on 9 days (absences >= 2 h); 56 h incl. 1-h gaps"
+    },
+    {
+      "id": "PK-F007-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 12.21,
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F008-A03",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 6.62,
+      "evidence": "10 of 10 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    },
+    {
+      "id": "PK-F008-A04",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "excess_kwh": 12.28,
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])"
+    }
+  ],
+  "counterfactuals": {
+    "F002 fridge repair": {
+      "new": {
+        "kwh": 23.36,
+        "sek": 11.54,
+        "co2_kg": 0.771,
+        "score_change": {
+          "apartment": 1.74,
+          "resident": 0.0
+        },
+        "ci95_kwh": [
+          22.96,
+          23.76
+        ],
+        "scenario_range_kwh": [
+          5.76,
+          23.36
+        ]
+      },
+      "validated": {
+        "kwh": 23.36,
+        "sek": 11.54,
+        "co2_kg": 0.771
+      }
+    },
+    "F004 daytime electronics": {
+      "new": {
+        "kwh": 14.3,
+        "sek": 5.29,
+        "co2_kg": 0.492,
+        "score_change": {
+          "apartment": 2.18,
+          "resident": 2.51
+        },
+        "ci95_kwh": [
+          13.97,
+          14.56
+        ],
+        "scenario_range_kwh": [
+          2.86,
+          14.3
+        ]
+      },
+      "validated": {
+        "kwh": 14.3,
+        "sek": 5.29,
+        "co2_kg": 0.492
+      }
+    },
+    "F005 base load (full excess)": {
+      "new": {
+        "kwh": 62.79,
+        "sek": 29.46,
+        "co2_kg": 2.338,
+        "score_change": {
+          "apartment": 4.49,
+          "resident": 5.34
+        },
+        "ci95_kwh": [
+          62.32,
+          63.27
+        ],
+        "scenario_range_kwh": [
+          15.7,
+          62.79
+        ]
+      },
+      "validated": {
+        "kwh": 62.79,
+        "sek": 29.46,
+        "co2_kg": 2.338
+      }
+    },
+    "F005 base load (theta 0.5)": {
+      "new": {
+        "kwh": 31.4,
+        "sek": 14.73,
+        "co2_kg": 1.169,
+        "score_change": {
+          "apartment": 1.96,
+          "resident": 2.33
+        },
+        "ci95_kwh": [
+          31.16,
+          31.64
+        ],
+        "scenario_range_kwh": [
+          15.7,
+          62.79
+        ]
+      },
+      "validated": {
+        "kwh": 31.4,
+        "sek": 14.73,
+        "co2_kg": 1.169
+      }
+    },
+    "F007 heater, unoccupied >= 2 h": {
+      "new": {
+        "kwh": 9.19,
+        "sek": 5.65,
+        "co2_kg": 0.375,
+        "score_change": {
+          "apartment": 0.72,
+          "resident": 1.33
+        },
+        "ci95_kwh": [
+          3.89,
+          15.15
+        ],
+        "scenario_range_kwh": [
+          2.41,
+          23.27
+        ]
+      },
+      "validated": {
+        "kwh": 9.19,
+        "sek": 5.65,
+        "co2_kg": 0.375
+      }
+    },
+    "Dishwasher timing (all flats)": {
+      "new": {
+        "kwh": 0.0,
+        "sek": 59.22,
+        "co2_kg": 1.656,
+        "score_change_mean": {
+          "apartment": 6.67,
+          "resident": 7.21
+        }
+      },
+      "validated": {
+        "kwh": 0.0,
+        "sek": 59.22,
+        "co2_kg": 1.656
+      }
+    }
+  },
+  "sensitivity": {
+    "baseline_rank": [
+      "F006",
+      "F003",
+      "F002",
+      "F005",
+      "F004",
+      "F008",
+      "F007",
+      "F001"
+    ],
+    "baseline_resident_rank": [
+      "F007",
+      "F003",
+      "F006",
+      "F002",
+      "F005",
+      "F004",
+      "F008",
+      "F001"
+    ],
+    "EQUIVALENCE_EXPONENT=0.33": {
+      "rank": [
+        "F006",
+        "F003",
+        "F004",
+        "F008",
+        "F002",
+        "F005",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": true,
+      "scores": {
+        "F001": 52.6,
+        "F002": 84.5,
+        "F003": 88.2,
+        "F004": 85.8,
+        "F005": 81.5,
+        "F006": 90.5,
+        "F007": 58.1,
+        "F008": 84.9
+      },
+      "anomalies": 17
+    },
+    "EQUIVALENCE_EXPONENT=1.0": {
+      "rank": [
+        "F003",
+        "F005",
+        "F006",
+        "F002",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": true,
+      "scores": {
+        "F001": 42.8,
+        "F002": 79.3,
+        "F003": 89.6,
+        "F004": 70.1,
+        "F005": 86.0,
+        "F006": 84.7,
+        "F007": 59.7,
+        "F008": 69.1
+      },
+      "anomalies": 17
+    },
+    "USE_BENCH_PERCENTILE=10": {
+      "rank": [
+        "F003",
+        "F006",
+        "F005",
+        "F002",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": true,
+      "scores": {
+        "F001": 48.3,
+        "F002": 80.5,
+        "F003": 88.4,
+        "F004": 79.0,
+        "F005": 82.0,
+        "F006": 86.2,
+        "F007": 56.6,
+        "F008": 78.0
+      },
+      "anomalies": 17
+    },
+    "USE_BENCH_PERCENTILE=30": {
+      "rank": [
+        "F006",
+        "F003",
+        "F002",
+        "F004",
+        "F005",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": true,
+      "scores": {
+        "F001": 51.1,
+        "F002": 85.1,
+        "F003": 88.4,
+        "F004": 83.5,
+        "F005": 82.6,
+        "F006": 91.1,
+        "F007": 59.9,
+        "F008": 82.5
+      },
+      "anomalies": 17
+    },
+    "MIN_ABSENCE_HOURS=1": {
+      "rank": [
+        "F006",
+        "F003",
+        "F002",
+        "F005",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": false,
+      "scores": {
+        "F001": 49.6,
+        "F002": 82.7,
+        "F003": 88.4,
+        "F004": 81.1,
+        "F005": 82.6,
+        "F006": 88.5,
+        "F007": 57.8,
+        "F008": 80.1
+      },
+      "anomalies": 17
+    },
+    "MIN_ABSENCE_HOURS=3": {
+      "rank": [
+        "F006",
+        "F003",
+        "F002",
+        "F005",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": false,
+      "scores": {
+        "F001": 49.6,
+        "F002": 82.7,
+        "F003": 88.4,
+        "F004": 81.1,
+        "F005": 82.6,
+        "F006": 88.5,
+        "F007": 58.5,
+        "F008": 80.1
+      },
+      "anomalies": 16
+    },
+    "DETECTION_ALPHA=0.05": {
+      "rank": [
+        "F006",
+        "F003",
+        "F002",
+        "F005",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": false,
+      "scores": {
+        "F001": 49.6,
+        "F002": 82.7,
+        "F003": 88.4,
+        "F004": 81.1,
+        "F005": 82.6,
+        "F006": 88.5,
+        "F007": 58.2,
+        "F008": 80.1
+      },
+      "anomalies": 17
+    },
+    "DETECTION_ALPHA=0.001": {
+      "rank": [
+        "F006",
+        "F003",
+        "F002",
+        "F005",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": false,
+      "scores": {
+        "F001": 49.6,
+        "F002": 82.7,
+        "F003": 88.4,
+        "F004": 81.1,
+        "F005": 82.6,
+        "F006": 88.5,
+        "F007": 58.2,
+        "F008": 80.1
+      },
+      "anomalies": 17
+    },
+    "CONTINUOUS_MAX_ZERO_SHARE=0.1": {
+      "rank": [
+        "F006",
+        "F003",
+        "F002",
+        "F005",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": false,
+      "scores": {
+        "F001": 49.6,
+        "F002": 82.7,
+        "F003": 88.4,
+        "F004": 81.1,
+        "F005": 82.6,
+        "F006": 88.5,
+        "F007": 58.2,
+        "F008": 80.1
+      },
+      "anomalies": 17
+    },
+    "CONTINUOUS_MAX_ZERO_SHARE=0.75": {
+      "rank": [
+        "F006",
+        "F003",
+        "F002",
+        "F005",
+        "F004",
+        "F008",
+        "F007",
+        "F001"
+      ],
+      "rank_changed": false,
+      "scores": {
+        "F001": 49.6,
+        "F002": 82.7,
+        "F003": 88.4,
+        "F004": 81.1,
+        "F005": 82.6,
+        "F006": 88.5,
+        "F007": 58.2,
+        "F008": 80.1
+      },
+      "anomalies": 17
+    }
+  },
+  "original_scores": {
+    "apartment": {
+      "F001": {
+        "use": 28.97,
+        "waste": 97.06,
+        "timing": 40.53,
+        "health": 100.0,
+        "score": 50.48,
+        "arithmetic_mean": 58.96,
+        "band": "E",
+        "rank": 8.0
+      },
+      "F002": {
+        "use": 89.04,
+        "waste": 88.34,
+        "timing": 51.19,
+        "health": 73.05,
+        "score": 77.23,
+        "arithmetic_mean": 78.9,
+        "band": "C",
+        "rank": 5.0
+      },
+      "F003": {
+        "use": 100.0,
+        "waste": 90.48,
+        "timing": 45.26,
+        "health": 100.0,
+        "score": 83.23,
+        "arithmetic_mean": 86.67,
+        "band": "B",
+        "rank": 2.0
+      },
+      "F004": {
+        "use": 84.85,
+        "waste": 78.34,
+        "timing": 51.68,
+        "health": 100.0,
+        "score": 77.2,
+        "arithmetic_mean": 78.86,
+        "band": "C",
+        "rank": 6.0
+      },
+      "F005": {
+        "use": 85.49,
+        "waste": 97.03,
+        "timing": 43.35,
+        "health": 100.0,
+        "score": 78.86,
+        "arithmetic_mean": 82.12,
+        "band": "C",
+        "rank": 4.0
+      },
+      "F006": {
+        "use": 100.0,
+        "waste": 94.73,
+        "timing": 49.42,
+        "health": 100.0,
+        "score": 85.68,
+        "arithmetic_mean": 88.57,
+        "band": "B",
+        "rank": 1.0
+      },
+      "F007": {
+        "use": 36.18,
+        "waste": 97.61,
+        "timing": 53.19,
+        "health": 100.0,
+        "score": 58.34,
+        "arithmetic_mean": 64.51,
+        "band": "D",
+        "rank": 7.0
+      },
+      "F008": {
+        "use": 94.76,
+        "waste": 92.95,
+        "timing": 39.7,
+        "health": 100.0,
+        "score": 79.88,
+        "arithmetic_mean": 84.08,
+        "band": "C",
+        "rank": 3.0
+      }
+    },
+    "resident": {
+      "F001": {
+        "use": 28.01,
+        "waste": 97.06,
+        "timing": 40.53,
+        "score": 43.78,
+        "arithmetic_mean": 51.23,
+        "band": "E",
+        "rank": 8.0
+      },
+      "F002": {
+        "use": 99.44,
+        "waste": 91.32,
+        "timing": 42.62,
+        "score": 81.82,
+        "arithmetic_mean": 85.64,
+        "band": "B",
+        "rank": 3.0
+      },
+      "F003": {
+        "use": 100.0,
+        "waste": 90.48,
+        "timing": 45.26,
+        "score": 82.82,
+        "arithmetic_mean": 86.2,
+        "band": "B",
+        "rank": 2.0
+      },
+      "F004": {
+        "use": 82.03,
+        "waste": 78.34,
+        "timing": 51.68,
+        "score": 73.76,
+        "arithmetic_mean": 74.85,
+        "band": "C",
+        "rank": 6.0
+      },
+      "F005": {
+        "use": 82.64,
+        "waste": 97.03,
+        "timing": 43.35,
+        "score": 76.22,
+        "arithmetic_mean": 79.1,
+        "band": "C",
+        "rank": 5.0
+      },
+      "F006": {
+        "use": 100.0,
+        "waste": 94.73,
+        "timing": 49.42,
+        "score": 85.45,
+        "arithmetic_mean": 88.3,
+        "band": "B",
+        "rank": 1.0
+      },
+      "F007": {
+        "use": 34.98,
+        "waste": 97.61,
+        "timing": 53.19,
+        "score": 51.75,
+        "arithmetic_mean": 57.41,
+        "band": "E",
+        "rank": 7.0
+      },
+      "F008": {
+        "use": 91.6,
+        "waste": 92.95,
+        "timing": 39.7,
+        "score": 77.83,
+        "arithmetic_mean": 81.62,
+        "band": "C",
+        "rank": 4.0
+      }
+    }
+  },
+  "original_counterfactuals": {
+    "F002 fridge repair": {
+      "teammate": {
+        "d_kwh": 23.35,
+        "d_sek": 11.54,
+        "d_co2_kg": 0.771,
+        "score_change": {
+          "apartment": 4.92,
+          "resident": -0.08
+        },
+        "pillars_before": {
+          "use": 89.0,
+          "waste": 88.3,
+          "timing": 51.2,
+          "health": 73.1
+        },
+        "pillars_after": {
+          "use": 99.4,
+          "waste": 91.7,
+          "timing": 42.1,
+          "health": 100.0
+        },
+        "annual_kwh_projection": 304.4,
+        "moved_note": []
+      },
+      "validated_central": {
+        "kwh": 23.36,
+        "value_spot_hourly_sek": 11.54,
+        "co2e_kg": 0.771
+      }
+    },
+    "F007 heater (heater_pattern return_to_baseline)": {
+      "teammate": {
+        "d_kwh": 336.16,
+        "d_sek": 151.54,
+        "d_co2_kg": 11.845,
+        "score_change": {
+          "apartment": 28.09,
+          "resident": 34.33
+        },
+        "pillars_before": {
+          "use": 36.2,
+          "waste": 97.6,
+          "timing": 53.2,
+          "health": 100.0
+        },
+        "pillars_after": {
+          "use": 100.0,
+          "waste": 92.4,
+          "timing": 53.2,
+          "health": 100.0
+        },
+        "annual_kwh_projection": 2185.0,
+        "moved_note": []
+      },
+      "validated_central": {
+        "kwh": 9.19,
+        "value_spot_hourly_sek": 5.65,
+        "co2e_kg": 0.375
+      },
+      "validated_upper_measured": 23.27
+    },
+    "F004 away_usage return_to_baseline": {
+      "teammate": {
+        "d_kwh": 5.72,
+        "d_sek": 2.16,
+        "d_co2_kg": 0.197,
+        "score_change": {
+          "apartment": 2.37,
+          "resident": 2.89
+        },
+        "pillars_before": {
+          "use": 84.9,
+          "waste": 78.3,
+          "timing": 51.7,
+          "health": 100.0
+        },
+        "pillars_after": {
+          "use": 88.2,
+          "waste": 85.5,
+          "timing": 49.8,
+          "health": 100.0
+        },
+        "annual_kwh_projection": 74.6,
+        "moved_note": []
+      },
+      "validated_central": 14.3,
+      "validated_lower_unoccupied": 5.72
+    },
+    "F004 reduce_away_usage fraction=1": {
+      "teammate": {
+        "d_kwh": 16.04,
+        "d_sek": 9.03,
+        "d_co2_kg": 0.639,
+        "score_change": {
+          "apartment": 8.33,
+          "resident": 9.96
+        },
+        "pillars_before": {
+          "use": 84.9,
+          "waste": 78.3,
+          "timing": 51.7,
+          "health": 100.0
+        },
+        "pillars_after": {
+          "use": 95.0,
+          "waste": 100.0,
+          "timing": 50.8,
+          "health": 100.0
+        },
+        "annual_kwh_projection": 209.1,
+        "moved_note": []
+      }
+    },
+    "F005 night_baseload return_to_baseline": {
+      "teammate": {
+        "d_kwh": 15.58,
+        "d_sek": 4.35,
+        "d_co2_kg": 0.495,
+        "score_change": {
+          "apartment": 2.97,
+          "resident": 3.24
+        },
+        "pillars_before": {
+          "use": 85.5,
+          "waste": 97.0,
+          "timing": 43.3,
+          "health": 100.0
+        },
+        "pillars_after": {
+          "use": 91.6,
+          "waste": 92.6,
+          "timing": 48.1,
+          "health": 100.0
+        },
+        "annual_kwh_projection": 203.1,
+        "moved_note": []
+      },
+      "validated_full_excess": 62.79,
+      "validated_central_theta_0_5": 31.4
+    },
+    "Dishwasher shift_flexible_load A04 (all flats)": {
+      "teammate_per_flat": {
+        "F001": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        },
+        "F002": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        },
+        "F003": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        },
+        "F004": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        },
+        "F005": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        },
+        "F006": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        },
+        "F007": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        },
+        "F008": {
+          "d_sek": -0.0,
+          "note": "above-base load in local peak hours moved to the cheapest non-peak hour within 12 h"
+        }
+      },
+      "teammate_fleet_sek": 0.0,
+      "validated_fleet_sek_21h": 59.22,
+      "validated_fleet_co2_21h": 1.656
+    }
+  },
+  "invariants": {
+    "engine(mina):apartment": {
+      "universal": {
+        "checks": 33,
+        "failed": 0
+      },
+      "policy": {
+        "checks": 13,
+        "failed": 0
+      },
+      "heuristic": {
+        "checks": 0,
+        "failed": 0
+      },
+      "info": {
+        "checks": 1,
+        "failed": 0
+      }
+    },
+    "engine(mina):resident": {
+      "universal": {
+        "checks": 33,
+        "failed": 0
+      },
+      "policy": {
+        "checks": 13,
+        "failed": 0
+      },
+      "heuristic": {
+        "checks": 0,
+        "failed": 0
+      },
+      "info": {
+        "checks": 1,
+        "failed": 0
+      }
+    },
+    "saish@ddc02ce:apartment:A_O2_as_resident": {
+      "universal": {
+        "checks": 33,
+        "failed": 3
+      },
+      "policy": {
+        "checks": 13,
+        "failed": 5
+      },
+      "heuristic": {
+        "checks": 0,
+        "failed": 0
+      },
+      "info": {
+        "checks": 1,
+        "failed": 0
+      }
+    },
+    "saish@ddc02ce:resident:A_O2_as_resident": {
+      "universal": {
+        "checks": 33,
+        "failed": 3
+      },
+      "policy": {
+        "checks": 13,
+        "failed": 5
+      },
+      "heuristic": {
+        "checks": 0,
+        "failed": 0
+      },
+      "info": {
+        "checks": 1,
+        "failed": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,696 @@
+[
+  {
+    "id": "FS-F002-A01",
+    "flat_id": "F002",
+    "appliance_id": "F002-A01",
+    "channel": "A01",
+    "assumed_type": "fridge-like",
+    "assumed_type_is_assumption": true,
+    "type": "fault_step_change",
+    "title": "Sudden lasting increase",
+    "status": "PLAUSIBLE",
+    "status_level": 2,
+    "wording": "possible fault",
+    "responsibility": "manager",
+    "responsibility_note": "equipment issue: the building manager can fix it; residents are not scored on it",
+    "counts_as": "possible equipment fault (apartment lens only)",
+    "window": {
+      "start": "2026-10-15T00:00:00Z",
+      "end": "2026-10-29T00:00:00Z",
+      "days": 14.0
+    },
+    "evidence": {
+      "text": "lasting level increase from 2026-10-15 00:00 UTC: 0.0517 -> 0.1220 kWh/h (permutation p = 0.001)",
+      "statistics": {
+        "test": "one-sided max-Welch-t over day splits, day-permutation p-value",
+        "t_max": 74.4924,
+        "p_value": 0.001,
+        "permutations": 999,
+        "alpha": 0.01,
+        "split_utc": "2026-10-15 00:00:00+00:00",
+        "pre_mean": 0.0517,
+        "post_mean": 0.122,
+        "ratio": 2.3619,
+        "days_used": 28,
+        "excluded_vacant_or_sparse_days": 0
+      },
+      "confidence": null,
+      "confidence_note": "no probability is claimed; status follows the stated statistical criterion",
+      "baseline_kwh_per_h": 0.0517,
+      "observed_kwh_per_h": 0.122,
+      "reported_excess_kwh": 23.3615
+    },
+    "quantities": {
+      "kind": "reduction",
+      "anomaly_id": "FS-F002-A01",
+      "params": {
+        "fix_fraction": 1.0,
+        "repair_after_days": 0,
+        "post_level": "pre_step_mean",
+        "adoption": 1.0
+      },
+      "window_hours": 336,
+      "observed_hours": 332,
+      "observed_kwh": 40.5152,
+      "expected_baseline_kwh": 17.1537,
+      "unexplained_excess_kwh": 23.3615,
+      "avoidable_estimate_kwh": 23.3615,
+      "counterfactual_kwh": 17.1537,
+      "kwh_moved": 0.0,
+      "labels": {
+        "observed_kwh": "measured",
+        "expected_baseline_kwh": "inferred (frozen reference)",
+        "unexplained_excess_kwh": "measured relative to the stated reference",
+        "avoidable_estimate_kwh": "simulated (assumption)",
+        "counterfactual_kwh": "simulated"
+      }
+    },
+    "avoidable_28d": {
+      "kwh": 23.3615,
+      "sek": 11.5429,
+      "co2_kg": 0.7714,
+      "horizon": "measured counterfactual over 14 observed days",
+      "window_days": 14.0,
+      "label": "potential (if followed fully)",
+      "scenario": "return_to_baseline",
+      "method": "hourly kWh above the pre-step level removed from the step onwards (repair)",
+      "kind": "reduction"
+    },
+    "valuation": {
+      "tariff": "unknown",
+      "sek": null,
+      "sek_if_hourly_spot": 11.5429,
+      "sek_by_tariff": {
+        "hourly_spot": 11.5429,
+        "monthly_average_spot": 11.1604,
+        "fixed_price": null,
+        "included_in_rent": 0.0
+      },
+      "label": "spot-energy component only (excl. VAT, network fee, energy tax, markup, fixed fees); not a bill saving",
+      "note": "electricity included in rent: the student saves 0 SEK; the provider's saving depends on its contract"
+    },
+    "score_if_fixed": {
+      "apartment": {
+        "before": 82.6951,
+        "after": 84.4354
+      },
+      "resident": {
+        "before": 81.9914,
+        "after": 81.9914
+      }
+    },
+    "projection_annual": {
+      "kwh": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "kWh",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": 609.0677,
+        "low": 600.5208,
+        "high": 617.9696,
+        "factor": "mean daily saving over 14 observed days x 365",
+        "range_method": "day-bootstrap p5-p95 of the mean daily saving"
+      },
+      "sek": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "SEK (spot only, excl. VAT)",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": 300.9388,
+        "low": 264.0848,
+        "high": 336.6993,
+        "factor": "mean daily saving over 14 observed days x 365",
+        "range_method": "day-bootstrap p5-p95 of the mean daily saving"
+      },
+      "co2_kg": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "kgCO2e",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": 20.1111,
+        "low": 18.9778,
+        "high": 21.3131,
+        "factor": "mean daily saving over 14 observed days x 365",
+        "range_method": "day-bootstrap p5-p95 of the mean daily saving"
+      }
+    },
+    "assumptions": [
+      "F002-A01 treated as fridge-like (ASSUMPTION: channels are unlabelled)",
+      "counterfactual: hourly kWh above the pre-step level removed from the step onwards (repair)",
+      "SEK = spot price only, excludes network fee, energy tax, VAT; depends on the student's tariff",
+      "frozen references (other flats, benchmarks, imputations) unchanged"
+    ],
+    "uncertainty": {
+      "sampling_ci95": {
+        "kwh": [
+          22.9633,
+          23.7647
+        ],
+        "sek_spot_hourly": [
+          9.948,
+          13.1135
+        ],
+        "co2e_kg": [
+          0.7228,
+          0.8288
+        ],
+        "method": "day-block bootstrap over the 14 window days (2000 draws, seed 0)"
+      },
+      "scenario_range": {
+        "kwh": [
+          5.7551,
+          23.3615
+        ],
+        "sek_spot_hourly": [
+          2.4323,
+          11.5429
+        ],
+        "co2e_kg": [
+          0.2042,
+          0.7714
+        ]
+      },
+      "scenario_method": "min-max over each intervention's documented parameter grid",
+      "evidence": {
+        "FS-F002-A01": {
+          "status": "PLAUSIBLE",
+          "stats": {
+            "test": "one-sided max-Welch-t over day splits, day-permutation p-value",
+            "t_max": 74.4924,
+            "p_value": 0.001,
+            "permutations": 999,
+            "alpha": 0.01,
+            "split_utc": "2026-10-15 00:00:00+00:00",
+            "pre_mean": 0.0517,
+            "post_mean": 0.122,
+            "ratio": 2.3619,
+            "days_used": 28,
+            "excluded_vacant_or_sparse_days": 0
+          }
+        }
+      },
+      "not_included": [
+        "intervention adoption beyond the 'adoption' parameter",
+        "rebound beyond the stated range",
+        "future weather and prices",
+        "tariff (a condition, not a probability)"
+      ],
+      "detector_confidence": null,
+      "projection_range_sek": [
+        264.0848,
+        336.6993
+      ]
+    },
+    "tiers": {
+      "potential": {
+        "kwh": 23.3615,
+        "sek_if_hourly_spot": 11.5429,
+        "co2_kg": 0.7714
+      },
+      "estimated_realized": null,
+      "estimated_realized_reason": "needs the student's confirmation and adoption estimate",
+      "verified": null,
+      "verified_reason": "needs >= 7 days of post-change data"
+    },
+    "verification": null,
+    "simulated": false
+  },
+  {
+    "id": "PK-F002-A04",
+    "flat_id": "F002",
+    "appliance_id": "F002-A04",
+    "channel": "A04",
+    "assumed_type": "dishwasher-like",
+    "assumed_type_is_assumption": true,
+    "type": "peak_usage",
+    "title": "Runs in expensive peak hours",
+    "status": "PLAUSIBLE",
+    "status_level": 2,
+    "wording": "consistent pattern",
+    "responsibility": "resident",
+    "responsibility_note": "behaviour: residents can change this themselves",
+    "counts_as": "timing opportunity (not waste)",
+    "window": {
+      "start": "2026-10-01T18:00:00Z",
+      "end": "2026-10-27T20:00:00Z",
+      "days": 26.0833
+    },
+    "evidence": {
+      "text": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 14,
+        "runs_total": 14,
+        "days": 14,
+        "kwh_in_peak": 12.9396
+      },
+      "confidence": null,
+      "confidence_note": "no probability is claimed; status follows the stated statistical criterion",
+      "baseline_kwh_per_h": 0.0,
+      "observed_kwh_per_h": 0.9243,
+      "reported_excess_kwh": 12.9396
+    },
+    "quantities": {
+      "kind": "shift",
+      "anomaly_id": "PK-F002-A04",
+      "params": {
+        "share_moved": 1.0,
+        "max_delay_hours": 12,
+        "adoption": 1.0
+      },
+      "window_hours": 14,
+      "observed_hours": 14,
+      "observed_kwh": 12.9396,
+      "expected_baseline_kwh": 12.9396,
+      "unexplained_excess_kwh": 0.0,
+      "avoidable_estimate_kwh": 0.0,
+      "counterfactual_kwh": 12.9396,
+      "kwh_moved": 12.9396,
+      "labels": {
+        "observed_kwh": "measured",
+        "expected_baseline_kwh": "inferred (frozen reference)",
+        "unexplained_excess_kwh": "measured relative to the stated reference",
+        "avoidable_estimate_kwh": "simulated (assumption)",
+        "counterfactual_kwh": "simulated"
+      }
+    },
+    "avoidable_28d": {
+      "kwh": 0.0,
+      "sek": 6.4778,
+      "co2_kg": 0.212,
+      "horizon": "measured counterfactual over 28 observed days",
+      "window_days": 28.0,
+      "label": "potential (if followed fully)",
+      "scenario": "shift_flexible_load",
+      "method": "runs moved to the first later non-peak hour (same kWh)",
+      "kind": "shift"
+    },
+    "valuation": {
+      "tariff": "unknown",
+      "sek": null,
+      "sek_if_hourly_spot": 6.4778,
+      "sek_by_tariff": {
+        "hourly_spot": 6.4778,
+        "monthly_average_spot": 0.0,
+        "fixed_price": 0.0,
+        "included_in_rent": 0.0
+      },
+      "label": "spot-energy component only (excl. VAT, network fee, energy tax, markup, fixed fees); not a bill saving",
+      "note": "load shifting changes cost only on an hourly spot contract"
+    },
+    "score_if_fixed": {
+      "apartment": {
+        "before": 82.6951,
+        "after": 89.6948
+      },
+      "resident": {
+        "before": 81.9914,
+        "after": 88.9316
+      }
+    },
+    "projection_annual": {
+      "kwh": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "kWh",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": null,
+        "low": null,
+        "high": null,
+        "factor": null,
+        "reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+      },
+      "sek": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "SEK (spot only, excl. VAT)",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": null,
+        "low": null,
+        "high": null,
+        "factor": null,
+        "reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+      },
+      "co2_kg": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "kgCO2e",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": null,
+        "low": null,
+        "high": null,
+        "factor": null,
+        "reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+      }
+    },
+    "assumptions": [
+      "F002-A04 treated as dishwasher-like (ASSUMPTION: channels are unlabelled)",
+      "counterfactual: runs moved to the first later non-peak hour (same kWh)",
+      "SEK = spot price only, excludes network fee, energy tax, VAT; depends on the student's tariff",
+      "frozen references (other flats, benchmarks, imputations) unchanged"
+    ],
+    "uncertainty": {
+      "sampling_ci95": {
+        "kwh": [
+          0.0,
+          0.0
+        ],
+        "sek_spot_hourly": [
+          3.9352,
+          9.0185
+        ],
+        "co2e_kg": [
+          0.1288,
+          0.3017
+        ],
+        "method": "day-block bootstrap over the 28 window days (2000 draws, seed 0)"
+      },
+      "scenario_range": {
+        "kwh": [
+          0.0,
+          0.0
+        ],
+        "sek_spot_hourly": [
+          3.2389,
+          6.4778
+        ],
+        "co2e_kg": [
+          0.106,
+          0.212
+        ]
+      },
+      "scenario_method": "min-max over each intervention's documented parameter grid",
+      "evidence": {
+        "PK-F002-A04": {
+          "status": "PLAUSIBLE",
+          "stats": {
+            "criterion": "runs in peak-price hours on >= 3 days",
+            "peak_hours_local": [
+              7,
+              8,
+              9,
+              17,
+              18,
+              19,
+              20
+            ],
+            "runs_in_peak": 14,
+            "runs_total": 14,
+            "days": 14,
+            "kwh_in_peak": 12.9396
+          }
+        }
+      },
+      "not_included": [
+        "intervention adoption beyond the 'adoption' parameter",
+        "rebound beyond the stated range",
+        "future weather and prices",
+        "tariff (a condition, not a probability)"
+      ],
+      "detector_confidence": null,
+      "projection_range_sek": [
+        null,
+        null
+      ]
+    },
+    "tiers": {
+      "potential": {
+        "kwh": 0.0,
+        "sek_if_hourly_spot": 6.4778,
+        "co2_kg": 0.212
+      },
+      "estimated_realized": null,
+      "estimated_realized_reason": "needs the student's confirmation and adoption estimate",
+      "verified": null,
+      "verified_reason": "needs >= 7 days of post-change data"
+    },
+    "verification": null,
+    "simulated": false
+  },
+  {
+    "id": "PK-F002-A03",
+    "flat_id": "F002",
+    "appliance_id": "F002-A03",
+    "channel": "A03",
+    "assumed_type": "washing-machine-like",
+    "assumed_type_is_assumption": true,
+    "type": "peak_usage",
+    "title": "Runs in expensive peak hours",
+    "status": "PLAUSIBLE",
+    "status_level": 2,
+    "wording": "consistent pattern",
+    "responsibility": "resident",
+    "responsibility_note": "behaviour: residents can change this themselves",
+    "counts_as": "timing opportunity (not waste)",
+    "window": {
+      "start": "2026-10-01T18:00:00Z",
+      "end": "2026-10-28T20:00:00Z",
+      "days": 27.0833
+    },
+    "evidence": {
+      "text": "10 of 10 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 10,
+        "runs_total": 10,
+        "days": 10,
+        "kwh_in_peak": 6.3319
+      },
+      "confidence": null,
+      "confidence_note": "no probability is claimed; status follows the stated statistical criterion",
+      "baseline_kwh_per_h": 0.0,
+      "observed_kwh_per_h": 0.6332,
+      "reported_excess_kwh": 6.3319
+    },
+    "quantities": {
+      "kind": "shift",
+      "anomaly_id": "PK-F002-A03",
+      "params": {
+        "share_moved": 1.0,
+        "max_delay_hours": 12,
+        "adoption": 1.0
+      },
+      "window_hours": 10,
+      "observed_hours": 10,
+      "observed_kwh": 6.3319,
+      "expected_baseline_kwh": 6.3319,
+      "unexplained_excess_kwh": 0.0,
+      "avoidable_estimate_kwh": 0.0,
+      "counterfactual_kwh": 6.3319,
+      "kwh_moved": 6.3319,
+      "labels": {
+        "observed_kwh": "measured",
+        "expected_baseline_kwh": "inferred (frozen reference)",
+        "unexplained_excess_kwh": "measured relative to the stated reference",
+        "avoidable_estimate_kwh": "simulated (assumption)",
+        "counterfactual_kwh": "simulated"
+      }
+    },
+    "avoidable_28d": {
+      "kwh": 0.0,
+      "sek": 3.1848,
+      "co2_kg": 0.0941,
+      "horizon": "measured counterfactual over 28 observed days",
+      "window_days": 28.0,
+      "label": "potential (if followed fully)",
+      "scenario": "shift_flexible_load",
+      "method": "runs moved to the first later non-peak hour (same kWh)",
+      "kind": "shift"
+    },
+    "valuation": {
+      "tariff": "unknown",
+      "sek": null,
+      "sek_if_hourly_spot": 3.1848,
+      "sek_by_tariff": {
+        "hourly_spot": 3.1848,
+        "monthly_average_spot": 0.0,
+        "fixed_price": 0.0,
+        "included_in_rent": 0.0
+      },
+      "label": "spot-energy component only (excl. VAT, network fee, energy tax, markup, fixed fees); not a bill saving",
+      "note": "load shifting changes cost only on an hourly spot contract"
+    },
+    "score_if_fixed": {
+      "apartment": {
+        "before": 82.6951,
+        "after": 85.6986
+      },
+      "resident": {
+        "before": 81.9914,
+        "after": 84.9693
+      }
+    },
+    "projection_annual": {
+      "kwh": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "kWh",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": null,
+        "low": null,
+        "high": null,
+        "factor": null,
+        "reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+      },
+      "sek": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "SEK (spot only, excl. VAT)",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": null,
+        "low": null,
+        "high": null,
+        "factor": null,
+        "reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+      },
+      "co2_kg": {
+        "label": "projection",
+        "horizon": "annual",
+        "unit": "kgCO2e",
+        "assumptions": [
+          "extrapolation of 4 October weeks: assumes the pattern persists unchanged",
+          "spot price only, excludes network fee, energy tax, VAT",
+          "synthetic dataset; not evidence of real-world savings"
+        ],
+        "value": null,
+        "low": null,
+        "high": null,
+        "factor": null,
+        "reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+      }
+    },
+    "assumptions": [
+      "F002-A03 treated as washing-machine-like (ASSUMPTION: channels are unlabelled)",
+      "counterfactual: runs moved to the first later non-peak hour (same kWh)",
+      "SEK = spot price only, excludes network fee, energy tax, VAT; depends on the student's tariff",
+      "frozen references (other flats, benchmarks, imputations) unchanged"
+    ],
+    "uncertainty": {
+      "sampling_ci95": {
+        "kwh": [
+          0.0,
+          0.0
+        ],
+        "sek_spot_hourly": [
+          1.463,
+          5.0394
+        ],
+        "co2e_kg": [
+          0.0454,
+          0.1464
+        ],
+        "method": "day-block bootstrap over the 28 window days (2000 draws, seed 0)"
+      },
+      "scenario_range": {
+        "kwh": [
+          0.0,
+          0.0
+        ],
+        "sek_spot_hourly": [
+          1.5924,
+          3.1848
+        ],
+        "co2e_kg": [
+          0.0471,
+          0.0941
+        ]
+      },
+      "scenario_method": "min-max over each intervention's documented parameter grid",
+      "evidence": {
+        "PK-F002-A03": {
+          "status": "PLAUSIBLE",
+          "stats": {
+            "criterion": "runs in peak-price hours on >= 3 days",
+            "peak_hours_local": [
+              7,
+              8,
+              9,
+              17,
+              18,
+              19,
+              20
+            ],
+            "runs_in_peak": 10,
+            "runs_total": 10,
+            "days": 10,
+            "kwh_in_peak": 6.3319
+          }
+        }
+      },
+      "not_included": [
+        "intervention adoption beyond the 'adoption' parameter",
+        "rebound beyond the stated range",
+        "future weather and prices",
+        "tariff (a condition, not a probability)"
+      ],
+      "detector_confidence": null,
+      "projection_range_sek": [
+        null,
+        null
+      ]
+    },
+    "tiers": {
+      "potential": {
+        "kwh": 0.0,
+        "sek_if_hourly_spot": 3.1848,
+        "co2_kg": 0.0941
+      },
+      "estimated_realized": null,
+      "estimated_realized_reason": "needs the student's confirmation and adoption estimate",
+      "verified": null,
+      "verified_reason": "needs >= 7 days of post-change data"
+    },
+    "verification": null,
+    "simulated": false
+  }
+]

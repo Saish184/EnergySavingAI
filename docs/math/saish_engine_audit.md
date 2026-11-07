@@ -1,5 +1,7 @@
 # Audit of the teammate's quantitative engine (branch `saish`, commit `ddc02ce`)
 
+> **Status (update):** D1–D8 are fixed in the engine now developed on `mina` (`backend/`), each pinned by a regression test in `backend/tests/test_regressions.py`. See [../engine_changes.md](../engine_changes.md). This document describes the original `saish@ddc02ce` and is kept unchanged below as the audit record.
+
 **Scope:** locate, reproduce and audit the four-pillar scoring implementation on our validated data. Nothing on that branch was modified, merged or overwritten. It was inspected and run from a **detached, read-only worktree** of `origin/saish`.
 **Reproduce:**
 ```bash

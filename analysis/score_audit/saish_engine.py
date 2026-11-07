@@ -34,14 +34,19 @@ def backend_dir() -> Path:
 
 
 def _import():
-    b = str(backend_dir())
-    if b not in sys.path:
-        sys.path.insert(0, b)
-    from app import config as C  # noqa: E402
-    from app import loader  # noqa: E402
-    from app.core import counterfactual, evaluate  # noqa: E402
-    from app.core.dataset import Dataset  # noqa: E402
-    return C, loader, evaluate, counterfactual, Dataset
+    """Import the ORIGINAL engine's `app` package under the alias `saish_app`, so it can coexist with the project
+    engine (also a package called `app`) in one process. Its internal imports are relative, so the alias is safe."""
+    import importlib
+    import importlib.util
+    if "saish_app" not in sys.modules:
+        pkg = backend_dir() / "app"
+        spec = importlib.util.spec_from_file_location("saish_app", pkg / "__init__.py", submodule_search_locations=[str(pkg)])
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["saish_app"] = mod
+        spec.loader.exec_module(mod)
+    m = importlib.import_module
+    return (m("saish_app.config"), m("saish_app.loader"), m("saish_app.core.evaluate"),
+            m("saish_app.core.counterfactual"), m("saish_app.core.dataset").Dataset)
 
 
 # --------------------------------------------------------------------------- validated anomalies -> their schema

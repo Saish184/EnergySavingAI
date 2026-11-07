@@ -1,0 +1,430 @@
+{
+  "references": {
+    "peak_hours_local": [
+      7,
+      8,
+      9,
+      17,
+      18,
+      19,
+      20
+    ],
+    "equivalence_exponent": 0.5,
+    "eq_residents": {
+      "F001": 1.4142,
+      "F002": 1.7321,
+      "F003": 2.0,
+      "F004": 1.4142,
+      "F005": 2.2361,
+      "F006": 1.7321,
+      "F007": 2.0,
+      "F008": 1.4142
+    },
+    "use_bench_kwh_per_eq_resident_day": {
+      "apartment": 2.9008,
+      "resident": 2.779
+    },
+    "K_kwh_per_eq_resident_day": 3.273,
+    "K_T_kwh_per_eq_resident_day": 0.4018,
+    "use_bench_percentile": 20,
+    "time_avg_price_sek_per_kwh": 0.4777,
+    "hash": "a0b4475d31be9674"
+  },
+  "detectors": [
+    {
+      "id": "PK-F001-A03",
+      "flat_id": "F001",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "9 of 9 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 9,
+        "runs_total": 9,
+        "days": 9,
+        "kwh_in_peak": 6.0884
+      }
+    },
+    {
+      "id": "PK-F001-A04",
+      "flat_id": "F001",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 14,
+        "runs_total": 14,
+        "days": 14,
+        "kwh_in_peak": 13.5968
+      }
+    },
+    {
+      "id": "FS-F002-A01",
+      "flat_id": "F002",
+      "type": "fault_step_change",
+      "status": "PLAUSIBLE",
+      "responsibility": "manager",
+      "evidence": "lasting level increase from 2026-10-15 00:00 UTC: 0.0517 -> 0.1220 kWh/h (permutation p = 0.001)",
+      "statistics": {
+        "test": "one-sided max-Welch-t over day splits, day-permutation p-value",
+        "t_max": 74.4924,
+        "p_value": 0.001,
+        "permutations": 999,
+        "alpha": 0.01,
+        "split_utc": "2026-10-15 00:00:00+00:00",
+        "pre_mean": 0.0517,
+        "post_mean": 0.122,
+        "ratio": 2.3619,
+        "days_used": 28,
+        "excluded_vacant_or_sparse_days": 0
+      }
+    },
+    {
+      "id": "PK-F002-A03",
+      "flat_id": "F002",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "10 of 10 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 10,
+        "runs_total": 10,
+        "days": 10,
+        "kwh_in_peak": 6.3319
+      }
+    },
+    {
+      "id": "PK-F002-A04",
+      "flat_id": "F002",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 14,
+        "runs_total": 14,
+        "days": 14,
+        "kwh_in_peak": 12.9396
+      }
+    },
+    {
+      "id": "PK-F003-A03",
+      "flat_id": "F003",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "11 of 11 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 11,
+        "runs_total": 11,
+        "days": 11,
+        "kwh_in_peak": 7.8015
+      }
+    },
+    {
+      "id": "PK-F003-A04",
+      "flat_id": "F003",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "12 of 12 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 12,
+        "runs_total": 12,
+        "days": 12,
+        "kwh_in_peak": 11.1506
+      }
+    },
+    {
+      "id": "SB-F004-A05",
+      "flat_id": "F004",
+      "type": "scheduled_block",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "69 W at local hours 09-17 on every week, also with nobody home (24 days); other flats <= 4 W",
+      "statistics": {
+        "criterion": "hour-of-day weekly median above every other flat in every week, and persists with nobody home",
+        "local_hours": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "unoccupied_days_with_block": 24,
+        "median_when_unoccupied_kwh_h": 0.069,
+        "peer_max_weekly_median_kwh_h": 0.004
+      }
+    },
+    {
+      "id": "PK-F004-A04",
+      "flat_id": "F004",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 14,
+        "runs_total": 14,
+        "days": 14,
+        "kwh_in_peak": 12.0615
+      }
+    },
+    {
+      "id": "BL-F005-A06",
+      "flat_id": "F005",
+      "type": "base_load_outlier",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "always-on level 128 W vs 33 W in the other flats, above their range in 4/4 weeks",
+      "statistics": {
+        "criterion": "always-on floor (P5) above every other flat's floor, per week",
+        "weeks_above_peer_range": 4,
+        "weeks": 4,
+        "floor_kwh_h": 0.128,
+        "peer_median_floor_kwh_h": 0.033,
+        "peer_max_floor_by_week": [
+          0.033,
+          0.033,
+          0.033,
+          0.033
+        ],
+        "excess_w": 95.0
+      }
+    },
+    {
+      "id": "PK-F005-A03",
+      "flat_id": "F005",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 14,
+        "runs_total": 14,
+        "days": 14,
+        "kwh_in_peak": 9.4391
+      }
+    },
+    {
+      "id": "PK-F005-A04",
+      "flat_id": "F005",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "13 of 13 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 13,
+        "runs_total": 13,
+        "days": 13,
+        "kwh_in_peak": 12.0041
+      }
+    },
+    {
+      "id": "PK-F006-A04",
+      "flat_id": "F006",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "13 of 13 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 13,
+        "runs_total": 13,
+        "days": 13,
+        "kwh_in_peak": 11.3867
+      }
+    },
+    {
+      "id": "HU-F007-A07",
+      "flat_id": "F007",
+      "type": "heater_pattern",
+      "status": "PLAUSIBLE",
+      "responsibility": "unknown",
+      "evidence": "heater-like use in 22 unoccupied hours on 9 days (absences >= 2 h); 56 h incl. 1-h gaps",
+      "statistics": {
+        "criterion": "heater-like use with nobody home, absences >= 2 h, on >= 3 days",
+        "days": 9,
+        "hours": 22,
+        "hours_any_absence": 56,
+        "kwh_any_absence": 23.2703,
+        "occupancy_source": "simulated sensor estimate"
+      }
+    },
+    {
+      "id": "PK-F007-A04",
+      "flat_id": "F007",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 14,
+        "runs_total": 14,
+        "days": 14,
+        "kwh_in_peak": 12.21
+      }
+    },
+    {
+      "id": "PK-F008-A03",
+      "flat_id": "F008",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "10 of 10 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 10,
+        "runs_total": 10,
+        "days": 10,
+        "kwh_in_peak": 6.6238
+      }
+    },
+    {
+      "id": "PK-F008-A04",
+      "flat_id": "F008",
+      "type": "peak_usage",
+      "status": "PLAUSIBLE",
+      "responsibility": "resident",
+      "evidence": "14 of 14 runs start in peak-price hours (local [7, 8, 9, 17, 18, 19, 20])",
+      "statistics": {
+        "criterion": "runs in peak-price hours on >= 3 days",
+        "peak_hours_local": [
+          7,
+          8,
+          9,
+          17,
+          18,
+          19,
+          20
+        ],
+        "runs_in_peak": 14,
+        "runs_total": 14,
+        "days": 14,
+        "kwh_in_peak": 12.2848
+      }
+    }
+  ]
+}

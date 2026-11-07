@@ -5132,5 +5132,1063 @@
     },
     "aggregation": "weighted geometric",
     "source": "described by the team (no code available); used only to configure checks that need weights"
-  }
+  },
+  "engine": [
+    {
+      "model": "engine(mina):apartment",
+      "aggregation": "geometric",
+      "weights": {
+        "use": 0.4,
+        "waste": 0.25,
+        "timing": 0.2,
+        "health": 0.15
+      },
+      "scores": {
+        "F001": {
+          "score": 49.6187,
+          "pillars": {
+            "use": 25.9941,
+            "waste": 100.0,
+            "timing": 44.5121,
+            "health": 100.0
+          }
+        },
+        "F002": {
+          "score": 82.6951,
+          "pillars": {
+            "use": 92.3916,
+            "waste": 100.0,
+            "timing": 50.2757,
+            "health": 87.0363
+          }
+        },
+        "F003": {
+          "score": 88.4477,
+          "pillars": {
+            "use": 100.0,
+            "waste": 100.0,
+            "timing": 54.1292,
+            "health": 100.0
+          }
+        },
+        "F004": {
+          "score": 81.1327,
+          "pillars": {
+            "use": 84.1581,
+            "waste": 89.9486,
+            "timing": 56.6624,
+            "health": 100.0
+          }
+        },
+        "F005": {
+          "score": 82.5951,
+          "pillars": {
+            "use": 100.0,
+            "waste": 76.2467,
+            "timing": 53.9506,
+            "health": 100.0
+          }
+        },
+        "F006": {
+          "score": 88.5353,
+          "pillars": {
+            "use": 93.0924,
+            "waste": 100.0,
+            "timing": 62.7702,
+            "health": 100.0
+          }
+        },
+        "F007": {
+          "score": 58.1885,
+          "pillars": {
+            "use": 33.0909,
+            "waste": 95.2259,
+            "timing": 64.7628,
+            "health": 100.0
+          }
+        },
+        "F008": {
+          "score": 80.1125,
+          "pillars": {
+            "use": 85.1604,
+            "waste": 100.0,
+            "timing": 45.5014,
+            "health": 100.0
+          }
+        }
+      },
+      "summary": {
+        "universal": {
+          "checks": 33,
+          "failed": 0
+        },
+        "policy": {
+          "checks": 13,
+          "failed": 0
+        },
+        "heuristic": {
+          "checks": 0,
+          "failed": 0
+        },
+        "info": {
+          "checks": 1,
+          "failed": 0
+        }
+      },
+      "results": [
+        {
+          "check": "determinism",
+          "requirement": "R11",
+          "cls": "universal",
+          "case": "baseline",
+          "flat": "all",
+          "passed": true,
+          "detail": "two identical calls"
+        },
+        {
+          "check": "score within declared range",
+          "requirement": "R12",
+          "cls": "universal",
+          "case": "baseline",
+          "flat": "all",
+          "passed": true,
+          "detail": "[0.0, 100.0]"
+        },
+        {
+          "check": "weights positive and sum to 1",
+          "requirement": "R12",
+          "cls": "universal",
+          "case": "declared",
+          "flat": "all",
+          "passed": true,
+          "detail": {
+            "use": 0.4,
+            "waste": 0.25,
+            "timing": 0.2,
+            "health": 0.15
+          }
+        },
+        {
+          "check": "no zero-collapse of geometric aggregate",
+          "requirement": "R13",
+          "cls": "policy",
+          "case": "baseline",
+          "flat": "none",
+          "passed": true,
+          "detail": "flats with a zero pillar forcing score 0: []"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O4 F004 daytime electronics (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "81.133 -> 83.281 (dkWh -14.30)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O4 F004 daytime electronics (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O2 F005 always-on, full excess (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "82.595 -> 87.003 (dkWh -62.79)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O2 F005 always-on, full excess (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O1 F007 heater off when unoccupied (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "58.189 -> 58.904 (dkWh -9.19)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O1 F007 heater off when unoccupied (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O3 F002 fridge repaired at step (repair = reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "82.695 -> 84.413 (dkWh -23.36)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O3 F002 fridge repaired at step (repair = reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "projected score from combined trajectory (additivity of increments)",
+          "requirement": "R6",
+          "cls": "info",
+          "case": "O3+O5 F002 combined",
+          "flat": "F002",
+          "passed": null,
+          "detail": "combined +8.863 vs sum of separate +8.718"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F001 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F001 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F001 (pure reduction)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "49.619 -> 50.915 (dkWh -21.76)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F001 (pure reduction)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F002 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F002 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F002 (pure reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "82.695 -> 84.750 (dkWh -8.67)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F002 (pure reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F003 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F003 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F003 (pure reduction)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "88.448 -> 88.857 (dkWh -7.16)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F003 (pure reduction)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F004 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F004 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F004 (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "81.133 -> 83.239 (dkWh -7.41)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F004 (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F005 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F005 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F005 (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "82.595 -> 83.220 (dkWh -11.65)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F005 (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F006 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F006 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F006 (pure reduction)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "88.535 -> 90.659 (dkWh -7.37)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F006 (pure reduction)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F007 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F007 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F007 (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "58.189 -> 59.619 (dkWh -24.57)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F007 (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F008 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F008 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F008 (pure reduction)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "80.112 -> 82.197 (dkWh -6.64)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F008 (pure reduction)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "peer invariance under frozen references",
+          "requirement": "R7",
+          "cls": "universal",
+          "case": "scale F003 to 1.5x the largest flat (5.15x)",
+          "flat": "others",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "deleting typical readings does not act like zero consumption",
+          "requirement": "R3",
+          "cls": "universal",
+          "case": "24 near-median F002 A01 hours: NaN vs 0",
+          "flat": "F002",
+          "passed": true,
+          "detail": "score change if deleted -0.0012; if set to 0 +0.2677"
+        }
+      ],
+      "weight_sensitivity": null
+    },
+    {
+      "model": "engine(mina):resident",
+      "aggregation": "geometric",
+      "weights": {
+        "use": 0.5,
+        "waste": 0.3,
+        "timing": 0.2
+      },
+      "scores": {
+        "F001": {
+          "score": 74.1278,
+          "pillars": {
+            "use": 75.9576,
+            "waste": 100.0,
+            "timing": 44.5121
+          }
+        },
+        "F002": {
+          "score": 81.9914,
+          "pillars": {
+            "use": 88.5101,
+            "waste": 100.0,
+            "timing": 50.2757
+          }
+        },
+        "F003": {
+          "score": 88.4477,
+          "pillars": {
+            "use": 100.0,
+            "waste": 100.0,
+            "timing": 54.1292
+          }
+        },
+        "F004": {
+          "score": 77.64,
+          "pillars": {
+            "use": 80.6226,
+            "waste": 89.9486,
+            "timing": 56.6624
+          }
+        },
+        "F005": {
+          "score": 81.4827,
+          "pillars": {
+            "use": 100.0,
+            "waste": 76.2467,
+            "timing": 53.9506
+          }
+        },
+        "F006": {
+          "score": 86.0376,
+          "pillars": {
+            "use": 89.1815,
+            "waste": 100.0,
+            "timing": 62.7702
+          }
+        },
+        "F007": {
+          "score": 89.8196,
+          "pillars": {
+            "use": 98.8459,
+            "waste": 95.2259,
+            "timing": 64.7628
+          }
+        },
+        "F008": {
+          "score": 77.1621,
+          "pillars": {
+            "use": 81.5828,
+            "waste": 100.0,
+            "timing": 45.5014
+          }
+        }
+      },
+      "summary": {
+        "universal": {
+          "checks": 33,
+          "failed": 0
+        },
+        "policy": {
+          "checks": 13,
+          "failed": 0
+        },
+        "heuristic": {
+          "checks": 0,
+          "failed": 0
+        },
+        "info": {
+          "checks": 1,
+          "failed": 0
+        }
+      },
+      "results": [
+        {
+          "check": "determinism",
+          "requirement": "R11",
+          "cls": "universal",
+          "case": "baseline",
+          "flat": "all",
+          "passed": true,
+          "detail": "two identical calls"
+        },
+        {
+          "check": "score within declared range",
+          "requirement": "R12",
+          "cls": "universal",
+          "case": "baseline",
+          "flat": "all",
+          "passed": true,
+          "detail": "[0.0, 100.0]"
+        },
+        {
+          "check": "weights positive and sum to 1",
+          "requirement": "R12",
+          "cls": "universal",
+          "case": "declared",
+          "flat": "all",
+          "passed": true,
+          "detail": {
+            "use": 0.5,
+            "waste": 0.3,
+            "timing": 0.2
+          }
+        },
+        {
+          "check": "no zero-collapse of geometric aggregate",
+          "requirement": "R13",
+          "cls": "policy",
+          "case": "baseline",
+          "flat": "none",
+          "passed": true,
+          "detail": "flats with a zero pillar forcing score 0: []"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O4 F004 daytime electronics (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "77.640 -> 80.113 (dkWh -14.30)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O4 F004 daytime electronics (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O2 F005 always-on, full excess (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "81.483 -> 86.728 (dkWh -62.79)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O2 F005 always-on, full excess (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O1 F007 heater off when unoccupied (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "89.820 -> 91.147 (dkWh -9.19)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O1 F007 heater off when unoccupied (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "O3 F002 fridge repaired at step (repair = reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "81.991 -> 81.991 (dkWh -23.36)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "O3 F002 fridge repaired at step (repair = reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "projected score from combined trajectory (additivity of increments)",
+          "requirement": "R6",
+          "cls": "info",
+          "case": "O3+O5 F002 combined",
+          "flat": "F002",
+          "passed": null,
+          "detail": "combined +6.940 vs sum of separate +6.940"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F001 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F001 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F001 (pure reduction)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "74.128 -> 76.454 (dkWh -21.76)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F001 (pure reduction)",
+          "flat": "F001",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F002 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F002 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F002 (pure reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "81.991 -> 84.264 (dkWh -8.67)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F002 (pure reduction)",
+          "flat": "F002",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F003 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F003 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F003 (pure reduction)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "88.448 -> 88.857 (dkWh -7.16)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F003 (pure reduction)",
+          "flat": "F003",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F004 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F004 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F004 (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "77.640 -> 80.076 (dkWh -7.41)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F004 (pure reduction)",
+          "flat": "F004",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F005 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F005 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F005 (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "81.483 -> 82.147 (dkWh -11.65)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F005 (pure reduction)",
+          "flat": "F005",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F006 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F006 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F006 (pure reduction)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "86.038 -> 88.543 (dkWh -7.37)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F006 (pure reduction)",
+          "flat": "F006",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F007 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F007 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F007 (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "89.820 -> 90.728 (dkWh -24.57)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F007 (pure reduction)",
+          "flat": "F007",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "shift conserves total kWh",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F008 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "dkWh 0.00e+00"
+        },
+        {
+          "check": "energy pillars unchanged by pure shift",
+          "requirement": "R9",
+          "cls": "universal",
+          "case": "O5 F008 dishwasher 20:00 -> 21:00 (pure shift)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "score non-decreasing under pure reduction",
+          "requirement": "R4",
+          "cls": "universal",
+          "case": "uniform 5 % cut of every channel F008 (pure reduction)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "77.162 -> 79.571 (dkWh -6.64)"
+        },
+        {
+          "check": "no pillar decreases under pure reduction",
+          "requirement": "R4",
+          "cls": "policy",
+          "case": "uniform 5 % cut of every channel F008 (pure reduction)",
+          "flat": "F008",
+          "passed": true,
+          "detail": "none"
+        },
+        {
+          "check": "peer invariance under frozen references",
+          "requirement": "R7",
+          "cls": "universal",
+          "case": "scale F003 to 1.5x the largest flat (5.15x)",
+          "flat": "others",
+          "passed": true,
+          "detail": "unchanged"
+        },
+        {
+          "check": "deleting typical readings does not act like zero consumption",
+          "requirement": "R3",
+          "cls": "universal",
+          "case": "24 near-median F002 A01 hours: NaN vs 0",
+          "flat": "F002",
+          "passed": true,
+          "detail": "score change if deleted -0.0015; if set to 0 +0.3319"
+        }
+      ],
+      "weight_sensitivity": null
+    }
+  ]
 }

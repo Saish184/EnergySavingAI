@@ -1,0 +1,50 @@
+[
+  {
+    "finding_id": "FS-F002-A01",
+    "flat_id": "F002",
+    "status": "PLAUSIBLE",
+    "wording": "possible fault",
+    "responsibility": "manager",
+    "text": "Sudden lasting increase on the fridge-like channel (possible fault). Over 14 observed days this was about 23.4 kWh and 11.5 SEK at spot prices (projected 264-337 SEK/year if it persists, spot price only). Action: report it to your building manager.",
+    "source": "template",
+    "horizon": "28d measured + annual projection",
+    "assumptions": [
+      "F002-A01 treated as fridge-like (ASSUMPTION: channels are unlabelled)",
+      "counterfactual: hourly kWh above the pre-step level removed from the step onwards (repair)",
+      "SEK = spot price only, excludes network fee, energy tax, VAT; depends on the student's tariff",
+      "frozen references (other flats, benchmarks, imputations) unchanged"
+    ]
+  },
+  {
+    "finding_id": "PK-F002-A04",
+    "flat_id": "F002",
+    "status": "PLAUSIBLE",
+    "wording": "consistent pattern",
+    "responsibility": "resident",
+    "text": "Runs in expensive peak hours on the dishwasher-like channel (consistent pattern). Starting it after the peak hours would have saved about 6.5 SEK and 0.21 kgCO2e in 28 days with the same kWh, if you pay hourly spot prices. Action: start it after the evening peak (e.g. 21:00).",
+    "source": "template",
+    "horizon": "28d measured + annual projection",
+    "assumptions": [
+      "F002-A04 treated as dishwasher-like (ASSUMPTION: channels are unlabelled)",
+      "counterfactual: runs moved to the first later non-peak hour (same kWh)",
+      "SEK = spot price only, excludes network fee, energy tax, VAT; depends on the student's tariff",
+      "frozen references (other flats, benchmarks, imputations) unchanged"
+    ]
+  },
+  {
+    "finding_id": "PK-F002-A03",
+    "flat_id": "F002",
+    "status": "PLAUSIBLE",
+    "wording": "consistent pattern",
+    "responsibility": "resident",
+    "text": "Runs in expensive peak hours on the washing-machine-like channel (consistent pattern). Starting it after the peak hours would have saved about 3.2 SEK and 0.09 kgCO2e in 28 days with the same kWh, if you pay hourly spot prices. Action: start it after the evening peak (e.g. 21:00).",
+    "source": "template",
+    "horizon": "28d measured + annual projection",
+    "assumptions": [
+      "F002-A03 treated as washing-machine-like (ASSUMPTION: channels are unlabelled)",
+      "counterfactual: runs moved to the first later non-peak hour (same kWh)",
+      "SEK = spot price only, excludes network fee, energy tax, VAT; depends on the student's tariff",
+      "frozen references (other flats, benchmarks, imputations) unchanged"
+    ]
+  }
+]

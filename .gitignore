@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Flat Energy Coach
+node_modules/
+out/
+data/mock/

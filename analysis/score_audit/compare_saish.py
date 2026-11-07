@@ -23,7 +23,8 @@ from common import PROCESSED, REPORTS  # noqa: E402
 import saish_engine as S  # noqa: E402
 
 C, loader, evaluate, cf, Dataset = S._import()
-from app.core import metrics, pillars as P  # noqa: E402
+import importlib  # noqa: E402
+metrics, P = importlib.import_module("saish_app.core.metrics"), importlib.import_module("saish_app.core.pillars")
 
 r2 = lambda v, n=3: None if v is None or (isinstance(v, float) and np.isnan(v)) else round(float(v), n)
 OUT: dict = {"commit": S.EXPECTED_COMMIT, "assumed_anomaly_translation": S.VALIDATED, "variants": S.VARIANTS}
