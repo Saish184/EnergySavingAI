@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 from .. import config as C
 from ..state import AppState
@@ -63,3 +64,17 @@ app.include_router(student.router)
 app.include_router(manager.router)
 app.include_router(prices.router)
 app.include_router(llm.router)
+
+
+@app.get("/demo", include_in_schema=False)
+def demo():
+    """Quick viewer for the API (single static page; Hugo's frontend is the real UI)."""
+    from pathlib import Path
+    return FileResponse(Path(__file__).resolve().parents[1] / "static" / "demo.html")
+
+
+# Hugo's Watt Wise frontend (watt-wise-ts/, built with `npm run build`), served on the same origin as the API.
+_frontend = Path(__file__).resolve().parents[3] / "watt-wise-ts"
+if (_frontend / "index.html").exists():
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/app", StaticFiles(directory=_frontend, html=True), name="watt-wise")

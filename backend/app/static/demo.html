@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flat Energy Coach</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1b1f24;--mut:#5d6773;--line:#e3e7ec;--acc:#1f7a5c;--acc2:#e8f4ef;--warn:#9a5b00;--warn2:#fff4e0;--bad:#a33;--chip:#eef1f5}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--card:#1b1f24;--ink:#e8ebef;--mut:#9aa4b0;--line:#2c323a;--acc:#4cc596;--acc2:#18302a;--warn:#f0b35a;--warn2:#33281a;--bad:#f08a8a;--chip:#262b33}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:2;background:var(--card);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+h1{font-size:17px;margin:0 8px 0 0}h2{font-size:16px;margin:0 0 10px}h3{font-size:15px;margin:0 0 6px}
+.tabs button,select{font:inherit;padding:6px 12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+main{max-width:1100px;margin:0 auto;padding:16px;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.notice{font-size:12px;color:var(--mut)}
+.big{font-size:34px;font-weight:700}.band{display:inline-block;padding:2px 9px;border-radius:6px;background:var(--acc2);color:var(--acc);font-weight:700;margin-left:6px}
+.bar{height:8px;background:var(--chip);border-radius:4px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--acc)}
+.pill{display:grid;grid-template-columns:70px 1fr 38px;gap:8px;align-items:center;font-size:13px;margin:5px 0}
+.chip{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--mut);margin:2px 4px 2px 0}
+.chip.src-llm{background:var(--acc2);color:var(--acc)}.chip.src-template{background:var(--chip)}.chip.src-safe{background:var(--warn2);color:var(--warn)}
+.st{font-weight:600;color:var(--warn)}
+.fcard{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}
+.nums{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.num{background:var(--chip);border-radius:8px;padding:6px 10px;font-size:13px}.num b{display:block;font-size:15px}
+details{margin-top:6px}summary{cursor:pointer;color:var(--mut);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-weight:600}
+.tbl{overflow-x:auto}.q{margin-top:6px;font-style:italic}.act{margin-top:6px}.act::before{content:"Action: ";font-weight:600}
+button.sm{font:inherit;font-size:13px;padding:4px 10px;border-radius:7px;border:1px solid var(--acc);background:var(--card);color:var(--acc);cursor:pointer;margin-right:6px}
+.err{color:var(--bad)}ul{margin:6px 0 0 18px;padding:0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Flat Energy Coach</h1>
+  <div class="tabs"><button id="tStudent" class="on">Student</button> <button id="tManager">Manager</button></div>
+  <select id="flat" aria-label="Flat"></select>
+  <span id="prov" class="notice"></span>
+</header>
+<main id="app"><div class="card">Loading…</div></main>
+<script>
+const API = location.origin;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const n = (x, d=1) => x == null ? "–" : Number(x).toFixed(d);
+let role = "student", flat = null;
+async function j(path, opt={}) {
+  const r = await fetch(API + path, {headers: {"Content-Type": "application/json", ...(role==="student"&&flat ? {"X-Flat-Id": flat} : {})}, ...opt});
+  if (!r.ok) throw new Error(path + " → " + r.status + " " + (await r.text()).slice(0, 200));
+  return r.json();
+}
+const src = t => t ? `<span class="chip src-${esc(t.source)}">${esc(t.source === "llm" ? `AI · ${t.provider}` : t.source === "template" ? "our wording" : t.source || "unavailable")}</span><span class="chip">prompt ${esc(t.prompt_version)}</span>${t.validation?.passed ? '<span class="chip">✓ validated</span>' : ''}` : "";
+const claims = t => t?.claims?.length ? `<details><summary>Where the numbers come from (${t.claims.length})</summary><table><tr><th>value</th><th>category</th><th>period</th><th>engine field</th></tr>${t.claims.map(c => `<tr><td>${esc(Array.isArray(c.value) ? c.value.map(v=>n(v,2)).join("–") : typeof c.value==="number" ? n(c.value,2) : c.value)} ${esc(c.unit)}</td><td>${esc(c.category)}</td><td>${esc(c.period||"")}</td><td><code>${esc(c.source)}</code></td></tr>`).join("")}</table></details>` : "";
+const pillars = p => Object.entries(p).map(([k,v]) => `<div class="pill"><span>${k}</span><div class="bar"><i style="width:${Math.max(2,v)}%"></i></div><b>${n(v,0)}</b></div>`).join("");
+
+function setRole(r) { role = r; $("#tStudent").classList.toggle("on", r==="student"); $("#tManager").classList.toggle("on", r==="manager"); $("#flat").style.display = r==="student" ? "" : "none"; render(); }
+$("#tStudent").onclick = () => setRole("student"); $("#tManager").onclick = () => setRole("manager");
+$("#flat").onchange = e => { flat = e.target.value; render(); };
+
+async function render() {
+  const app = $("#app"); app.innerHTML = '<div class="card">Loading…</div>';
+  try { app.innerHTML = role === "student" ? await student() : await manager(); }
+  catch (e) { app.innerHTML = `<div class="card err">${esc(e.message)}<br>Is the API running? <code>cd backend && uvicorn app.api.main:app --port 8000</code></div>`; }
+}
+
+async function student() {
+  const [sc, fs, dg] = await Promise.all([j(`/flats/${flat}/scores`), j(`/flats/${flat}/findings`), j(`/flats/${flat}/digest`)]);
+  const r = sc.lenses.resident, a = sc.lenses.apartment, ex = sc.explainer?.output, d = dg.output;
+  let h = `<div class="grid2">
+   <div class="card"><h2>Your score · ${esc(r.label)}</h2><div><span class="big">${n(r.score,0)}</span><span class="band">${esc(r.band)}</span> <span class="notice">rank ${n(r.rank,0)} of ${r.of} · range with other weights ${n(r.sensitivity.score_p5,0)}–${n(r.sensitivity.score_p95,0)}</span></div>
+     ${pillars(r.pillars)}<p>${esc(ex?.summary)}</p>${ex ? `<div class="act">${esc(ex.next_step)}</div>` : ""}<div>${src(sc.explainer)}</div>
+     <p class="notice">Excludes: ${esc(r.excludes.join("; "))}. Apartment Performance (incl. equipment): ${n(a.score,0)} ${esc(a.band)}.</p></div>
+   <div class="card"><h2>${esc(d?.headline || "Overview")}</h2><ul>${(d?.bullets||[]).map(b=>`<li>${esc(b)}</li>`).join("")}</ul><p>${esc(d?.encouragement)}</p><div>${src(dg)}</div>${claims(dg)}</div>
+  </div><div class="card"><h2>Findings for ${esc(flat)} (${fs.length})</h2>`;
+  if (!fs.length) h += `<p>No unusual patterns found.</p>`;
+  for (const f of fs) {
+    const t = f.student_text, o = t.output || {}, av = f.avoidable_28d, v = f.valuation;
+    h += `<div class="fcard"><h3>${esc(o.headline || f.title)}</h3>
+      <span class="chip st">${esc(f.wording)}</span><span class="chip">${esc(f.assumed_type)} (assumption)</span><span class="chip">${esc(f.counts_as)}</span>
+      <p>${esc(o.explanation)}</p>${o.action ? `<div class="act">${esc(o.action)}</div>` : ""}${o.question ? `<div class="q">${esc(o.question)}</div>` : ""}
+      <div style="margin-top:8px">${o.cta==="report" ? `<button class="sm" onclick="report('${f.id}')">Report to manager</button>` : o.cta==="confirm" ? `<button class="sm" onclick="alert('Thanks: confirmation would be sent to the engine as a student input (future).')">Confirm appliance</button>` : ""}${src(t)}</div>
+      <div class="nums">${av.kind==="shift" ? `<div class="num">kWh moved<b>${n(f.quantities.kwh_moved)}</b></div>` : `<div class="num">potential kWh<b>${n(av.kwh)}</b></div><div class="num">measured excess<b>${n(f.quantities.unexplained_excess_kwh)} kWh</b></div>`}
+        <div class="num">SEK if hourly spot<b>${n(v.sek_by_tariff.hourly_spot)}</b></div><div class="num">SEK monthly avg<b>${n(v.sek_by_tariff.monthly_average_spot)}</b></div>
+        <div class="num">window<b>${n(av.window_days,0)} days</b></div>${f.projection_annual.sek.value!=null ? `<div class="num">projection SEK/yr<b>${n(f.projection_annual.sek.low,0)}–${n(f.projection_annual.sek.high,0)}</b></div>` : `<div class="num">projection<b>none</b></div>`}</div>
+      ${claims(t)}<details><summary>Evidence</summary><p>${esc(f.evidence.text)}</p><p class="notice">${esc(v.label)}</p></details></div>`;
+  }
+  return h + `<p class="notice">${esc(fs[0]?.student_text?.disclaimer || "")}</p></div>`;
+}
+
+async function manager() {
+  const [pf, fs, sm, wo] = await Promise.all([j("/portfolio"), j("/portfolio/findings"), j("/portfolio/summary"), j("/workorders")]);
+  const o = sm.output || {};
+  let h = `<div class="card"><h2>${esc(o.headline || "Portfolio")}</h2><ul>${(o.bullets||[]).map(b=>`<li>${esc(b)}</li>`).join("")}</ul><p>${esc(o.maintenance_note)}</p><div>${src(sm)}</div></div>
+  <div class="card tbl"><h2>Flats</h2><table><tr><th>flat</th><th>residents</th><th>apartment</th><th>resident</th><th>health</th><th>kWh 28d</th><th>open findings</th><th>combined potential kWh</th></tr>
+  ${pf.flats.map(r => `<tr><td>${esc(r.flat_id)}</td><td>${r.residents}</td><td>${n(r.apartment_score,0)} <b>${esc(r.apartment_band)}</b></td><td>${n(r.resident_score,0)} ${esc(r.resident_band)}</td><td>${n(r.health,0)}</td><td>${n(r.kwh_28d,0)}</td><td>${r.open_findings} (${r.open_manager_findings} equipment)</td><td>${n(r.combined_potential?.kwh)}</td></tr>`).join("")}</table>
+  <p class="notice">${esc(pf.potential.label)}: ${n(pf.potential.kwh)} kWh · ${n(pf.potential.sek_if_hourly_spot)} SEK if hourly spot.</p></div>
+  <div class="card"><h2>Findings (${fs.length})</h2>`;
+  for (const f of fs) {
+    const t = f.manager_text, m = t.output || {}, tr = f.triage, w = wo.find(x => x.finding_id === f.id);
+    h += `<div class="fcard"><h3>${esc(m.headline || f.title)}</h3><span class="chip st">${esc(f.status)} · ${esc(f.wording)}</span><span class="chip">${esc(tr.action_owner)}</span><span class="chip">${tr.maintenance ? "maintenance: " + esc(tr.priority) : "not maintenance"}</span>
+     <p>${esc(m.summary)}</p><ul>${(m.evidence_points||[]).map(e=>`<li>${esc(e)}</li>`).join("")}</ul><div class="act">${esc(m.suggested_check)}</div>
+     <div style="margin-top:8px">${tr.maintenance ? (w ? `<span class="chip">work order ${esc(w.id)}: ${esc(w.status)}</span>
+        ${w.status==="open"||w.status==="sent" ? `<button class="sm" onclick="wo('${w.id}',{fault_found:true})">Technician: fault found</button><button class="sm" onclick="wo('${w.id}',{fault_found:false})">No fault</button>` : ""}
+        ${w.status==="open" ? `<button class="sm" onclick="wo('${w.id}',{status:'sent'})">Mark sent</button>` : ""}${w.status==="sent" ? `<button class="sm" onclick="wo('${w.id}',{status:'repaired'})">Mark repaired</button>` : ""}
+        ${w.status==="repaired" ? `<button class="sm" onclick="verify('${w.id}')">Verify (simulated data)</button>` : ""}`
+       : `<button class="sm" onclick="openWo('${f.id}')">Open work order</button>`) : ""}${src(t)}</div>${claims(t)}</div>`;
+  }
+  return h + `<p class="notice">${esc(fs[0]?.manager_text?.disclaimer || "")}</p></div>`;
+}
+
+async function report(fid) { await j(`/flats/${flat}/findings/${fid}/report`, {method:"POST", body: JSON.stringify({message:"reported from demo"})}); alert("Reported to the manager inbox."); }
+async function openWo(fid) { try { await j("/workorders", {method:"POST", body: JSON.stringify({finding_id: fid})}); render(); } catch(e) { alert(e.message); } }
+async function wo(id, body) { try { await j(`/workorders/${id}`, {method:"PATCH", body: JSON.stringify(body)}); render(); } catch(e) { alert(e.message); } }
+async function verify(id) { try { const r = await j(`/workorders/${id}/verify`, {method:"POST", body: JSON.stringify({simulate:true})}); alert(`Verification (SIMULATED data): ${r.verification.status} – ${r.verification.reason}`); render(); } catch(e) { alert(e.message); } }
+
+(async () => {
+  try {
+    const [flats, st, hl] = await Promise.all([j("/flats"), j("/llm/status"), j("/health")]);
+    $("#flat").innerHTML = flats.map(f => `<option value="${f.flat_id}">${f.flat_id} · ${f.residents} residents</option>`).join("");
+    flat = "F002"; $("#flat").value = flat;
+    $("#prov").textContent = `texts: ${st.llm_enabled ? st.provider + " / " + st.model : "our own wording (no AI provider)"} · data: ${hl.data_source} · ${hl.demo_notice}`;
+  } catch (e) { $("#app").innerHTML = `<div class="card err">${esc(e.message)}</div>`; return; }
+  render();
+})();
+</script>
+</body>
+</html>
