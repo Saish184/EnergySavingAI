@@ -1030,6 +1030,7 @@
       "saving_sek_hourly_spot": 15.31,
       "saving_sek_monthly_avg_spot": 11.12,
       "saving_co2_kg": 0.972,
+      "period_days": 28,
       "ci95_kwh": [
         13.49,
         33.49
@@ -1057,6 +1058,7 @@
       "saving_sek_hourly_spot": 58.1,
       "saving_sek_monthly_avg_spot": 59.66,
       "saving_co2_kg": 4.571,
+      "period_days": 28,
       "ci95_kwh": [
         116.58,
         132.65
@@ -1084,6 +1086,7 @@
       "saving_sek_hourly_spot": 60.24,
       "saving_sek_monthly_avg_spot": 62.14,
       "saving_co2_kg": 4.764,
+      "period_days": 28,
       "ci95_kwh": [
         122.57,
         137.16
@@ -1111,6 +1114,7 @@
       "saving_sek_hourly_spot": 29.46,
       "saving_sek_monthly_avg_spot": 30.0,
       "saving_co2_kg": 2.338,
+      "period_days": 28,
       "ci95_kwh": [
         62.32,
         63.27
@@ -1138,17 +1142,18 @@
       "saving_sek_hourly_spot": 11.54,
       "saving_sek_monthly_avg_spot": 11.16,
       "saving_co2_kg": 0.771,
+      "period_days": 14,
       "ci95_kwh": [
-        14.83,
-        31.87
+        22.96,
+        23.76
       ],
       "ci95_sek_hourly": [
-        6.99,
-        16.23
+        10.01,
+        13.22
       ],
       "ci95_co2_kg": [
-        0.47,
-        1.05
+        0.72,
+        0.83
       ]
     },
     "S4_A05_overnight_off_all_flats": {
@@ -1165,17 +1170,18 @@
       "saving_sek_hourly_spot": 10.32,
       "saving_sek_monthly_avg_spot": 17.42,
       "saving_co2_kg": 1.157,
+      "period_days": 28,
       "ci95_kwh": [
-        35.5,
-        37.28
+        35.53,
+        37.3
       ],
       "ci95_sek_hourly": [
-        8.25,
-        12.26
+        8.17,
+        12.16
       ],
       "ci95_co2_kg": [
-        1.07,
-        1.23
+        1.08,
+        1.24
       ]
     },
     "S5_F004_daytime_electronics": {
@@ -1192,13 +1198,14 @@
       "saving_sek_hourly_spot": 5.29,
       "saving_sek_monthly_avg_spot": 6.83,
       "saving_co2_kg": 0.492,
+      "period_days": 28,
       "ci95_kwh": [
         13.97,
         14.56
       ],
       "ci95_sek_hourly": [
         4.81,
-        5.81
+        5.77
       ],
       "ci95_co2_kg": [
         0.46,

@@ -1,0 +1,77 @@
+{
+  "record_id": "O5_dishwasher_price_timing:F002",
+  "scenario_label": "Start at 21:00 instead of 20:00",
+  "parameters_used": {
+    "start_hour_local": 21,
+    "share_of_runs_moved": 1.0
+  },
+  "period": {
+    "window_start_utc": "2026-10-01T00:00:00Z",
+    "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+    "window_hours": 672,
+    "window_days": 28.0,
+    "observed_hours_used": 14,
+    "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+  },
+  "tariff_applied": "unknown",
+  "without_advice": {
+    "kwh": 12.94,
+    "co2e_kg": 0.627,
+    "sek": null
+  },
+  "with_advice": {
+    "kwh": 12.94,
+    "co2e_kg": 0.415,
+    "sek": null
+  },
+  "difference": {
+    "kwh": 0.0,
+    "co2e_kg": 0.212,
+    "sek": null,
+    "sek_if_hourly_spot": 6.48
+  },
+  "sensitivity": {
+    "parameter": "start_hour_local",
+    "low": {
+      "label": "22:00",
+      "sek_if_hourly_spot": 6.57,
+      "co2e_kg": 0.207
+    },
+    "high": {
+      "label": "price-optimal hour before 07:00",
+      "sek_if_hourly_spot": 8.51,
+      "co2e_kg": 0.178
+    }
+  },
+  "tiers": {
+    "potential": {
+      "kwh": 0.0,
+      "co2e_kg": 0.212,
+      "sek": null,
+      "label": "Potential, if every run starts at 21:00. SEK depends on your tariff."
+    },
+    "estimated_realized": null,
+    "estimated_realized_reason": "Needs your confirmation that this is your dishwasher, plus how often you can start it later.",
+    "verified": null,
+    "verified_reason": "Needs metered data from after the change. None exists yet."
+  },
+  "assumptions": [
+    "same kWh per cycle",
+    "whole cycle falls in the start hour",
+    "runs only delayed, never brought forward",
+    "CO2e uses average hourly factors, not marginal"
+  ],
+  "warnings": [
+    "Tariff unknown: SEK shown only as 'if you pay hourly spot prices'.",
+    "Appliance identity is inferred (dishwasher-like)."
+  ],
+  "labels": {
+    "money_component": "Synthetic spot-energy component only, excl. VAT, network fees, energy tax, markup and fixed fees",
+    "carbon_factor": "Synthetic operational average factor"
+  },
+  "provenance": {
+    "opportunities_json_sha256": "5ac250ccc65c5bed551a5b4233a95a4113be5aabc2975df37f23a46e15bd18a5",
+    "analytical_table_sha256": "ff9ebfa589739e44521964892a02da3a12d55d01f31993dbb974a40143baee81",
+    "engine_version": "design-example (values from opportunities.json v1.0)"
+  }
+}

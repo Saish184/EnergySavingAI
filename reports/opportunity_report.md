@@ -82,7 +82,9 @@ Identities are used as **labels only**. No recommendation depends on an identity
 - **first_and_last_unoccupied_heating**: `["2026-10-02T19:00:00+02:00", "2026-10-28T18:00:00+01:00"]`
 - **heater_model_check**: `"hourly kWh = 0.12 x (12.0 - outdoor degC), residual sd 0.003 kWh - heater output depends on weather only, not on presence"`
 - **indoor_temp_mean_unoccupied_vs_occupied_c**: `[22.5, 22.5]`
-- **comparator_F001**: `{"unoccupied_hours": 142, "heater_on_in_unoccupied_hours": 0, "occupied_cold_hours_heater_off": 0, "note": "F001's heater is off in every unoccupied hour and on whenever occupied and <12 degC"}`
+- **occupancy_denominators**: `{"F007": {"hours_total": 672, "occupancy_known": 658, "occupancy_unknown": 14, "unoccupied": 64, "unoccupied_heater_reading_valid": 64, "unoccupied_heater_on": 56, "unoccupied_outdoor_below_12c": 55, "unoccupied_outdoor_unknown": 1, "unoccupied_cold_heater_reading_valid": 55, "unoccupied_cold_heater_off": 0}, "F001": {"hours_total": 672, "occupancy_known": 656, "occupancy_unknown": 16, "unoccupied": 142, "unoccupied_heater_reading_valid": 141, "unoccupied_heater_on": 0, "unoccupied_outdoor_below_12c": 124, "unoccupied_outdoor_unknown": 0, "unoccupied_cold_heater_reading_valid": 123, "unoccupied_cold_heater_off": 123}}`
+- **denominator_note**: `"Each count names its base. 'Unoccupied' = occupants_home == 0 among hours with known occupancy; hours with unknown occupancy are never counted as unoccupied; a missing heater reading is never counted as 'off'. F007: 64 unoccupied, 56 with heater on (= 55 cold hours with known outdoor temperature + 1 hour with unknown outdoor temperature); the 8 others were >= 12 degC so the weather-driven heater was off anyway. F001: 142 unoccupied, 141 with a valid heater reading, all 0 kWh; of the 124 cold ones, 123 have a valid reading."`
+- **comparator_F001**: `{"unoccupied_hours": 142, "unoccupied_hours_valid_heater_reading": 141, "heater_on_in_unoccupied_hours": 0, "occupied_cold_hours_heater_off": 0, "note": "F001's heater is off in every unoccupied hour and on whenever occupied and <12 degC"}`
 
 Data-quality flags:
 
@@ -98,7 +100,7 @@ Data-quality flags:
 Demonstrated:
 
 - The heater delivered 23.27 kWh in 56 hours that the occupancy estimate marks as empty.
-- In the same building conditions F001 never heats an empty flat (0 of 142 hours).
+- F001 never heats an empty flat: 0 kWh in all 141 unoccupied hours with a valid heater reading (142 unoccupied, 1 reading missing).
 - Heater output follows outdoor temperature only (r = -1.00), so it is not switched by anyone in F007.
 
 Hypotheses (not testable with this dataset):
@@ -119,14 +121,14 @@ Hypotheses (not testable with this dataset):
 - Scenario assumptions: heater is off (0 kWh) in the selected unoccupied hours; no re-heating rebound in the central case; consumption in occupied hours is unchanged; same weather and prices as observed
 - Formula: `savings_kWh = sum over selected unoccupied hours h of A07_kWh(h); SEK_hourly = sum A07_kWh(h) x spot(h); CO2e = sum A07_kWh(h) x carbon(h)/1000`
 
-**5. Conditional savings over the 28 observed days**
+**5. Conditional savings (each row states its time period)**
 
-| Scenario | Role | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
-|---|---|---:|---:|---:|---:|---:|
-| Manual habit: heater off for absences of 2 h or more | central | 9.19 | 0.375 | 5.65 | 1.9–10.3 | 4.39 |
-| Automated presence/occupancy control: off in every unoccupied hour | upper_measured | 23.27 | 0.972 | 15.31 | 8.8–22.7 | 11.12 |
-| Conservative: only absences of 3 h or more | lower | 3.21 | 0.128 | 1.90 | 0.0–5.2 | 1.53 |
-| Hypothetical upper bound: automated control AND all unknown-occupancy hours were in fact empty | upper_hypothetical | 30.08 | 1.231 | 19.00 | 12.0–26.5 | 14.37 |
+| Scenario | Role | Period | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
+|---|---|---|---:|---:|---:|---:|---:|
+| Manual habit: heater off for absences of 2 h or more | central | 28 days observed (01 Oct-28 Oct 2026, UTC) | 9.19 | 0.375 | 5.65 | 1.9–10.3 | 4.39 |
+| Automated presence/occupancy control: off in every unoccupied hour | upper_measured | 28 days observed (01 Oct-28 Oct 2026, UTC) | 23.27 | 0.972 | 15.31 | 8.8–22.7 | 11.12 |
+| Conservative: only absences of 3 h or more | lower | 28 days observed (01 Oct-28 Oct 2026, UTC) | 3.21 | 0.128 | 1.90 | 0.0–5.2 | 1.53 |
+| Hypothetical upper bound: automated control AND all unknown-occupancy hours were in fact empty | upper_hypothetical | 28 days observed (01 Oct-28 Oct 2026, UTC) | 30.08 | 1.231 | 19.00 | 12.0–26.5 | 14.37 |
 
 **6. Uncertainty**
 
@@ -136,7 +138,7 @@ Hypotheses (not testable with this dataset):
 
 **7. Actionability**: `student_independent` (student). Steps: switch off on leaving; optional timer/presence plug rated for the heater.
 
-**8. Evidence quality**: consumption = *measured*; occupancy_coincidence = *measured (simulated sensor)*; appliance_identity = *inferred (high)*; avoidability = *hypothetical*; savings = *conditional simulation*. Statistical confidence: high that heating coincides with recorded absences; medium that the absences are real. Action feasibility: high for absences >= 2 h; low for 1-h gaps without automation.
+**8. Evidence quality**: consumption = *measured*; pattern = *measured*; appliance_identity = *inferred*; avoidability = *hypothetical*; savings = *simulated*; tariff = *unknown* (waste: unconfirmed, verification: not_verified). Detail: consumption = measured; occupancy_coincidence = measured (simulated sensor); appliance_identity = inferred (high); avoidability = hypothetical; savings = conditional simulation. Statistical confidence: high that heating coincides with recorded absences; medium that the absences are real. Action feasibility: high for absences >= 2 h; low for 1-h gaps without automation.
 
 Chatbot: may say: Your heater ran during hours when the flat appeared empty (about 9-23 kWh over 4 weeks depending on how many absences you can act on). Must confirm: Were you actually out at these times? / Can the heater be switched off safely when you leave? Must not say: That this saves a specific amount on the bill without knowing the tariff. / Annual savings.
 
@@ -188,13 +190,13 @@ Hypotheses (not testable with this dataset):
 - Scenario assumptions: a fraction f of the 95 W excess is removed in every hour (f = 1, 0.5, 0.25); evening use above the floor unchanged; no hour falls below the peer floor
 - Formula: `savings_kWh = f x sum_h min(A06(h) - 0.033, 0.095)`
 
-**5. Conditional savings over the 28 observed days**
+**5. Conditional savings (each row states its time period)**
 
-| Scenario | Role | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
-|---|---|---:|---:|---:|---:|---:|
-| Excess base load fully eliminated (device found and switched off) | upper_measured | 62.79 | 2.338 | 29.46 | 26.7–32.2 | 30.00 |
-| Half of the excess avoidable (e.g. device needed part-time or replaced by a lower-power one) | central | 31.40 | 1.169 | 14.73 | 13.2–16.1 | 15.00 |
-| Quarter of the excess avoidable | lower | 15.70 | 0.585 | 7.36 | 6.7–8.1 | 7.50 |
+| Scenario | Role | Period | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
+|---|---|---|---:|---:|---:|---:|---:|
+| Excess base load fully eliminated (device found and switched off) | upper_measured | 28 days observed (01 Oct-28 Oct 2026, UTC) | 62.79 | 2.338 | 29.46 | 26.7–32.2 | 30.00 |
+| Half of the excess avoidable (e.g. device needed part-time or replaced by a lower-power one) | central | 28 days observed (01 Oct-28 Oct 2026, UTC) | 31.40 | 1.169 | 14.73 | 13.2–16.1 | 15.00 |
+| Quarter of the excess avoidable | lower | 28 days observed (01 Oct-28 Oct 2026, UTC) | 15.70 | 0.585 | 7.36 | 6.7–8.1 | 7.50 |
 
 **6. Uncertainty**
 
@@ -204,7 +206,7 @@ Hypotheses (not testable with this dataset):
 
 **7. Actionability**: `student_first_then_provider` (student (investigate), housing provider (if hard-wired)). Steps: walk-round at night with lights/devices; switch off one candidate at a time and check next-day data.
 
-**8. Evidence quality**: consumption = *measured*; anomaly = *measured*; appliance_identity = *inferred (low-medium)*; avoidability = *hypothetical*; savings = *conditional simulation*. Statistical confidence: very high that the +95 W always-on load exists. Action feasibility: medium: depends on finding the device.
+**8. Evidence quality**: consumption = *measured*; pattern = *measured*; appliance_identity = *inferred*; avoidability = *hypothetical*; savings = *simulated*; tariff = *unknown* (waste: unconfirmed, verification: not_verified). Detail: consumption = measured; anomaly = measured; appliance_identity = inferred (low-medium); avoidability = hypothetical; savings = conditional simulation. Statistical confidence: very high that the +95 W always-on load exists. Action feasibility: medium: depends on finding the device.
 
 Chatbot: may say: Something in your flat draws about 95 W more than in other flats, all day and night, including when nobody is home. Must confirm: What is always on in the flat? / Does it need to run continuously? Must not say: That a specific device is to blame. / That the full 63 kWh is guaranteed savings.
 
@@ -263,15 +265,15 @@ Hypotheses (not testable with this dataset):
 - Scenario assumptions: after repair, consumption returns to the pre-step mean (central) or peer mean (sensitivity); repair at the moment of the step (retrospective) - real savings start only when it is actually fixed
 - Formula: `savings_kWh = sum over post-step hours h of max(0, A01(h) - pre_mean); savings rate = (post_mean - pre_mean) per hour`
 
-**5. Conditional savings over the 28 observed days**
+**5. Conditional savings (each row states its time period)**
 
-| Scenario | Role | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
-|---|---|---:|---:|---:|---:|---:|
-| Repaired at the step: excess over the pre-step mean avoided for the 14 observed post-step days (retrospective) | central | 23.36 | 0.771 | 11.54 | 7.1–15.8 | 11.16 |
-| Repaired to the peer-fridge mean (0.0526 kWh/h) instead of F002's own pre-step mean | sensitivity | 23.06 | 0.761 | 11.39 | 6.8–15.9 | 11.02 |
-| Partial fix (e.g. door/seal adjusted, compressor still degraded): half the excess avoided | lower | 11.68 | 0.386 | 5.77 | 3.5–8.0 | 5.58 |
+| Scenario | Role | Period | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
+|---|---|---|---:|---:|---:|---:|---:|
+| Repaired at the step: excess over the pre-step mean avoided for the 14 observed post-step days (retrospective) | central | 14 days observed (15 Oct-28 Oct 2026, UTC) | 23.36 | 0.771 | 11.54 | 10.0–13.1 | 11.16 |
+| Repaired to the peer-fridge mean (0.0526 kWh/h) instead of F002's own pre-step mean | sensitivity | 14 days observed (15 Oct-28 Oct 2026, UTC) | 23.06 | 0.761 | 11.39 | 9.8–13.1 | 11.02 |
+| Partial fix (e.g. door/seal adjusted, compressor still degraded): half the excess avoided | lower | 14 days observed (15 Oct-28 Oct 2026, UTC) | 11.68 | 0.386 | 5.77 | 5.0–6.6 | 5.58 |
 
-Rate while unrepaired: kwh_per_day = 1.689, w = 70.4, co2e_kg_per_day_at_observed_post_step_factors = 0.0557, value_spot_hourly_sek_per_day_at_observed_post_step_prices = 0.836. Each day of delay costs this much energy. Future prices differ; this is a rate, not a forecast.
+Rate while unrepaired: kwh_per_day = 1.689, w = 70.4, kwh_per_28_days_if_persistent = 47.29, reconciliation = central kWh = excess rate x observed post-step hours = 0.07037 x 332 = 23.36; window has 336 h, 4 missing, co2e_kg_per_day_at_observed_post_step_factors = 0.0557, value_spot_hourly_sek_per_day_at_observed_post_step_prices = 0.836. Each day of delay costs this much energy. Future prices differ; this is a rate, not a forecast.
 
 **6. Uncertainty**
 
@@ -280,7 +282,7 @@ Rate while unrepaired: kwh_per_day = 1.689, w = 70.4, co2e_kg_per_day_at_observe
 
 **7. Actionability**: `shared_student_then_provider` (student checks settings/door; housing provider repairs). Steps: check door/seal/settings; if no change in 24-48 h, report fault with the step date as evidence.
 
-**8. Evidence quality**: consumption = *measured*; anomaly = *measured*; appliance_identity = *inferred (medium-high)*; cause = *hypothetical*; savings = *conditional simulation (depends on repair)*. Statistical confidence: very high that the step is real. Action feasibility: medium: student can check settings; repair depends on the provider.
+**8. Evidence quality**: consumption = *measured*; pattern = *measured*; appliance_identity = *inferred*; avoidability = *hypothetical*; savings = *simulated*; tariff = *unknown* (waste: unconfirmed, verification: not_verified). Detail: consumption = measured; anomaly = measured; appliance_identity = inferred (medium-high); cause = hypothetical; savings = conditional simulation (depends on repair). Statistical confidence: very high that the step is real. Action feasibility: medium: student can check settings; repair depends on the provider.
 
 Chatbot: may say: Your fridge-like circuit has used about 2.4x its normal energy since 2026-10-15; that pattern usually indicates a setting or fault. Must confirm: Did anything change on 15 October (new appliance, fast-freeze, door problem)? Must not say: That the fridge is definitely broken. / To turn the fridge off.
 
@@ -330,13 +332,13 @@ Hypotheses (not testable with this dataset):
 - Scenario assumptions: daytime consumption falls to the peer median for the same hour (4 W); other hours unchanged
 - Formula: `savings_kWh = sum over 09-16 h of max(0, A05_F004(h) - peer_median(local_hour(h)))`
 
-**5. Conditional savings over the 28 observed days**
+**5. Conditional savings (each row states its time period)**
 
-| Scenario | Role | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
-|---|---|---:|---:|---:|---:|---:|
-| Daytime (09-17 h) block reduced to the peer level (4 W) | central | 14.30 | 0.492 | 5.29 | 4.8–5.8 | 6.83 |
-| Only when nobody is home during 09-17 h | lower | 5.72 | 0.197 | 2.16 | 1.6–2.7 | 2.73 |
-| Every hour reduced to the peer hourly median (includes small evening/night differences) | upper_measured | 14.58 | 0.506 | 5.53 | 5.0–6.0 | 6.96 |
+| Scenario | Role | Period | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
+|---|---|---|---:|---:|---:|---:|---:|
+| Daytime (09-17 h) block reduced to the peer level (4 W) | central | 28 days observed (01 Oct-28 Oct 2026, UTC) | 14.30 | 0.492 | 5.29 | 4.8–5.8 | 6.83 |
+| Only when nobody is home during 09-17 h | lower | 28 days observed (01 Oct-28 Oct 2026, UTC) | 5.72 | 0.197 | 2.16 | 1.6–2.7 | 2.73 |
+| Every hour reduced to the peer hourly median (includes small evening/night differences) | upper_measured | 28 days observed (01 Oct-28 Oct 2026, UTC) | 14.58 | 0.506 | 5.53 | 5.0–6.0 | 6.96 |
 
 **6. Uncertainty**
 
@@ -345,7 +347,7 @@ Hypotheses (not testable with this dataset):
 
 **7. Actionability**: `student_independent` (student). Steps: find the scheduled device; change schedule / sleep settings.
 
-**8. Evidence quality**: consumption = *measured*; anomaly = *measured*; appliance_identity = *inferred (low)*; avoidability = *hypothetical*; savings = *conditional simulation*. Statistical confidence: very high that the daytime block exists. Action feasibility: high once the device is identified.
+**8. Evidence quality**: consumption = *measured*; pattern = *measured*; appliance_identity = *inferred*; avoidability = *hypothetical*; savings = *simulated*; tariff = *unknown* (waste: unconfirmed, verification: not_verified). Detail: consumption = measured; anomaly = measured; appliance_identity = inferred (low); avoidability = hypothetical; savings = conditional simulation. Statistical confidence: very high that the daytime block exists. Action feasibility: high once the device is identified.
 
 Chatbot: may say: Something on your electronics circuit runs at about 69 W every day from 09:00 to 17:00, even when you are out. Must confirm: Is something scheduled to run during the day? Must not say: That it is definitely a computer.
 
@@ -397,14 +399,14 @@ Hypotheses (not testable with this dataset):
 - Scenario assumptions: same kWh per cycle; whole cycle falls in the destination hour; events only delayed, never advanced; if a destination price is missing the event is not valued
 - Formula: `value_SEK = sum_events kWh_e x (spot(h_e) - spot(h_e')); CO2e = sum kWh_e x (carbon(h_e) - carbon(h_e'))/1000; kWh change = 0`
 
-**5. Conditional savings over the 28 observed days**
+**5. Conditional savings (each row states its time period)**
 
-| Scenario | Role | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
-|---|---|---:|---:|---:|---:|---:|
-| Start at 21:00 instead of 20:00 (1-h delay, before typical quiet hours) | central | 0.00 | 1.656 | 59.22 | 49.9–73.7 | 0.00 |
-| Start at 22:00 (2-h delay) | sensitivity | 0.00 | 1.547 | 58.80 | 48.7–73.8 | 0.00 |
-| Delay-start timer to 01:00 (overnight run) | sensitivity | 0.00 | 1.546 | 58.08 | 46.3–73.2 | 0.00 |
-| Price-optimal hour before 07:00 using day-ahead prices | upper | 0.00 | 1.598 | 74.15 | 63.9–90.7 | 0.00 |
+| Scenario | Role | Period | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |
+|---|---|---|---:|---:|---:|---:|---:|
+| Start at 21:00 instead of 20:00 (1-h delay, before typical quiet hours) | central | 28 days observed (01 Oct-28 Oct 2026, UTC) | 0.00 | 1.656 | 59.22 | 49.9–73.7 | 0.00 |
+| Start at 22:00 (2-h delay) | sensitivity | 28 days observed (01 Oct-28 Oct 2026, UTC) | 0.00 | 1.547 | 58.80 | 48.7–73.8 | 0.00 |
+| Delay-start timer to 01:00 (overnight run) | sensitivity | 28 days observed (01 Oct-28 Oct 2026, UTC) | 0.00 | 1.546 | 58.08 | 46.3–73.2 | 0.00 |
+| Price-optimal hour before 07:00 using day-ahead prices | upper | 28 days observed (01 Oct-28 Oct 2026, UTC) | 0.00 | 1.598 | 74.15 | 63.9–90.7 | 0.00 |
 
 **6. Uncertainty**
 
@@ -413,13 +415,13 @@ Hypotheses (not testable with this dataset):
 
 **7. Actionability**: `student_independent` (student). Steps: start one hour later; or use delay-start.
 
-**8. Evidence quality**: timing = *measured*; appliance_identity = *inferred (medium)*; tariff = *unknown*; savings = *conditional simulation*. Statistical confidence: very high that runs coincide with the price peak. Action feasibility: high (1-h delay); medium for overnight options.
+**8. Evidence quality**: consumption = *measured*; pattern = *measured*; appliance_identity = *inferred*; avoidability = *hypothetical*; savings = *simulated*; tariff = *unknown* (waste: unconfirmed, verification: not_verified). Detail: timing = measured; appliance_identity = inferred (medium); tariff = unknown; savings = conditional simulation. Statistical confidence: very high that runs coincide with the price peak. Action feasibility: high (1-h delay); medium for overnight options.
 
 Chatbot: may say: Your dishwasher-like appliance always starts at 20:00, when prices and emissions peak; starting at 21:00 avoids the peak. Must confirm: Do you pay hourly (spot) electricity prices? / Are there quiet hours in your building? Must not say: That this lowers your bill if you are on a fixed or monthly price, or if electricity is included in rent.
 
 ## 5. Rankings (separate dimensions, no composite score)
 
-Three separate orderings; no composite score. Impact uses each opportunity's CENTRAL scenario over the 28 observed days.
+Three separate orderings; no composite score. Impact uses each opportunity's CENTRAL scenario over its own stated period (28 days for all except O3: 14 post-step days).
 
 | Rank | Realistic impact (kWh, central) | CO2e (kg, central) | Spot value if hourly tariff (SEK, central) | Strength of evidence | Student actionability |
 |---:|---|---|---|---|---|

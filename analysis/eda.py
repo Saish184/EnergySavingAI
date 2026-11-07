@@ -52,10 +52,12 @@ def save(fig, name):
     plt.close(fig)
 
 
-def boot_total(daily: pd.Series) -> list[float]:
-    """95% CI of a 28-day total by resampling days (block = 1 day) with replacement."""
-    v = daily.reindex(range(DAYS), fill_value=0.0).to_numpy()
-    sims = RNG.choice(v, size=(N_BOOT, DAYS), replace=True).sum(axis=1)
+def boot_total(daily: pd.Series, days=None) -> list[float]:
+    """95% CI of a window total by resampling the window's days (block = 1 day) with replacement.
+    days: the scenario's window (default all 28 days); days outside the window are NOT padded in."""
+    days = list(range(DAYS)) if days is None else list(days)
+    v = daily.reindex(days, fill_value=0.0).to_numpy()
+    sims = RNG.choice(v, size=(N_BOOT, len(days)), replace=True).sum(axis=1)
     return [round(float(np.percentile(sims, 2.5)), 2), round(float(np.percentile(sims, 97.5)), 2)]
 
 
@@ -415,7 +417,7 @@ dmin = t.drop_duplicates("hour_idx").groupby("day").spot_sek_per_kwh.min()
 R["theoretical_max_all_load_to_daily_min_sek"] = round(float(priced.cost_spot_sek.sum() - (priced.energy_kwh * priced.day.map(dmin)).sum()), 2)
 
 # ---------------------------------------------------------------- Q8 / Phase 3 savings scenarios
-def scen(name, base: pd.DataFrame, saved_kwh: pd.Series, desc, evidence, assumptions, verifiable):
+def scen(name, base: pd.DataFrame, saved_kwh: pd.Series, desc, evidence, assumptions, verifiable, days=None):
     """base: rows of ok (index-aligned with saved_kwh) - observed baseline; saved_kwh: kWh removed per row."""
     s = pd.DataFrame({"day": base.day, "kwh": saved_kwh, "price": base.spot_sek_per_kwh,
                       "carbon": base.carbon_gco2e_per_kwh})
@@ -430,9 +432,10 @@ def scen(name, base: pd.DataFrame, saved_kwh: pd.Series, desc, evidence, assumpt
            "saving_sek_hourly_spot": round(s.sek.sum(), 2),
            "saving_sek_monthly_avg_spot": round(s.kwh.sum() * mean_spot, 2),
            "saving_co2_kg": round(s.co2.sum(), 3),
-           "ci95_kwh": boot_total(s.groupby("day").kwh.sum()),
-           "ci95_sek_hourly": boot_total(s.groupby("day").sek.sum()),
-           "ci95_co2_kg": boot_total(s.groupby("day").co2.sum())}
+           "period_days": DAYS if days is None else len(list(days)),
+           "ci95_kwh": boot_total(s.groupby("day").kwh.sum(), days),
+           "ci95_sek_hourly": boot_total(s.groupby("day").sek.sum(), days),
+           "ci95_co2_kg": boot_total(s.groupby("day").co2.sum(), days)}
     R.setdefault("scenarios", {})[name] = out
 
 
@@ -487,7 +490,7 @@ scen("S3_F002_fridge_fault", a1, (a1.energy_kwh - pre).clip(lower=0),
      "F002: report the cold appliance to the landlord / check door seal, thermostat and defrost - consumption jumped x2.4 overnight on 15 Oct and stayed there.",
      f"Mean {pre:.3f} kWh/h before vs {post:.3f} after the step; every post-step hour exceeds the pre-step maximum ({anom['F002_fridge_step']['pre_max_kwh_h']}).",
      "Repair restores the pre-step level; only the 14 post-step days are counted (no extrapolation).",
-     "Baseline observed; post-repair level is an assumption (pre-fault level).")
+     "Baseline observed; post-repair level is an assumption (pre-fault level).", days=range(cp // 24, DAYS))
 
 # S4 overnight personal electronics: off overnight (keep small charging allowance)
 a5n = ok[(ok.appliance_code == "A05") & ok.is_overnight].copy()

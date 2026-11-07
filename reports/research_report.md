@@ -14,7 +14,7 @@
 | What uses the most electricity? | **Portable electric heaters (A07): 628 kWh, 33 % of all electricity**, even though only **2 of 8 flats** (F001, F007) use one. Next: lighting & entertainment (A06, 16 %), cold appliances (A01, 16 %), cooking (A02, 15 %). |
 | What costs students the most? | Heaters again (**273 SEK, 27 %** of spot cost), then **cooking (221 SEK, 22 %)**. Cooking costs more than its kWh share suggests because it happens at 07:00 and 18–19:00, when spot prices average 0.89 SEK/kWh. The rest of the day averages 0.30. |
 | Where do flats differ? | F007 (491 kWh) and F001 (435 kWh) use **2.6–3.7×** what the six flats without heaters use (133–233 kWh). Per resident, F001 uses 218 kWh, **3.5×** the median of 62 kWh. |
-| Biggest observed waste | (1) F007 runs its heater while the flat is empty: 23.3 kWh. F001 switches its heater off in 123 of 123 cold, empty hours; F007 in 0 of 55. (2) F005 has a **~95 W load that never switches off** on A06: 63 kWh. (3) **F002's fridge doubled its consumption (×2.4) overnight on 15 Oct** and stayed there: +23 kWh in 14 days. (4) F004 leaves electronics on all day: 14 kWh. |
+| Biggest observed waste | (1) F007 runs its heater while the flat is empty: 23.3 kWh. In cold (<12 °C), unoccupied hours with a valid heater reading, F001's heater was off in 123 of 123 and F007's in 0 of 55. (2) F005 has a **~95 W load that never switches off** on A06: 63 kWh. (3) **F002's fridge doubled its consumption (×2.4) overnight on 15 Oct** and stayed there: +23 kWh in 14 days. (4) F004 leaves electronics on all day: 14 kWh. |
 | Biggest realistic savings | **kWh:** better heater habits in F001/F007 (125–148 kWh per 4 weeks, modelled), then the F005 always-on load (63 kWh, high confidence). **SEK under an hourly tariff:** delay-starting the dishwasher, which always starts at 20:00 in the price peak (74 SEK across 8 flats, −83 % of dishwasher spot cost, and also −1.6 kgCO2e). Under a fixed or monthly-average tariff, moving appliances to other hours saves **0 SEK**. Only using fewer kWh pays. |
 
 All money figures are the **spot-energy component only, excl. VAT**. Energy tax, network fees, retailer markup and VAT are not in the data.
@@ -186,7 +186,7 @@ These are Spearman correlations over complete flat-hours. "Non-heater kWh" exclu
 | **F002 cold appliance step change** | 0.052 → 0.122 kWh/h at 2026-10-15 02:00 local (×2.36). All 332 hours after the step exceed the pre-step maximum (0.070). The other 7 flats stay at 0.053. | **Equipment fault** (door seal, thermostat, defrost, compressor). The step is sustained and noisy-realistic, so it is unlike corrupt readings, which are isolated spikes. | High that it is real. Cause unknown. |
 | **F005 always-on ~95 W** | A06 5th-percentile floor of 128 W against 33 W in all 7 other flats, for all 4 weeks. | Something left on: light, TV/console in standby, decorative or aquarium lighting. | High that it exists. Device unknown. |
 | **F004 electronics on all day** | A05 09–16 h averages 69 W against 4 W in all 7 other flats. It still draws 42 W when the flat is empty. | PC, console or monitor left running. | High. |
-| **F007 heats an empty flat** | 56 h / 23.3 kWh with 0 occupants. In cold, empty hours: F001 off 123/123, F007 off 0/55. | Heater left on when leaving. | High (observed). |
+| **F007 heats an empty flat** | 56 h / 23.3 kWh with 0 occupants. In cold (<12 °C), unoccupied hours with a valid heater reading: F001 off 123/123, F007 off 0/55 (full denominators: `opportunity_report.md` O1). | Heater left on when leaving. | High (observed). |
 | **F007 22.5 °C** | 2 °C above every other flat, constant. | Thermostat or comfort preference. | Medium. Link to heater not demonstrable. |
 | Fleet-wide 33 W A06 floor | Present in every flat, including during F003's vacancy. 177 kWh over 28 days across 8 flats. | Router, standby or night light. Possibly necessary. | Low that it is avoidable. |
 | Dishwasher always at 20:00 | 108/108 events. | Habit or a fixed programme. | High. |
@@ -229,13 +229,13 @@ Simulation method: each observed event is moved to the cheapest hour in its allo
 | S1c | F007 heater thermostat −2 °C to peer 20.5 °C (occupied hours) | 336.2 | 124.9 (116.6–132.7) | 58.10 | 59.66 | 4.57 | **simulated, low confidence** |
 | S1b | Both heater flats −1 °C (sensitivity) | 628.3 | 130.1 (122.6–137.2) | 60.24 | 62.14 | 4.76 | **simulated, low confidence** |
 | S2 | F005: remove the ~95 W always-on load | 99.5 | **62.8** (62.3–63.3) | 29.46 | 30.00 | 2.34 | baseline observed; counterfactual simulated |
-| S3 | F002: repair the fridge (14 days after the step only) | 40.5 | 23.4 (14.8–31.9) | 11.54 | 11.16 | 0.77 | baseline observed; repaired level = pre-fault level |
+| S3 | F002: repair the fridge (**14-day window**, 15–28 Oct, 332 observed h) | 40.5 | 23.4 (23.0–23.8) | 11.54 | 11.16 | 0.77 | baseline observed; repaired level = pre-fault level |
 | S4 | All flats: PCs/consoles off 00–06 h (10 W allowance, 50 % adoption) | 86.0 | 36.5 (35.5–37.3) | 10.32 | 17.42 | 1.16 | **simulated** |
 | S5 | F004: electronics off 08–17 h (to peer level) | 15.3 | 14.3 (14.0–14.6) | 5.29 | 6.83 | 0.49 | baseline observed; counterfactual simulated |
 | S6 | Dishwasher delay-start (all flats) | 97.6 | 0 | **74.15** (63.5–89.2) | **0** | 1.60 | simulated; **hourly tariff only** |
 | S7 | Washing-machine delay (all flats) | 60.4 | 0 | 25.90 (16.1–37.0) | **0** | 0.65 | simulated; **hourly tariff only** |
 
-S1b and S1c overlap, so they must not be added together. S1 and S1c are defined so that they can be added: S1c counts only occupied hours.
+All rows cover the 28 observed days, except S3, which covers only the 14 days after the step; its interval resamples those 14 days only (an earlier version padded in 14 zero days and reported 14.8–31.9). S1b and S1c overlap, so they must not be added together. S1 and S1c are defined so that they can be added: S1c counts only occupied hours.
 
 ### 3.3 Assumptions and limitations per opportunity
 

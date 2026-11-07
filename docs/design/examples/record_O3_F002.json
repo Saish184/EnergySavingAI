@@ -1,0 +1,421 @@
+{
+  "record_id": "O3_F002_refrigerator_step:F002",
+  "schema_version": "1.0",
+  "opportunity_id": "O3_F002_refrigerator_step",
+  "flat_id": "F002",
+  "appliance": {
+    "appliance_id": "F002-A01",
+    "appliance_code": "A01",
+    "label_inferred": "Cold appliance (fridge/freezer)",
+    "display_label": "refrigerator-like circuit",
+    "identity_confidence": "medium-high",
+    "identity_status": "inferred"
+  },
+  "finding": {
+    "type": "equipment_anomaly",
+    "summary": "Consumption on the refrigerator-like circuit rose x2.36 from the hour starting 02:00 local on 15 Oct and stayed there for the remaining 14 days.",
+    "anomaly_status": "measured"
+  },
+  "evidence": {
+    "metrics": {
+      "pre_step_mean": {
+        "value": 0.0517,
+        "unit": "kWh/h",
+        "basis": "332 valid hours, 1-14 Oct"
+      },
+      "post_step_mean": {
+        "value": 0.122,
+        "unit": "kWh/h",
+        "basis": "332 valid hours, 15-28 Oct"
+      },
+      "ratio": {
+        "value": 2.36,
+        "unit": "x",
+        "basis": "post mean / pre mean"
+      },
+      "excess": {
+        "value": 70.4,
+        "unit": "W",
+        "basis": "post mean - pre mean"
+      },
+      "welch_t": {
+        "value": 90.0,
+        "unit": "",
+        "basis": "pre vs post hourly values"
+      }
+    },
+    "timestamps": {
+      "last_normal_hour_local": "2026-10-15T01:00:00+02:00",
+      "changepoint_local": "2026-10-15T02:00:00+02:00",
+      "changepoint_utc": "2026-10-15T00:00:00Z"
+    },
+    "comparison": {
+      "description": "mean of the other 7 flats' refrigerator-like circuits, before / after the step",
+      "value": [
+        0.0526,
+        0.0526
+      ],
+      "unit": "kWh/h"
+    },
+    "data_quality": {
+      "missing_slots": 8,
+      "flags": [
+        "4 missing hours after the step; excluded, not zero-filled",
+        "2 post-step readings converted from Wh"
+      ]
+    }
+  },
+  "contextual_baseline": {
+    "description": "Observed refrigerator-like consumption after the step (without following the advice).",
+    "period": {
+      "window_start_utc": "2026-10-15T00:00:00Z",
+      "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+      "window_hours": 336,
+      "window_days": 14.0,
+      "observed_hours_used": 332,
+      "label": "14 days observed (15 Oct-28 Oct 2026, UTC)"
+    },
+    "quantity": {
+      "kwh": 40.52,
+      "co2e_kg": 1.338,
+      "sek": {
+        "hourly_spot": 20.03,
+        "monthly_average_spot_proxy": 19.36,
+        "fixed_price": null,
+        "included_in_rent": 0,
+        "kwh_in_unpriced_hours": 0.138
+      }
+    }
+  },
+  "action": {
+    "text": "Student checks first: door closes and seals, fast-freeze/super-cool mode off, thermostat at normal setting (about 4 degC fridge / -18 degC freezer), vents not blocked, no heavy frost. If unchanged, report to the housing provider.",
+    "actor": "student_then_provider",
+    "constraints": {
+      "safety": [
+        "Never switch the fridge off to 'save' energy: food safety comes first."
+      ],
+      "comfort": [],
+      "equipment": [
+        "Appliances in student housing are often provider-owned; repairs typically need the provider (assumption: ownership not in data)."
+      ]
+    }
+  },
+  "confirmations": [
+    {
+      "question_id": "O3_identity",
+      "text": "Is circuit A01 your fridge or freezer?",
+      "kind": "identity",
+      "answer_type": "yes_no_unsure",
+      "required_for": [
+        "display_name"
+      ],
+      "status": "unanswered"
+    },
+    {
+      "question_id": "O3_change_on_15_oct",
+      "text": "Did anything change around 15 October, such as a new appliance, fast-freeze mode, or a door that doesn't close properly?",
+      "kind": "cause",
+      "answer_type": "choice",
+      "options": [
+        "new appliance on the same circuit",
+        "fast-freeze / setting changed",
+        "door or seal problem",
+        "nothing I know of",
+        "not sure"
+      ],
+      "required_for": [
+        "estimated_realized",
+        "scenario_choice"
+      ],
+      "status": "unanswered"
+    },
+    {
+      "question_id": "O3_reported",
+      "text": "Have you reported it to your housing provider?",
+      "kind": "habit",
+      "answer_type": "yes_no_unsure",
+      "required_for": [
+        "estimated_realized"
+      ],
+      "status": "unanswered"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "repair_after_days",
+      "label": "Days after the step until it is fixed",
+      "kind": "assumption",
+      "type": "integer",
+      "min": 0,
+      "max": 14,
+      "step": 1,
+      "default": 0,
+      "unit": "days",
+      "effect": "Excess counted from the step up to the repair date is not saved."
+    },
+    {
+      "name": "post_repair_level",
+      "label": "Consumption level after the fix",
+      "kind": "assumption",
+      "type": "enum",
+      "options": [
+        "pre_step_mean",
+        "peer_mean"
+      ],
+      "default": "pre_step_mean",
+      "unit": "kWh/h"
+    },
+    {
+      "name": "fix_fraction",
+      "label": "Share of the excess removed by the fix",
+      "kind": "assumption",
+      "type": "number",
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "default": 1.0,
+      "unit": "share"
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "repair_at_step_pre_mean",
+      "label": "Repaired at the step: excess over the pre-step mean avoided for the 14 observed post-step days (retrospective)",
+      "role": "central",
+      "type": "reduction",
+      "parameters": {
+        "repair_after_days": 0,
+        "post_repair_level": "pre_step_mean",
+        "fix_fraction": 1.0
+      },
+      "period": {
+        "window_start_utc": "2026-10-15T00:00:00Z",
+        "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+        "window_hours": 336,
+        "window_days": 14.0,
+        "observed_hours_used": 332,
+        "label": "14 days observed (15 Oct-28 Oct 2026, UTC)"
+      },
+      "baseline": {
+        "kwh": 40.52,
+        "co2e_kg": 1.338,
+        "sek": {
+          "hourly_spot": 20.03,
+          "monthly_average_spot_proxy": 19.36,
+          "fixed_price": null,
+          "included_in_rent": 0,
+          "kwh_in_unpriced_hours": 0.138
+        }
+      },
+      "intervention": {
+        "kwh": 17.16,
+        "co2e_kg": 0.567,
+        "sek": {
+          "hourly_spot": 8.49,
+          "monthly_average_spot_proxy": 8.2,
+          "fixed_price": null,
+          "included_in_rent": 0
+        }
+      },
+      "difference": {
+        "kwh": 23.36,
+        "co2e_kg": 0.771,
+        "sek": {
+          "hourly_spot": 11.54,
+          "monthly_average_spot_proxy": 11.16,
+          "fixed_price": null,
+          "included_in_rent": 0
+        }
+      },
+      "ci95": {
+        "kwh": [
+          22.97,
+          23.79
+        ],
+        "sek_hourly": [
+          9.98,
+          13.12
+        ]
+      },
+      "assumptions": [
+        "after repair, consumption returns to the pre-step mean (central) or peer mean (sensitivity)",
+        "repair at the moment of the step (retrospective) - real savings start only when it is actually fixed"
+      ],
+      "evidence": "simulated"
+    },
+    {
+      "scenario_id": "repair_at_step_peer_mean",
+      "label": "Repaired to the peer-fridge mean (0.0526 kWh/h) instead of F002's own pre-step mean",
+      "role": "sensitivity",
+      "type": "reduction",
+      "parameters": {
+        "repair_after_days": 0,
+        "post_repair_level": "peer_mean",
+        "fix_fraction": 1.0
+      },
+      "period": {
+        "window_start_utc": "2026-10-15T00:00:00Z",
+        "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+        "window_hours": 336,
+        "window_days": 14.0,
+        "observed_hours_used": 332,
+        "label": "14 days observed (15 Oct-28 Oct 2026, UTC)"
+      },
+      "baseline": {
+        "kwh": 40.52,
+        "co2e_kg": 1.338,
+        "sek": {
+          "hourly_spot": 20.03,
+          "monthly_average_spot_proxy": 19.36,
+          "fixed_price": null,
+          "included_in_rent": 0,
+          "kwh_in_unpriced_hours": 0.138
+        }
+      },
+      "intervention": {
+        "kwh": 17.46,
+        "co2e_kg": 0.577,
+        "sek": {
+          "hourly_spot": 8.64,
+          "monthly_average_spot_proxy": 8.34,
+          "fixed_price": null,
+          "included_in_rent": 0
+        }
+      },
+      "difference": {
+        "kwh": 23.06,
+        "co2e_kg": 0.761,
+        "sek": {
+          "hourly_spot": 11.39,
+          "monthly_average_spot_proxy": 11.02,
+          "fixed_price": null,
+          "included_in_rent": 0
+        }
+      },
+      "ci95": {
+        "kwh": [
+          22.66,
+          23.46
+        ],
+        "sek_hourly": [
+          9.8,
+          13.14
+        ]
+      },
+      "assumptions": [
+        "after repair, consumption returns to the pre-step mean (central) or peer mean (sensitivity)",
+        "repair at the moment of the step (retrospective) - real savings start only when it is actually fixed"
+      ],
+      "evidence": "simulated"
+    },
+    {
+      "scenario_id": "partial_fix_half",
+      "label": "Partial fix (e.g. door/seal adjusted, compressor still degraded): half the excess avoided",
+      "role": "lower",
+      "type": "reduction",
+      "parameters": {
+        "repair_after_days": 0,
+        "post_repair_level": "pre_step_mean",
+        "fix_fraction": 0.5
+      },
+      "period": {
+        "window_start_utc": "2026-10-15T00:00:00Z",
+        "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+        "window_hours": 336,
+        "window_days": 14.0,
+        "observed_hours_used": 332,
+        "label": "14 days observed (15 Oct-28 Oct 2026, UTC)"
+      },
+      "baseline": {
+        "kwh": 40.52,
+        "co2e_kg": 1.338,
+        "sek": {
+          "hourly_spot": 20.03,
+          "monthly_average_spot_proxy": 19.36,
+          "fixed_price": null,
+          "included_in_rent": 0,
+          "kwh_in_unpriced_hours": 0.138
+        }
+      },
+      "intervention": {
+        "kwh": 28.84,
+        "co2e_kg": 0.952,
+        "sek": {
+          "hourly_spot": 14.26,
+          "monthly_average_spot_proxy": 13.78,
+          "fixed_price": null,
+          "included_in_rent": 0
+        }
+      },
+      "difference": {
+        "kwh": 11.68,
+        "co2e_kg": 0.386,
+        "sek": {
+          "hourly_spot": 5.77,
+          "monthly_average_spot_proxy": 5.58,
+          "fixed_price": null,
+          "included_in_rent": 0
+        }
+      },
+      "ci95": {
+        "kwh": [
+          11.47,
+          11.89
+        ],
+        "sek_hourly": [
+          4.98,
+          6.58
+        ]
+      },
+      "assumptions": [
+        "after repair, consumption returns to the pre-step mean (central) or peer mean (sensitivity)",
+        "repair at the moment of the step (retrospective) - real savings start only when it is actually fixed"
+      ],
+      "evidence": "simulated"
+    }
+  ],
+  "default_scenario_id": "repair_at_step_pre_mean",
+  "tariff": {
+    "reduction_valued_on": [
+      "hourly_spot",
+      "monthly_average_spot",
+      "fixed_price",
+      "included_in_rent"
+    ],
+    "shift_valued_on": []
+  },
+  "evidence_classification": {
+    "consumption": "measured",
+    "pattern": "measured",
+    "appliance_identity": "inferred",
+    "avoidability": "hypothetical",
+    "savings": "simulated",
+    "tariff": "unknown"
+  },
+  "waste_status": "unconfirmed",
+  "verification_status": "not_verified",
+  "statistical_confidence": "very high that the step is real",
+  "action_feasibility": "medium: student can check settings; repair depends on the provider",
+  "recommendation_status": "supported_by_data_as_alert",
+  "rank_positions": {
+    "evidence": 1,
+    "actionability": 5
+  },
+  "claims": {
+    "may_say": [
+      "Your fridge-like circuit has used about 2.4x its normal energy since 2026-10-15; that pattern usually indicates a setting or fault."
+    ],
+    "must_confirm": [
+      "Did anything change on 15 October (new appliance, fast-freeze, door problem)?"
+    ],
+    "must_not_say": [
+      "That the fridge is definitely broken.",
+      "To turn the fridge off."
+    ]
+  },
+  "provenance": {
+    "opportunities_json_sha256": "5ac250ccc65c5bed551a5b4233a95a4113be5aabc2975df37f23a46e15bd18a5",
+    "analytical_table_sha256": "ff9ebfa589739e44521964892a02da3a12d55d01f31993dbb974a40143baee81",
+    "engine_version": "design-example (values from opportunities.json v1.0)"
+  }
+}

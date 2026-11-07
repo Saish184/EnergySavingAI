@@ -52,15 +52,32 @@ clean_summary = json.loads((PROCESSED / "cleaning_summary.json").read_text())
 
 
 # ---------------------------------------------------------------------------- valuation helpers
-def boot(daily: pd.Series, seed_offset: int = 0) -> list[float]:
+FULL = (0, 672)
+
+
+def period(window: tuple[int, int], observed_hours: int | None = None) -> dict:
+    """Explicit time label for a scenario: UTC window [start, end) in hour indices."""
+    a, b = window
+    t0 = pd.Timestamp("2026-10-01T00:00:00Z")
+    return {"window_start_utc": (t0 + pd.Timedelta(hours=a)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "window_end_utc_exclusive": (t0 + pd.Timedelta(hours=b)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "window_hours": b - a, "window_days": round((b - a) / 24, 2),
+            "observed_hours_used": observed_hours,
+            "label": f"{(b - a) / 24:g} days observed ({(t0 + pd.Timedelta(hours=a)).strftime('%d %b')}"
+                     f"-{(t0 + pd.Timedelta(hours=b - 1)).strftime('%d %b %Y')}, UTC)"}
+
+
+def boot(daily: pd.Series, seed_offset: int = 0, window: tuple[int, int] = FULL) -> list[float]:
+    """95 % CI of the window total: resample the window's days only (no zero-padding outside it)."""
     rng = np.random.default_rng(SEED + seed_offset)
-    v = daily.reindex(range(28), fill_value=0.0).to_numpy()
-    sims = rng.choice(v, size=(N_BOOT, 28), replace=True).sum(axis=1)
+    days = list(range(window[0] // 24, -(-window[1] // 24)))
+    v = daily.reindex(days, fill_value=0.0).to_numpy()
+    sims = rng.choice(v, size=(N_BOOT, len(days)), replace=True).sum(axis=1)
     return [r(np.percentile(sims, 2.5)), r(np.percentile(sims, 97.5))]
 
 
 def value_reduction(hour_idx: pd.Series, kwh: pd.Series, label: str, role: str, tariff_note: str | None = None,
-                    seed_offset: int = 0) -> dict:
+                    seed_offset: int = 0, window: tuple[int, int] = FULL, observed_hours: int | None = None) -> dict:
     """kWh avoided in the given hours. Missing prices -> that hour's SEK is excluded (reported)."""
     d = pd.DataFrame({"h": hour_idx.to_numpy(), "kwh": kwh.to_numpy()})
     d["spot"] = d.h.map(hours.spot_sek_per_kwh)
@@ -70,12 +87,13 @@ def value_reduction(hour_idx: pd.Series, kwh: pd.Series, label: str, role: str, 
     d["co2"] = d.kwh * d.carbon / 1000
     return {
         "label": label, "role": role, "type": "reduction",
+        "period": period(window, observed_hours if observed_hours is not None else int(len(d))),
         "kwh": r(d.kwh.sum()), "co2e_kg": r(d.co2.sum(), 3),
         "value_spot_hourly_sek": r(d.sek.sum()),
         "value_spot_timeavg_sek": r(d.kwh.sum() * SPOT_AVG),
         "kwh_in_unpriced_hours": r(d.loc[d.spot.isna(), "kwh"].sum(), 3),
-        "ci95_kwh": boot(d.groupby("day").kwh.sum(), seed_offset),
-        "ci95_value_spot_hourly_sek": boot(d.groupby("day").sek.sum(), seed_offset + 1),
+        "ci95_kwh": boot(d.groupby("day").kwh.sum(), seed_offset, window),
+        "ci95_value_spot_hourly_sek": boot(d.groupby("day").sek.sum(), seed_offset + 1, window),
         "tariff_applicability": tariff_note or (
             "kWh and CO2e change on any tariff. SEK: hourly spot contract -> value_spot_hourly_sek; "
             "monthly-average spot -> approx. value_spot_timeavg_sek; fixed price -> kWh x own price; "
@@ -93,7 +111,7 @@ def value_shift(ev: pd.DataFrame, dest: pd.Series, label: str, role: str, seed_o
     d["co2"] = d.kwh * (c0 - c1) / 1000
     d["day"] = d.h0 // 24
     return {
-        "label": label, "role": role, "type": "load_shift",
+        "label": label, "role": role, "type": "load_shift", "period": period(FULL, int(len(d))),
         "kwh": 0.0, "kwh_moved": r(d.kwh.sum()), "events": int(len(d)),
         "events_not_valued_missing_price": int((~valid).sum()),
         "co2e_kg": r(d.co2.sum(), 3),
@@ -241,9 +259,9 @@ unk = h7[h7.occupancy_missing]
 heated_empty = emp[emp.energy_kwh > 0]
 o1_scen = [
     value_reduction(emp.loc[emp.run_len >= 2, "hour_idx"], emp.loc[emp.run_len >= 2, "energy_kwh"],
-                    "Manual habit: heater off for absences of 2 h or more", "central", seed_offset=10),
+                    "Manual habit: heater off for absences of 2 h or more", "central", seed_offset=10, observed_hours=int((emp.run_len >= 2).sum())),
     value_reduction(emp.hour_idx, emp.energy_kwh.fillna(0),
-                    "Automated presence/occupancy control: off in every unoccupied hour", "upper_measured", seed_offset=12),
+                    "Automated presence/occupancy control: off in every unoccupied hour", "upper_measured", seed_offset=12, observed_hours=int(emp.energy_kwh.notna().sum())),
     value_reduction(emp.loc[emp.run_len >= 3, "hour_idx"], emp.loc[emp.run_len >= 3, "energy_kwh"],
                     "Conservative: only absences of 3 h or more", "lower", seed_offset=14),
     value_reduction(pd.concat([emp.hour_idx, unk.hour_idx]), pd.concat([emp.energy_kwh, unk.energy_kwh]).fillna(0),
@@ -267,7 +285,23 @@ OPP.append({
         "first_and_last_unoccupied_heating": [heated_empty.timestamp_local.iloc[0], heated_empty.timestamp_local.iloc[-1]],
         "heater_model_check": "hourly kWh = 0.12 x (12.0 - outdoor degC), residual sd 0.003 kWh - heater output depends on weather only, not on presence",
         "indoor_temp_mean_unoccupied_vs_occupied_c": [r(emp.indoor_temp_c.mean()), r(h7[h7.occupants_home > 0].indoor_temp_c.mean())],
+        "occupancy_denominators": {fl: {
+            "hours_total": int(len(d)), "occupancy_known": int(d.occupants_home.notna().sum()),
+            "occupancy_unknown": int(d.occupancy_missing.sum()), "unoccupied": int((d.occupants_home == 0).sum()),
+            "unoccupied_heater_reading_valid": int(((d.occupants_home == 0) & d.energy_kwh.notna()).sum()),
+            "unoccupied_heater_on": int(((d.occupants_home == 0) & (d.energy_kwh > 0)).sum()),
+            "unoccupied_outdoor_below_12c": int(((d.occupants_home == 0) & (d.outdoor_temp_c < 12)).sum()),
+            "unoccupied_outdoor_unknown": int(((d.occupants_home == 0) & d.outdoor_temp_missing).sum()),
+            "unoccupied_cold_heater_reading_valid": int(((d.occupants_home == 0) & (d.outdoor_temp_c < 12) & d.energy_kwh.notna()).sum()),
+            "unoccupied_cold_heater_off": int(((d.occupants_home == 0) & (d.outdoor_temp_c < 12) & (d.energy_kwh == 0)).sum()),
+        } for fl, d in (("F007", h7), ("F001", h1))},
+        "denominator_note": ("Each count names its base. 'Unoccupied' = occupants_home == 0 among hours with known occupancy; "
+                             "hours with unknown occupancy are never counted as unoccupied; a missing heater reading is never counted as 'off'. "
+                             "F007: 64 unoccupied, 56 with heater on (= 55 cold hours with known outdoor temperature + 1 hour with unknown outdoor temperature); "
+                             "the 8 others were >= 12 degC so the weather-driven heater was off anyway. "
+                             "F001: 142 unoccupied, 141 with a valid heater reading, all 0 kWh; of the 124 cold ones, 123 have a valid reading."),
         "comparator_F001": {"unoccupied_hours": int((h1.occupants_home == 0).sum()),
+                            "unoccupied_hours_valid_heater_reading": int(((h1.occupants_home == 0) & h1.energy_kwh.notna()).sum()),
                             "heater_on_in_unoccupied_hours": int(((h1.occupants_home == 0) & (h1.energy_kwh > 0)).sum()),
                             "occupied_cold_hours_heater_off": int(((h1.occupants_home > 0) & (h1.energy_kwh == 0) & (h1.outdoor_temp_c < 12)).sum()),
                             "note": "F001's heater is off in every unoccupied hour and on whenever occupied and <12 degC"},
@@ -282,7 +316,7 @@ OPP.append({
     "anomaly_vs_waste": {
         "demonstrated": [
             f"The heater delivered {r(emp.energy_kwh.sum())} kWh in {len(heated_empty)} hours that the occupancy estimate marks as empty.",
-            "In the same building conditions F001 never heats an empty flat (0 of 142 hours).",
+            "F001 never heats an empty flat: 0 kWh in all 141 unoccupied hours with a valid heater reading (142 unoccupied, 1 reading missing).",
             "Heater output follows outdoor temperature only (r = -1.00), so it is not switched by anyone in F007.",
         ],
         "hypotheses": [
@@ -414,13 +448,13 @@ excess_rate = float(post.mean() - pre.mean())
 daily_post = post_rows.assign(day=post_rows.hour_idx // 24).groupby("day").energy_kwh.mean()
 o3_scen = [
     value_reduction(post_rows.hour_idx, (post_rows.energy_kwh - pre.mean()).clip(lower=0),
-                    "Repaired at the step: excess over the pre-step mean avoided for the 14 observed post-step days (retrospective)", "central", seed_offset=30),
+                    "Repaired at the step: excess over the pre-step mean avoided for the 14 observed post-step days (retrospective)", "central", seed_offset=30, window=(cp, 672), observed_hours=len(post_rows)),
     value_reduction(post_rows.hour_idx, (post_rows.energy_kwh - peer_a01.energy_kwh.mean()).clip(lower=0),
-                    "Repaired to the peer-fridge mean (0.0526 kWh/h) instead of F002's own pre-step mean", "sensitivity", seed_offset=32),
+                    "Repaired to the peer-fridge mean (0.0526 kWh/h) instead of F002's own pre-step mean", "sensitivity", seed_offset=32, window=(cp, 672), observed_hours=len(post_rows)),
     value_reduction(post_rows.hour_idx, (post_rows.energy_kwh - pre.mean()).clip(lower=0) * 0.5,
-                    "Partial fix (e.g. door/seal adjusted, compressor still degraded): half the excess avoided", "lower", seed_offset=34),
+                    "Partial fix (e.g. door/seal adjusted, compressor still degraded): half the excess avoided", "lower", seed_offset=34, window=(cp, 672), observed_hours=len(post_rows)),
 ]
-rate_value = value_reduction(post_rows.hour_idx, pd.Series(np.full(len(post_rows), excess_rate)), "rate", "rate")
+rate_value = value_reduction(post_rows.hour_idx, pd.Series(np.full(len(post_rows), excess_rate)), "rate", "rate", window=(cp, 672))
 OPP.append({
     "id": "O3_F002_refrigerator_step", "title": "F002: sudden, sustained x2.4 increase in refrigerator-like consumption",
     "flat_id": "F002", "appliance_code": "A01", "appliance_label_inferred": APPLIANCE_LABELS["A01"],
@@ -468,6 +502,8 @@ OPP.append({
     },
     "scenarios": o3_scen,
     "savings_rate_while_unrepaired": {"kwh_per_day": r(excess_rate * 24, 3), "w": r(excess_rate * 1000, 1),
+                                      "kwh_per_28_days_if_persistent": r(excess_rate * 672, 2),
+                                      "reconciliation": f"central kWh = excess rate x observed post-step hours = {excess_rate:.5f} x {len(post_rows)} = {excess_rate * len(post_rows):.2f}; window has 336 h, 4 missing",
                                       "co2e_kg_per_day_at_observed_post_step_factors": r(rate_value["co2e_kg"] / (len(post_rows) / 24), 4),
                                       "value_spot_hourly_sek_per_day_at_observed_post_step_prices": r(rate_value["value_spot_hourly_sek"] / (len(post_rows) / 24), 3),
                                       "note": "Each day of delay costs this much energy. Future prices differ; this is a rate, not a forecast."},
@@ -622,6 +658,21 @@ OPP.append({
                          "must_not_say": ["That this lowers your bill if you are on a fixed or monthly price, or if electricity is included in rent."]},
 })
 
+# ---------------------------------------------------------------- normalised evidence vocabulary (engine contract)
+EVIDENCE_ENUM = {"measured", "inferred", "hypothetical", "simulated", "unknown"}
+for o in OPP:
+    o["evidence_classification"] = {
+        "consumption": "measured",          # cleaned hourly kWh
+        "pattern": "measured",              # the anomaly / timing pattern itself
+        "appliance_identity": "inferred",   # label from load signature, needs student confirmation
+        "avoidability": "hypothetical",     # whether the kWh (or the price exposure) is avoidable
+        "savings": "simulated",             # counterfactual scenario outputs
+        "tariff": "unknown",                # no tariff data for any student
+    }
+    o["waste_status"] = "unconfirmed"       # becomes 'student_confirmed' only via the coach; never set by the engine
+    o["verification_status"] = "not_verified"  # requires post-intervention measurements
+    assert set(o["evidence_classification"].values()) <= EVIDENCE_ENUM
+
 # ============================================================================ 5. rankings (separate, no composite)
 def central(o):
     return next(s for s in o["scenarios"] if s["role"] == "central")
@@ -654,7 +705,7 @@ rank_kwh = sorted(OPP, key=lambda o: -central(o)["kwh"])
 rank_co2 = sorted(OPP, key=lambda o: -central(o)["co2e_kg"])
 rank_sek = sorted(OPP, key=lambda o: -central(o)["value_spot_hourly_sek"])
 rankings = {
-    "note": "Three separate orderings; no composite score. Impact uses each opportunity's CENTRAL scenario over the 28 observed days.",
+    "note": "Three separate orderings; no composite score. Impact uses each opportunity's CENTRAL scenario over its own stated period (28 days for all except O3: 14 post-step days).",
     "by_realistic_impact_kwh": [{"id": o["id"], "kwh": central(o)["kwh"], "scenario_range_kwh": rng(o, "kwh")} for o in rank_kwh],
     "comparability_note": ("O3's observed saving covers only the 14 post-step days; at the measured excess rate an unrepaired "
                            f"fault adds {r(excess_rate * 672)} kWh per 28 days (persistence assumption), which would rank it first on kWh. "
@@ -718,10 +769,10 @@ def fmt_ci(ci):
 
 
 def scen_table(o):
-    rows = ["| Scenario | Role | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |",
-            "|---|---|---:|---:|---:|---:|---:|"]
+    rows = ["| Scenario | Role | Period | kWh | kgCO2e | Spot value, hourly tariff (SEK) | 95 % CI (SEK) | Spot value, time-avg proxy (SEK) |",
+            "|---|---|---|---:|---:|---:|---:|---:|"]
     for s_ in o["scenarios"]:
-        rows.append(f"| {s_['label']} | {s_['role']} | {s_['kwh']:,.2f} | {s_['co2e_kg']:,.3f} | {s_['value_spot_hourly_sek']:,.2f} | "
+        rows.append(f"| {s_['label']} | {s_['role']} | {s_['period']['label']} | {s_['kwh']:,.2f} | {s_['co2e_kg']:,.3f} | {s_['value_spot_hourly_sek']:,.2f} | "
                     f"{fmt_ci(s_.get('ci95_value_spot_hourly_sek'))} | {s_['value_spot_timeavg_sek']:,.2f} |")
     return "\n".join(rows)
 
@@ -849,7 +900,7 @@ for o in OPP:
         "- Scenario assumptions: " + "; ".join(o["counterfactual"]["assumptions"]),
         f"- Formula: `{o['counterfactual']['formula']}`",
         "",
-        "**5. Conditional savings over the 28 observed days**",
+        "**5. Conditional savings (each row states its time period)**",
         "",
         scen_table(o),
         "",
@@ -864,7 +915,9 @@ for o in OPP:
         "",
         f"**7. Actionability**: `{o['actionability']['level']}` ({o['actionability']['actor']}). Steps: " + "; ".join(o["actionability"]["steps"]) + ".",
         "",
-        "**8. Evidence quality**: " + "; ".join(f"{k} = *{v}*" for k, v in o["evidence_quality"].items())
+        "**8. Evidence quality**: " + "; ".join(f"{k} = *{v}*" for k, v in o["evidence_classification"].items())
+        + f" (waste: {o['waste_status']}, verification: {o['verification_status']}). Detail: "
+        + "; ".join(f"{k} = {v}" for k, v in o["evidence_quality"].items())
         + f". Statistical confidence: {o['statistical_confidence']}. Action feasibility: {o['action_feasibility']}.",
         "",
         "Chatbot: may say: " + " / ".join(o["chatbot_guidance"]["can_say"]) + " Must confirm: " + " / ".join(o["chatbot_guidance"]["must_confirm"])

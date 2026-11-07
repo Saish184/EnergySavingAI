@@ -87,7 +87,8 @@ check("25 Oct local has 25 h, 29 Oct has 1 h",
       sum(x.date().isoformat() == "2026-10-25" for x in local) == 25 and sum(x.date().isoformat() == "2026-10-29" for x in local) == 1)
 
 # ---------------------------------------------------------------- O1
-o1 = [(h, kwh[("F007-A07", h)] or 0.0) for h in range(672) if occ[("F007", h)] == 0]
+o1 = [(h, kwh[("F007-A07", h)]) for h in range(672) if occ[("F007", h)] == 0]
+assert all(v is not None for _, v in o1), "F007 unoccupied hours unexpectedly contain missing heater readings"
 k, s, c = val(o1)
 u = scen("O1_F007_heating_unoccupied", "upper_measured")
 check("O1 upper (all unoccupied hours) kWh/SEK/CO2e independent", close(k, u["kwh"]) and close(s, u["value_spot_hourly_sek"]) and close(c, u["co2e_kg"], 0.002), (k, s, c))
@@ -96,12 +97,18 @@ runs, cur = [], [empty[0]]
 for h in empty[1:]:
     (cur.append(h) if h == cur[-1] + 1 else (runs.append(cur), cur := [h]))
 runs.append(cur)
-k2, s2, c2 = val([(h, kwh[("F007-A07", h)] or 0.0) for run in runs if len(run) >= 2 for h in run])
+k2, s2, c2 = val([(h, kwh[("F007-A07", h)]) for run in runs if len(run) >= 2 for h in run])
 cc = scen("O1_F007_heating_unoccupied", "central")
 check("O1 central (absences >= 2 h) independent", close(k2, cc["kwh"]) and close(s2, cc["value_spot_hourly_sek"]), (k2, s2))
 check("O1 episodes = 52", len(runs) == OPP["O1_F007_heating_unoccupied"]["observed_evidence"]["unoccupied_episodes"] == 52)
 f001 = [h for h in range(672) if occ[("F001", h)] == 0]
-check("O1 comparator: F001 heater 0 kWh in all unoccupied hours", all((kwh[("F001-A07", h)] or 0) == 0 for h in f001) and len(f001) == 142)
+f001_valid = [h for h in f001 if kwh[("F001-A07", h)] is not None]   # a missing reading is never 'off'
+check("O1 comparator: F001 0 kWh in all 141 unoccupied hours with a valid reading (142 unoccupied)",
+      len(f001) == 142 and len(f001_valid) == 141 and all(kwh[("F001-A07", h)] == 0 for h in f001_valid)
+      and OPP["O1_F007_heating_unoccupied"]["observed_evidence"]["comparator_F001"]["unoccupied_hours_valid_heater_reading"] == 141)
+check("O1 F007 denominators: 658 known, 64 unoccupied, 56 heater on",
+      sum(occ[("F007", h)] is not None for h in range(672)) == 658 and len(o1) == 64
+      and sum(1 for h, v in o1 if v > 0) == 56)
 
 # ---------------------------------------------------------------- O2
 vals5 = [(h, v) for h in range(672) if (v := kwh[("F005-A06", h)]) is not None]
@@ -121,6 +128,12 @@ k, s, c = val([(h, max(0.0, v - pm)) for h, v in post])
 cc = scen("O3_F002_refrigerator_step", "central")
 check("O3 changepoint at 2026-10-15T00:00Z", OPP["O3_F002_refrigerator_step"]["observed_evidence"]["changepoint_utc"] == "2026-10-15T00:00:00Z")
 check("O3 central kWh/SEK/CO2e independent", close(k, cc["kwh"]) and close(s, cc["value_spot_hourly_sek"]) and close(c, cc["co2e_kg"], 0.002), (k, s, c))
+
+check("O3 every scenario labelled 14 days / 336 h / 332 observed",
+      all(s_["period"]["window_hours"] == 336 and s_["period"]["observed_hours_used"] == 332 and s_["period"]["window_start_utc"] == "2026-10-15T00:00:00Z"
+          for s_ in OPP["O3_F002_refrigerator_step"]["scenarios"]))
+lo, hi = cc["ci95_kwh"]
+check("O3 CI is a 14-day CI (narrow, contains point, width < 5 % of point)", lo <= cc["kwh"] <= hi and (hi - lo) < 0.05 * cc["kwh"], (lo, hi))
 
 # ---------------------------------------------------------------- O4
 peer_med = {}

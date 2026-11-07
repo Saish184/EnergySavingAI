@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "energysavingai/contracts/1.0",
+  "title": "EnergySavingAI engine, calculator and coach data contracts",
+  "description": "Design contract v1.0 (not yet implemented). SavingsRecord is produced by the deterministic engine from reports/opportunities.json + data/processed/analytical_table.csv. CalculatorRequest/CalculatorResult are the only way any SEK/kWh/kgCO2e number reaches a user. CoachSessionState holds student answers; it never alters measured data.",
+  "$defs": {
+    "evidenceClass": {"enum": ["measured", "inferred", "hypothetical", "simulated", "unknown"]},
+    "tariffType": {"enum": ["hourly_spot", "monthly_average_spot", "fixed_price", "included_in_rent", "unknown"]},
+    "period": {
+      "type": "object",
+      "required": ["window_start_utc", "window_end_utc_exclusive", "window_hours", "observed_hours_used", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "window_start_utc": {"type": "string", "format": "date-time"},
+        "window_end_utc_exclusive": {"type": "string", "format": "date-time"},
+        "window_hours": {"type": "integer", "minimum": 1},
+        "window_days": {"type": "number"},
+        "observed_hours_used": {"type": "integer", "minimum": 0},
+        "label": {"type": "string", "description": "Human label, e.g. '14 days observed (15 Oct-28 Oct 2026, UTC)'. Must be shown next to every number."}
+      }
+    },
+    "money": {
+      "type": "object",
+      "description": "SEK values for the SPOT-ENERGY COMPONENT ONLY (excl. VAT, network fees, energy tax, markup, fixed fees). null = not computable for that tariff.",
+      "required": ["hourly_spot", "monthly_average_spot_proxy", "fixed_price", "included_in_rent"],
+      "additionalProperties": false,
+      "properties": {
+        "hourly_spot": {"type": ["number", "null"]},
+        "monthly_average_spot_proxy": {"type": ["number", "null"]},
+        "fixed_price": {"type": ["number", "null"], "description": "Only when the student supplied their price; never a default."},
+        "included_in_rent": {"const": 0},
+        "kwh_in_unpriced_hours": {"type": "number", "minimum": 0}
+      }
+    },
+    "quantity": {
+      "type": "object",
+      "required": ["kwh", "co2e_kg", "sek"],
+      "additionalProperties": false,
+      "properties": {
+        "kwh": {"type": "number"},
+        "co2e_kg": {"type": "number"},
+        "sek": {"$ref": "#/$defs/money"}
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "required": ["name", "label", "kind", "default", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "label": {"type": "string"},
+        "kind": {"enum": ["assumption", "student_input"], "description": "assumption = analyst-chosen scenario value; student_input = only the student can set it (adoption, tariff, constraints)."},
+        "type": {"enum": ["number", "integer", "boolean", "enum"]},
+        "min": {"type": "number"}, "max": {"type": "number"}, "step": {"type": "number"},
+        "options": {"type": "array"},
+        "default": {},
+        "unit": {"type": "string"},
+        "effect": {"type": "string"}
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["scenario_id", "label", "role", "type", "parameters", "period", "baseline", "intervention", "difference", "assumptions", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "scenario_id": {"type": "string"},
+        "label": {"type": "string"},
+        "role": {"enum": ["central", "lower", "upper_measured", "upper", "sensitivity", "upper_hypothetical"]},
+        "type": {"enum": ["reduction", "load_shift"]},
+        "parameters": {"type": "object"},
+        "period": {"$ref": "#/$defs/period"},
+        "baseline": {"$ref": "#/$defs/quantity", "description": "Without following the advice: observed values in the period (measured)."},
+        "intervention": {"$ref": "#/$defs/quantity", "description": "Following the advice: counterfactual (simulated)."},
+        "difference": {"$ref": "#/$defs/quantity", "description": "baseline - intervention (positive = saving)."},
+        "ci95": {"type": ["object", "null"], "description": "Day-block bootstrap over the period's days; presets only."},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "evidence": {"const": "simulated"}
+      }
+    },
+    "confirmation": {
+      "type": "object",
+      "required": ["question_id", "text", "kind", "required_for", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "question_id": {"type": "string"},
+        "text": {"type": "string"},
+        "kind": {"enum": ["identity", "habit", "cause", "tariff", "constraint", "adoption"]},
+        "answer_type": {"enum": ["yes_no_unsure", "choice", "number", "free_text"]},
+        "options": {"type": "array"},
+        "required_for": {"type": "array", "items": {"enum": ["display_name", "estimated_realized", "money_value", "ranking", "scenario_choice"]}},
+        "status": {"enum": ["unanswered", "confirmed", "rejected", "unsure"]},
+        "answer": {}
+      }
+    },
+    "savingsRecord": {
+      "type": "object",
+      "required": ["record_id", "schema_version", "opportunity_id", "flat_id", "appliance", "finding", "evidence", "contextual_baseline",
+                   "action", "confirmations", "parameters", "scenarios", "default_scenario_id", "tariff", "evidence_classification",
+                   "waste_status", "verification_status", "recommendation_status", "claims", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^O[1-9]_[A-Za-z0-9_]+:F[0-9]{3}$"},
+        "schema_version": {"const": "1.0"},
+        "opportunity_id": {"type": "string"},
+        "flat_id": {"type": "string", "pattern": "^F[0-9]{3}$"},
+        "appliance": {
+          "type": "object",
+          "required": ["appliance_id", "appliance_code", "label_inferred", "display_label", "identity_confidence", "identity_status"],
+          "additionalProperties": false,
+          "properties": {
+            "appliance_id": {"type": "string"},
+            "appliance_code": {"type": "string"},
+            "label_inferred": {"type": "string"},
+            "display_label": {"type": "string", "description": "'-like' wording until identity_status = student_confirmed."},
+            "identity_confidence": {"enum": ["high", "medium-high", "medium", "low-medium", "low"]},
+            "identity_status": {"enum": ["inferred", "student_confirmed", "student_rejected"]}
+          }
+        },
+        "finding": {
+          "type": "object",
+          "required": ["type", "summary", "anomaly_status"],
+          "additionalProperties": false,
+          "properties": {
+            "type": {"enum": ["equipment_anomaly", "persistent_anomaly", "behavioural_pattern", "timing_pattern"]},
+            "summary": {"type": "string"},
+            "anomaly_status": {"const": "measured"}
+          }
+        },
+        "evidence": {
+          "type": "object",
+          "required": ["metrics", "comparison", "data_quality"],
+          "properties": {
+            "metrics": {"type": "object", "additionalProperties": {"type": "object", "required": ["value", "unit", "basis"]}},
+            "timestamps": {"type": "object"},
+            "comparison": {"type": "object", "required": ["description", "value", "unit"]},
+            "data_quality": {"type": "object", "required": ["missing_slots", "flags"]}
+          }
+        },
+        "contextual_baseline": {
+          "type": "object",
+          "required": ["description", "period", "quantity"],
+          "additionalProperties": false,
+          "properties": {
+            "description": {"type": "string"},
+            "period": {"$ref": "#/$defs/period"},
+            "quantity": {"$ref": "#/$defs/quantity"}
+          }
+        },
+        "action": {
+          "type": "object",
+          "required": ["text", "actor", "constraints"],
+          "additionalProperties": false,
+          "properties": {
+            "text": {"type": "string"},
+            "actor": {"enum": ["student", "student_then_provider", "provider"]},
+            "constraints": {"type": "object", "properties": {"safety": {"type": "array"}, "comfort": {"type": "array"}, "equipment": {"type": "array"}}}
+          }
+        },
+        "confirmations": {"type": "array", "items": {"$ref": "#/$defs/confirmation"}},
+        "parameters": {"type": "array", "items": {"$ref": "#/$defs/parameter"}},
+        "scenarios": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/scenario"}},
+        "default_scenario_id": {"type": "string"},
+        "tariff": {
+          "type": "object",
+          "required": ["reduction_valued_on", "shift_valued_on"],
+          "properties": {
+            "reduction_valued_on": {"type": "array", "items": {"$ref": "#/$defs/tariffType"}},
+            "shift_valued_on": {"type": "array", "items": {"$ref": "#/$defs/tariffType"}}
+          }
+        },
+        "evidence_classification": {
+          "type": "object",
+          "required": ["consumption", "pattern", "appliance_identity", "avoidability", "savings", "tariff"],
+          "additionalProperties": {"$ref": "#/$defs/evidenceClass"},
+          "properties": {
+            "consumption": {"const": "measured"},
+            "pattern": {"const": "measured"},
+            "appliance_identity": {"enum": ["inferred", "measured"], "description": "measured only after the student confirms (then: student-reported)."},
+            "avoidability": {"enum": ["hypothetical", "inferred"]},
+            "savings": {"const": "simulated"},
+            "tariff": {"enum": ["unknown", "measured"]}
+          }
+        },
+        "waste_status": {"enum": ["unconfirmed", "student_confirmed", "student_rejected"]},
+        "verification_status": {"enum": ["not_verified", "awaiting_post_period_data", "verified"]},
+        "statistical_confidence": {"type": "string"},
+        "action_feasibility": {"type": "string"},
+        "recommendation_status": {"enum": ["supported_by_data_as_alert", "supported_by_data_conditional_on_tariff", "requires_student_confirmation", "illustrative_only"]},
+        "rank_positions": {"type": "object", "description": "Separate rank dimensions; never combined.", "properties": {
+          "impact_kwh": {"type": "integer"}, "impact_co2e": {"type": "integer"}, "spot_value_hourly": {"type": "integer"},
+          "evidence": {"type": "integer"}, "actionability": {"type": "integer"}}},
+        "claims": {
+          "type": "object",
+          "required": ["may_say", "must_confirm", "must_not_say"],
+          "properties": {"may_say": {"type": "array"}, "must_confirm": {"type": "array"}, "must_not_say": {"type": "array"}}
+        },
+        "provenance": {
+          "type": "object",
+          "required": ["opportunities_json_sha256", "analytical_table_sha256", "engine_version"],
+          "properties": {"opportunities_json_sha256": {"type": "string"}, "analytical_table_sha256": {"type": "string"}, "engine_version": {"type": "string"}}
+        }
+      }
+    },
+    "calculatorRequest": {
+      "type": "object",
+      "required": ["record_id", "tariff"],
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {"type": "string"},
+        "scenario_id": {"type": "string", "description": "Preset; mutually exclusive with parameters."},
+        "parameters": {"type": "object", "description": "Custom values, validated against the record's parameter ranges."},
+        "tariff": {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": {
+            "type": {"$ref": "#/$defs/tariffType"},
+            "fixed_price_sek_per_kwh": {"type": "number", "minimum": 0, "description": "Required when type = fixed_price."},
+            "per_kwh_adders_sek": {"type": "number", "minimum": 0, "description": "Optional, student-supplied (energy tax, transfer fee). Never defaulted by the engine; applies to kWh reductions only."}
+          }
+        },
+        "student_inputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "waste_confirmed": {"type": "boolean"},
+            "adoption_share": {"type": "number", "minimum": 0, "maximum": 1, "description": "Student's own estimate of how often they will follow the advice."}
+          }
+        }
+      }
+    },
+    "calculatorResult": {
+      "type": "object",
+      "required": ["record_id", "scenario_label", "period", "tariff_applied", "without_advice", "with_advice", "difference", "tiers", "assumptions", "labels", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {"type": "string"},
+        "scenario_label": {"type": "string"},
+        "parameters_used": {"type": "object"},
+        "period": {"$ref": "#/$defs/period"},
+        "tariff_applied": {"$ref": "#/$defs/tariffType"},
+        "without_advice": {"type": "object", "required": ["kwh", "co2e_kg", "sek"], "properties": {"kwh": {"type": "number"}, "co2e_kg": {"type": "number"}, "sek": {"type": ["number", "null"]}}},
+        "with_advice": {"type": "object", "required": ["kwh", "co2e_kg", "sek"], "properties": {"kwh": {"type": "number"}, "co2e_kg": {"type": "number"}, "sek": {"type": ["number", "null"]}}},
+        "difference": {"type": "object", "required": ["kwh", "co2e_kg", "sek"], "properties": {"kwh": {"type": "number"}, "co2e_kg": {"type": "number"}, "sek": {"type": ["number", "null"]}, "sek_if_hourly_spot": {"type": ["number", "null"]}}},
+        "sensitivity": {"type": ["object", "null"], "description": "Difference at the parameter range ends (low/high) for the parameter the user is varying."},
+        "tiers": {
+          "type": "object",
+          "required": ["potential", "estimated_realized", "verified"],
+          "additionalProperties": false,
+          "properties": {
+            "potential": {"type": "object", "required": ["kwh", "co2e_kg", "sek", "label"]},
+            "estimated_realized": {"type": ["object", "null"], "description": "Only when waste_confirmed = true AND adoption_share supplied; = potential x adoption_share."},
+            "estimated_realized_reason": {"type": "string"},
+            "verified": {"type": "null", "description": "Always null in v1: no post-intervention data exists."},
+            "verified_reason": {"type": "string"}
+          }
+        },
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "labels": {"type": "object", "required": ["money_component", "carbon_factor"]},
+        "provenance": {"type": "object"}
+      }
+    },
+    "coachSessionState": {
+      "type": "object",
+      "required": ["flat_id", "answers", "tariff", "preferences", "turn_ledger"],
+      "additionalProperties": false,
+      "properties": {
+        "flat_id": {"type": "string", "pattern": "^F[0-9]{3}$"},
+        "answers": {"type": "object", "additionalProperties": {"type": "object", "required": ["status", "answer"]}},
+        "tariff": {"type": "object", "required": ["type"], "properties": {"type": {"$ref": "#/$defs/tariffType"}, "fixed_price_sek_per_kwh": {"type": "number"}}},
+        "preferences": {
+          "type": "object",
+          "properties": {
+            "quiet_hours": {"type": ["array", "null"], "items": {"type": "integer"}},
+            "has_delay_start": {"type": ["boolean", "null"]},
+            "avoid_overnight_appliances": {"type": ["boolean", "null"]},
+            "comfort_priority": {"enum": ["high", "normal", null]},
+            "dismissed_records": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "turn_ledger": {"type": "array", "description": "Every tool call this turn with its numeric outputs; used by the grounding guard.", "items": {"type": "object", "required": ["tool", "input", "numbers"]}}
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@
     "data/processed/analytical_table.csv": "ff9ebfa589739e44521964892a02da3a12d55d01f31993dbb974a40143baee81",
     "analysis/common.py": "f2e78e7e791648708631c26a8a7afd0cdef66857faab04d741a42b96aefc5c9b",
     "analysis/clean_data.py": "bef0103147bb6b281064bf5443b80c5ab61eb73f722bde8f5b6dceabfcb2e818",
-    "analysis/opportunities.py": "b90b085b7c04c43871f4434399500442134050b9b685e3713e20670587147033"
+    "analysis/opportunities.py": "8c6fae1145eeb08b0e32821ea807a1cda473a639a836e67b7cc7f4d9538e00c2"
   },
   "original_dataset_sha256": {
     "energy_readings.csv": "766bfd5c4a54377412eaa6324710b9c9c6d1933ac22abaf6c3227548460eca17",
@@ -418,8 +418,36 @@
           22.5,
           22.5
         ],
+        "occupancy_denominators": {
+          "F007": {
+            "hours_total": 672,
+            "occupancy_known": 658,
+            "occupancy_unknown": 14,
+            "unoccupied": 64,
+            "unoccupied_heater_reading_valid": 64,
+            "unoccupied_heater_on": 56,
+            "unoccupied_outdoor_below_12c": 55,
+            "unoccupied_outdoor_unknown": 1,
+            "unoccupied_cold_heater_reading_valid": 55,
+            "unoccupied_cold_heater_off": 0
+          },
+          "F001": {
+            "hours_total": 672,
+            "occupancy_known": 656,
+            "occupancy_unknown": 16,
+            "unoccupied": 142,
+            "unoccupied_heater_reading_valid": 141,
+            "unoccupied_heater_on": 0,
+            "unoccupied_outdoor_below_12c": 124,
+            "unoccupied_outdoor_unknown": 0,
+            "unoccupied_cold_heater_reading_valid": 123,
+            "unoccupied_cold_heater_off": 123
+          }
+        },
+        "denominator_note": "Each count names its base. 'Unoccupied' = occupants_home == 0 among hours with known occupancy; hours with unknown occupancy are never counted as unoccupied; a missing heater reading is never counted as 'off'. F007: 64 unoccupied, 56 with heater on (= 55 cold hours with known outdoor temperature + 1 hour with unknown outdoor temperature); the 8 others were >= 12 degC so the weather-driven heater was off anyway. F001: 142 unoccupied, 141 with a valid heater reading, all 0 kWh; of the 124 cold ones, 123 have a valid reading.",
         "comparator_F001": {
           "unoccupied_hours": 142,
+          "unoccupied_hours_valid_heater_reading": 141,
           "heater_on_in_unoccupied_hours": 0,
           "occupied_cold_hours_heater_off": 0,
           "note": "F001's heater is off in every unoccupied hour and on whenever occupied and <12 degC"
@@ -436,7 +464,7 @@
       "anomaly_vs_waste": {
         "demonstrated": [
           "The heater delivered 23.27 kWh in 56 hours that the occupancy estimate marks as empty.",
-          "In the same building conditions F001 never heats an empty flat (0 of 142 hours).",
+          "F001 never heats an empty flat: 0 kWh in all 141 unoccupied hours with a valid heater reading (142 unoccupied, 1 reading missing).",
           "Heater output follows outdoor temperature only (r = -1.00), so it is not switched by anyone in F007."
         ],
         "hypotheses": [
@@ -480,6 +508,14 @@
           "label": "Manual habit: heater off for absences of 2 h or more",
           "role": "central",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 22,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 9.19,
           "co2e_kg": 0.375,
           "value_spot_hourly_sek": 5.65,
@@ -499,6 +535,14 @@
           "label": "Automated presence/occupancy control: off in every unoccupied hour",
           "role": "upper_measured",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 64,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 23.27,
           "co2e_kg": 0.972,
           "value_spot_hourly_sek": 15.31,
@@ -518,6 +562,14 @@
           "label": "Conservative: only absences of 3 h or more",
           "role": "lower",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 6,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 3.21,
           "co2e_kg": 0.128,
           "value_spot_hourly_sek": 1.9,
@@ -537,6 +589,14 @@
           "label": "Hypothetical upper bound: automated control AND all unknown-occupancy hours were in fact empty",
           "role": "upper_hypothetical",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 78,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 30.08,
           "co2e_kg": 1.231,
           "value_spot_hourly_sek": 19.0,
@@ -596,7 +656,17 @@
           "That this saves a specific amount on the bill without knowing the tariff.",
           "Annual savings."
         ]
-      }
+      },
+      "evidence_classification": {
+        "consumption": "measured",
+        "pattern": "measured",
+        "appliance_identity": "inferred",
+        "avoidability": "hypothetical",
+        "savings": "simulated",
+        "tariff": "unknown"
+      },
+      "waste_status": "unconfirmed",
+      "verification_status": "not_verified"
     },
     {
       "id": "O2_F005_elevated_base_load",
@@ -696,6 +766,14 @@
           "label": "Excess base load fully eliminated (device found and switched off)",
           "role": "upper_measured",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 661,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 62.79,
           "co2e_kg": 2.338,
           "value_spot_hourly_sek": 29.46,
@@ -715,6 +793,14 @@
           "label": "Half of the excess avoidable (e.g. device needed part-time or replaced by a lower-power one)",
           "role": "central",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 661,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 31.4,
           "co2e_kg": 1.169,
           "value_spot_hourly_sek": 14.73,
@@ -734,6 +820,14 @@
           "label": "Quarter of the excess avoidable",
           "role": "lower",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 661,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 15.7,
           "co2e_kg": 0.585,
           "value_spot_hourly_sek": 7.36,
@@ -791,7 +885,17 @@
           "That a specific device is to blame.",
           "That the full 63 kWh is guaranteed savings."
         ]
-      }
+      },
+      "evidence_classification": {
+        "consumption": "measured",
+        "pattern": "measured",
+        "appliance_identity": "inferred",
+        "avoidability": "hypothetical",
+        "savings": "simulated",
+        "tariff": "unknown"
+      },
+      "waste_status": "unconfirmed",
+      "verification_status": "not_verified"
     },
     {
       "id": "O3_F002_refrigerator_step",
@@ -946,18 +1050,26 @@
           "label": "Repaired at the step: excess over the pre-step mean avoided for the 14 observed post-step days (retrospective)",
           "role": "central",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-15T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 336,
+            "window_days": 14.0,
+            "observed_hours_used": 332,
+            "label": "14 days observed (15 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 23.36,
           "co2e_kg": 0.771,
           "value_spot_hourly_sek": 11.54,
           "value_spot_timeavg_sek": 11.16,
           "kwh_in_unpriced_hours": 0.086,
           "ci95_kwh": [
-            14.94,
-            32.04
+            22.97,
+            23.79
           ],
           "ci95_value_spot_hourly_sek": [
-            7.09,
-            15.83
+            9.98,
+            13.12
           ],
           "tariff_applicability": "kWh and CO2e change on any tariff. SEK: hourly spot contract -> value_spot_hourly_sek; monthly-average spot -> approx. value_spot_timeavg_sek; fixed price -> kWh x own price; electricity included in rent -> 0 SEK to the student."
         },
@@ -965,18 +1077,26 @@
           "label": "Repaired to the peer-fridge mean (0.0526 kWh/h) instead of F002's own pre-step mean",
           "role": "sensitivity",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-15T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 336,
+            "window_days": 14.0,
+            "observed_hours_used": 332,
+            "label": "14 days observed (15 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 23.06,
           "co2e_kg": 0.761,
           "value_spot_hourly_sek": 11.39,
           "value_spot_timeavg_sek": 11.02,
           "kwh_in_unpriced_hours": 0.085,
           "ci95_kwh": [
-            14.79,
-            31.39
+            22.66,
+            23.46
           ],
           "ci95_value_spot_hourly_sek": [
-            6.85,
-            15.92
+            9.8,
+            13.14
           ],
           "tariff_applicability": "kWh and CO2e change on any tariff. SEK: hourly spot contract -> value_spot_hourly_sek; monthly-average spot -> approx. value_spot_timeavg_sek; fixed price -> kWh x own price; electricity included in rent -> 0 SEK to the student."
         },
@@ -984,18 +1104,26 @@
           "label": "Partial fix (e.g. door/seal adjusted, compressor still degraded): half the excess avoided",
           "role": "lower",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-15T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 336,
+            "window_days": 14.0,
+            "observed_hours_used": 332,
+            "label": "14 days observed (15 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 11.68,
           "co2e_kg": 0.386,
           "value_spot_hourly_sek": 5.77,
           "value_spot_timeavg_sek": 5.58,
           "kwh_in_unpriced_hours": 0.043,
           "ci95_kwh": [
-            7.44,
-            15.97
+            11.47,
+            11.89
           ],
           "ci95_value_spot_hourly_sek": [
-            3.53,
-            8.03
+            4.98,
+            6.58
           ],
           "tariff_applicability": "kWh and CO2e change on any tariff. SEK: hourly spot contract -> value_spot_hourly_sek; monthly-average spot -> approx. value_spot_timeavg_sek; fixed price -> kWh x own price; electricity included in rent -> 0 SEK to the student."
         }
@@ -1003,6 +1131,8 @@
       "savings_rate_while_unrepaired": {
         "kwh_per_day": 1.689,
         "w": 70.4,
+        "kwh_per_28_days_if_persistent": 47.29,
+        "reconciliation": "central kWh = excess rate x observed post-step hours = 0.07037 x 332 = 23.36; window has 336 h, 4 missing",
         "co2e_kg_per_day_at_observed_post_step_factors": 0.0557,
         "value_spot_hourly_sek_per_day_at_observed_post_step_prices": 0.836,
         "note": "Each day of delay costs this much energy. Future prices differ; this is a rate, not a forecast."
@@ -1044,7 +1174,17 @@
           "That the fridge is definitely broken.",
           "To turn the fridge off."
         ]
-      }
+      },
+      "evidence_classification": {
+        "consumption": "measured",
+        "pattern": "measured",
+        "appliance_identity": "inferred",
+        "avoidability": "hypothetical",
+        "savings": "simulated",
+        "tariff": "unknown"
+      },
+      "waste_status": "unconfirmed",
+      "verification_status": "not_verified"
     },
     {
       "id": "O4_F004_daytime_electronics",
@@ -1178,6 +1318,14 @@
           "label": "Daytime (09-17 h) block reduced to the peer level (4 W)",
           "role": "central",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 220,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 14.3,
           "co2e_kg": 0.492,
           "value_spot_hourly_sek": 5.29,
@@ -1197,6 +1345,14 @@
           "label": "Only when nobody is home during 09-17 h",
           "role": "lower",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 88,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 5.72,
           "co2e_kg": 0.197,
           "value_spot_hourly_sek": 2.16,
@@ -1216,6 +1372,14 @@
           "label": "Every hour reduced to the peer hourly median (includes small evening/night differences)",
           "role": "upper_measured",
           "type": "reduction",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 664,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 14.58,
           "co2e_kg": 0.506,
           "value_spot_hourly_sek": 5.53,
@@ -1267,7 +1431,17 @@
         "must_not_say": [
           "That it is definitely a computer."
         ]
-      }
+      },
+      "evidence_classification": {
+        "consumption": "measured",
+        "pattern": "measured",
+        "appliance_identity": "inferred",
+        "avoidability": "hypothetical",
+        "savings": "simulated",
+        "tariff": "unknown"
+      },
+      "waste_status": "unconfirmed",
+      "verification_status": "not_verified"
     },
     {
       "id": "O5_dishwasher_price_timing",
@@ -1390,6 +1564,14 @@
           "label": "Start at 21:00 instead of 20:00 (1-h delay, before typical quiet hours)",
           "role": "central",
           "type": "load_shift",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 108,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 0.0,
           "kwh_moved": 97.63,
           "events": 108,
@@ -1409,6 +1591,14 @@
           "label": "Start at 22:00 (2-h delay)",
           "role": "sensitivity",
           "type": "load_shift",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 108,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 0.0,
           "kwh_moved": 97.63,
           "events": 108,
@@ -1428,6 +1618,14 @@
           "label": "Delay-start timer to 01:00 (overnight run)",
           "role": "sensitivity",
           "type": "load_shift",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 108,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 0.0,
           "kwh_moved": 97.63,
           "events": 108,
@@ -1447,6 +1645,14 @@
           "label": "Price-optimal hour before 07:00 using day-ahead prices",
           "role": "upper",
           "type": "load_shift",
+          "period": {
+            "window_start_utc": "2026-10-01T00:00:00Z",
+            "window_end_utc_exclusive": "2026-10-29T00:00:00Z",
+            "window_hours": 672,
+            "window_days": 28.0,
+            "observed_hours_used": 108,
+            "label": "28 days observed (01 Oct-28 Oct 2026, UTC)"
+          },
           "kwh": 0.0,
           "kwh_moved": 97.63,
           "events": 108,
@@ -1499,11 +1705,21 @@
         "must_not_say": [
           "That this lowers your bill if you are on a fixed or monthly price, or if electricity is included in rent."
         ]
-      }
+      },
+      "evidence_classification": {
+        "consumption": "measured",
+        "pattern": "measured",
+        "appliance_identity": "inferred",
+        "avoidability": "hypothetical",
+        "savings": "simulated",
+        "tariff": "unknown"
+      },
+      "waste_status": "unconfirmed",
+      "verification_status": "not_verified"
     }
   ],
   "rankings": {
-    "note": "Three separate orderings; no composite score. Impact uses each opportunity's CENTRAL scenario over the 28 observed days.",
+    "note": "Three separate orderings; no composite score. Impact uses each opportunity's CENTRAL scenario over its own stated period (28 days for all except O3: 14 post-step days).",
     "by_realistic_impact_kwh": [
       {
         "id": "O2_F005_elevated_base_load",
