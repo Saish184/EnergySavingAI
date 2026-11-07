@@ -7,9 +7,10 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from .. import config as C
 from ..state import AppState
 from ..utils import jsonable
-from . import manager, prices, student
+from . import llm, manager, prices, student
 
 
 @asynccontextmanager
@@ -35,7 +36,7 @@ async def _bad_request(_: Request, exc: ValueError):
 @app.get("/health")
 def health(request: Request):
     s = request.app.state.engine
-    return jsonable({"ok": True, "data_source": s.quality["data_source"], "computed_seconds": s.computed_seconds,
+    return jsonable({"ok": True, "demo_notice": C.DEMO_NOTICE, "data_source": s.quality["data_source"], "computed_seconds": s.computed_seconds,
                      "data_quality": s.quality, "flats": len(s.ds.flat_ids), "findings": len(s.findings)})
 
 
@@ -61,3 +62,4 @@ def recompute(request: Request):
 app.include_router(student.router)
 app.include_router(manager.router)
 app.include_router(prices.router)
+app.include_router(llm.router)

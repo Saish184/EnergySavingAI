@@ -1,9 +1,10 @@
 {
   "ok": true,
+  "demo_notice": "Synthetic-data demonstration only: no authentication (the X-Flat-Id header is a demo filter, not access control); do not use with real residents' data.",
   "data_source": "processed",
   "data_quality": {
     "data_source": "processed",
-    "path": "/home/user/EnergySavingAI/data/processed/analytical_table.csv",
+    "path": "C:\\CAREER 26-28\\HACKATHONS\\hackathon LNU\\EnergySavingAI\\data\\processed\\analytical_table.csv",
     "readings_missing_kwh": 592,
     "readings_rows": 37632,
     "prices_missing_spot_hours": 8,

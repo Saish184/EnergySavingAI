@@ -1,0 +1,19 @@
+{
+  "requested_provider": "template",
+  "provider": "template",
+  "llm_enabled": false,
+  "model": null,
+  "key_present": false,
+  "base_url": null,
+  "calls": 0,
+  "last_error": null,
+  "cached_texts": 2,
+  "background": {
+    "background_scheduled": 0,
+    "background_dropped": 0
+  },
+  "prompt_version": "v2",
+  "validator_version": "v2",
+  "phrases_version": "phrases-v2",
+  "demo_notice": "Synthetic-data demonstration only: no authentication (the X-Flat-Id header is a demo filter, not access control); do not use with real residents' data."
+}

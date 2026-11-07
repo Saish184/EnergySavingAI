@@ -4,7 +4,7 @@
 |---|---|---|---|
 | DETECTED | unusual pattern | unusual pattern | engine |
 | PLAUSIBLE | possible fault | consistent pattern | engine, only when the detector's stated criterion holds and the pattern lasts ≥ 3 days |
-| CONFIRMED | confirmed | confirmed | a person (the manager opens a work order) |
+| CONFIRMED | confirmed | confirmed | a person (technician outcome `fault_found: true`) |
 | REPAIRED | repaired, awaiting data | repaired, awaiting data | a person (work order → repaired) |
 | VERIFIED | saving measured | saving measured | verification only (≥ 7 days post-change data, 90 % interval > 0) |
 
@@ -41,7 +41,7 @@
 - Anything that comes from simulated post-repair data must show "simulated".
 - Per-resident values are labelled averages, never individual consumption.
 
-## LLM tips (`backend/app/services/tips.py`)
-- The LLM receives only the finding JSON. It may use only the numbers given and must keep the status wording.
-- It writes at most 2 sentences plus one "Action:" line.
-- If the output contains any number that isn't in the input, or the API call fails or is refused, the app uses the template text. There is no automatic model fallback.
+## LLM texts (`backend/app/llm/`)
+The LLM receives engine facts as `{PLACEHOLDERS}` and may not write digits. A validator enforces these rules before anything is shown; our own wording (`phrases.json`) is used otherwise. There is no automatic model fallback. Details are in [llm_integration.md](llm_integration.md).
+
+- `DISMISSED` ("checked, no fault found") is set only by the technician outcome (`fault_found: false`). Opening a work order does not set CONFIRMED.

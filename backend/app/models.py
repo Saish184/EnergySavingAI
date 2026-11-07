@@ -25,7 +25,8 @@ class WorkOrderCreate(BaseModel):
 
 
 class WorkOrderPatch(BaseModel):
-    status: Literal["sent", "repaired"]
+    status: Literal["sent", "repaired"] | None = None
+    fault_found: bool | None = Field(None, description="technician outcome: true -> CONFIRMED, false -> DISMISSED")
 
 
 class PostReading(BaseModel):

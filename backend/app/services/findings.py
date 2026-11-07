@@ -24,7 +24,7 @@ METHODS = {
 
 
 def _wording(a: dict) -> str:
-    if a["responsibility"] == "unknown" and a["status"] < claims.Status.CONFIRMED:
+    if a["responsibility"] == "unknown" and a["status"] in (claims.Status.DETECTED, claims.Status.PLAUSIBLE):
         return attribution.note("unknown")
     return claims.wording(a["status"], a["responsibility"])
 

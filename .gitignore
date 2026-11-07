@@ -221,5 +221,6 @@ __marimo__/
 
 # Flat Energy Coach
 node_modules/
-out/
+out/*
+!out/llm_cache.json
 data/mock/
