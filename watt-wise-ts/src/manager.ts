@@ -3,7 +3,7 @@ import type { Finding, Portfolio } from './api/contracts';
 import { byFinding, type WorkOrderView } from './api/workorders';
 import { findingCard } from './components/findings';
 import { textCard } from './components/textCard';
-import { unavailable } from './api/texts';
+import * as T from './api/texts';
 import { $, esc } from './dom';
 import * as F from './format';
 import { api, state } from './state';
@@ -80,19 +80,32 @@ function dataQuality(p: Portfolio): string {
   ]);
 }
 
+const PRIORITY_LABEL: Record<string, string> = {
+  inspect: 'Send a technician to check',
+  monitor: 'Monitor',
+  verify: 'Verify the saving',
+  none: 'No maintenance action',
+};
+
+function triageLine(f: Finding): string {
+  const t = f.triage;
+  if (!t) return '';
+  return `<p class="triage">${badge(t.maintenance ? 'hypothesis' : 'owner', PRIORITY_LABEL[t.priority] ?? t.priority)} <span class="note">${esc(t.reason)}</span></p>`;
+}
+
 function workOrderPanel(f: Finding, w: WorkOrderView | undefined, live: boolean): string {
-  if (!live) return `<div class="wo"><div class="subhead">Work order</div><p class="note">Work orders change data on the backend and need live mode.</p></div>`;
+  if (!live) return `<div class="wo"><div class="subhead">Work order</div><p class="note">Work orders change data on the backend, so they need live mode (start the backend and open the app with ?mode=live).</p></div>`;
   if (!w) {
-    return `<div class="wo"><div class="subhead">Work order</div><p class="note">Opening a work order records the manager's confirmation of this finding.</p>
+    return `<div class="wo"><div class="subhead">Work order</div><p class="note">Opening a work order does not confirm the fault. The technician's outcome decides.</p>
       <button class="btn inline" type="button" data-wo-create="${esc(f.id)}">Open work order</button><p class="form-status" role="status" aria-live="polite"></p></div>`;
   }
   const v = w.verification;
-  return `<div class="wo"><div class="subhead">Work order ${esc(w.id)}</div><p><strong>${esc(w.statusLabel)}</strong>${w.simulated ? ` ${badge('simulated', 'SIMULATED post-repair data')}` : ''}</p>
-    ${v ? `<p class="note">Verification: ${esc(v.status)}${v.saving_kwh != null ? `, saving ${esc(F.kwh(v.saving_kwh, 2))}` : ''}${v.reason ? ` (${esc(String(v.reason))})` : ''}</p>` : ''}
+  return `<div class="wo"><div class="subhead">Work order ${esc(w.id)}</div><p><strong>${esc(w.statusLabel)}</strong>${w.simulated ? ` ${badge('simulated', 'SIMULATED post-repair data')}` : ''}<br><span class="note">${esc(w.outcome)}</span></p>
+    ${v ? `<p class="note">Verification: ${esc(v.status)}${v.saving_kwh != null ? `, saving ${esc(F.kwh(v.saving_kwh, 2))} over ${esc(F.days(v.post_days))}` : ''}${v.reason ? ` (${esc(String(v.reason))})` : ''}</p>` : ''}
     <div class="row">${w.actions
-      .map((a) =>
+      .map((a, i) =>
         a.kind === 'patch'
-          ? `<button class="btn inline secondary" type="button" data-wo="${esc(w.id)}" data-wo-status="${esc(a.status)}">${esc(a.label)}</button>`
+          ? `<button class="btn inline ${a.tone === 'secondary' ? 'secondary' : ''}" type="button" data-wo="${esc(w.id)}" data-wo-action="${i}">${esc(a.label)}</button>`
           : `<button class="btn inline secondary" type="button" data-wo-verify="${esc(w.id)}">${esc(a.label)}</button>`,
       )
       .join('')}</div><p class="form-status" role="status" aria-live="polite"></p></div>`;
@@ -112,6 +125,7 @@ export function mountManager(root: HTMLElement): void {
   <section class="panel" aria-labelledby="m-h-over">
     <div class="panel-head"><h2 id="m-h-over">Portfolio</h2>${badge('measured', 'Measured')}</div>
     <div id="m-over"></div>
+    <div id="m-summary"></div>
   </section>
 
   <section class="panel" aria-labelledby="m-h-flats">
@@ -122,7 +136,6 @@ export function mountManager(root: HTMLElement): void {
 
   <h2 class="section-title" id="m-h-maint">Possible equipment issues</h2>
   <p class="lead">Findings the building manager is responsible for. “Possible fault” means a statistical test was met; it becomes confirmed only when someone checks it.</p>
-  ${textCard(unavailable('finding_summary', 'manager'))}
   <section class="cards" id="m-maint" aria-labelledby="m-h-maint"></section>
 
   <section class="panel" aria-labelledby="m-h-res">
@@ -159,13 +172,25 @@ export function mountManager(root: HTMLElement): void {
   })();
 
   const maint = $('#m-maint');
+  let views = new Map<string, WorkOrderView>();
+  void loadInto($('#m-summary'), 'the portfolio summary', () => A.portfolioSummary(), (t) => textCard(T.portfolioSummary(t)));
   const renderMaint = async () => {
     maint.innerHTML = loadingHtml('maintenance findings');
     try {
       const [fs, wos] = await Promise.all([A.portfolioFindings({ responsibility: 'manager' }), A.workorders()]);
       const map = byFinding(wos);
+      views = map;
       maint.innerHTML = fs.length
-        ? fs.map((f) => findingCard(f, { audience: 'manager', tariff: { type: 'hourly_spot' }, actionsHtml: workOrderPanel(f, map.get(f.id), live) })).join('')
+        ? fs
+            .map((f) =>
+              findingCard(f, {
+                audience: 'manager',
+                tariff: { type: 'hourly_spot' },
+                text: T.managerFinding(f.manager_text),
+                actionsHtml: triageLine(f) + workOrderPanel(f, map.get(f.id), live),
+              }),
+            )
+            .join('')
         : emptyHtml('No possible equipment issues were found.');
     } catch (e) {
       maint.innerHTML = errorHtml(e, 'maintenance findings');
@@ -194,14 +219,19 @@ export function mountManager(root: HTMLElement): void {
   );
 
   root.addEventListener('click', async (e) => {
-    const t = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-wo-create],[data-wo],[data-wo-verify]');
+    const t = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-wo-create],[data-wo-action],[data-wo-verify]');
     if (!t) return;
     const status = t.closest('.wo')?.querySelector<HTMLElement>('.form-status');
     t.disabled = true;
     if (status) status.textContent = 'Saving…';
     try {
       if (t.dataset.woCreate) await A.createWorkorder(t.dataset.woCreate, null);
-      else if (t.dataset.wo) await A.patchWorkorder(t.dataset.wo, t.dataset.woStatus ?? '');
+      else if (t.dataset.wo) {
+        const w = [...views.values()].find((x) => x.id === t.dataset.wo);
+        const a = w?.actions[Number(t.dataset.woAction)];
+        if (!a || a.kind !== 'patch') throw new Error('This action is no longer available. Reload the page.');
+        await A.patchWorkorder(t.dataset.wo, a.body);
+      }
       else if (t.dataset.woVerify) await A.verifyWorkorder(t.dataset.woVerify, true);
       await renderMaint();
     } catch (err) {

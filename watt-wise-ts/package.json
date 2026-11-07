@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && esbuild src/main.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js",
     "watch": "esbuild src/main.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js --watch",
     "serve": "esbuild src/main.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js --servedir=. --serve=5173",
-    "smoke": "node tests/smoke.mjs"
+    "smoke": "node tests/smoke.mjs",
+    "live-flows": "node tests/live_flows.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",

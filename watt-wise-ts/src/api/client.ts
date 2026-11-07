@@ -5,6 +5,10 @@
  * Failure policy: a failed call throws ApiError. Nothing here ever substitutes a value.
  */
 import type {
+  DigestText,
+  LlmStatus,
+  PortfolioSummaryText,
+  TextObject,
   Breakdown,
   Finding,
   FlatMeta,
@@ -53,15 +57,24 @@ export interface Api {
   flatNotifications(flatId: string): Promise<NotificationRaw[]>;
   scenario(flatId: string, req: ScenarioRequest): Promise<ScenarioResponse>;
   report(flatId: string, findingId: string, message: string | null): Promise<ReportRaw>;
+  digest(flatId: string): Promise<TextObject<DigestText> & { flat_id: string; horizon: string }>;
+  llmStatus(): Promise<LlmStatus>;
+  portfolioSummary(): Promise<TextObject<PortfolioSummaryText>>;
   // manager
   portfolio(): Promise<Portfolio>;
   portfolioFindings(filter?: { responsibility?: string; status?: string }): Promise<Finding[]>;
   workorders(): Promise<WorkOrderRaw[]>;
   createWorkorder(findingId: string, note: string | null): Promise<WorkOrderRaw>;
-  patchWorkorder(id: string, status: string): Promise<WorkOrderRaw>;
+  /** status: 'sent' | 'repaired'; fault_found: technician outcome (true -> CONFIRMED, false -> DISMISSED). */
+  patchWorkorder(id: string, body: WorkOrderPatch): Promise<WorkOrderRaw>;
   verifyWorkorder(id: string, simulate: boolean): Promise<VerifyResponse>;
   reports(): Promise<ReportRaw[]>;
   managerNotifications(): Promise<NotificationRaw[]>;
+}
+
+export interface WorkOrderPatch {
+  status?: 'sent' | 'repaired';
+  fault_found?: boolean;
 }
 
 type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
@@ -139,6 +152,9 @@ export class LiveApi implements Api {
   report(f: string, findingId: string, message: string | null) {
     return this.student<ReportRaw>(f, `/findings/${encodeURIComponent(findingId)}/report`, 'POST', { message });
   }
+  digest(f: string) { return this.student<TextObject<DigestText> & { flat_id: string; horizon: string }>(f, '/digest'); }
+  llmStatus() { return this.call<LlmStatus>('GET', '/llm/status'); }
+  portfolioSummary() { return this.call<TextObject<PortfolioSummaryText>>('GET', '/portfolio/summary'); }
   portfolio() { return this.call<Portfolio>('GET', '/portfolio'); }
   portfolioFindings(filter: { responsibility?: string; status?: string } = {}) {
     const q = new URLSearchParams();
@@ -151,8 +167,8 @@ export class LiveApi implements Api {
   createWorkorder(findingId: string, note: string | null) {
     return this.call<WorkOrderRaw>('POST', '/workorders', { finding_id: findingId, note });
   }
-  patchWorkorder(id: string, status: string) {
-    return this.call<WorkOrderRaw>('PATCH', `/workorders/${encodeURIComponent(id)}`, { status });
+  patchWorkorder(id: string, body: WorkOrderPatch) {
+    return this.call<WorkOrderRaw>('PATCH', `/workorders/${encodeURIComponent(id)}`, body);
   }
   verifyWorkorder(id: string, simulate: boolean) {
     return this.call<VerifyResponse>('POST', `/workorders/${encodeURIComponent(id)}/verify`, { simulate });

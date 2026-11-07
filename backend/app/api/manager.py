@@ -1,9 +1,10 @@
 """Manager endpoints: all flats."""
 from __future__ import annotations
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Query, Request
 
 from ..models import BusinessCaseInput, VerifyRequest, WorkOrderCreate, WorkOrderPatch
+from ..llm import service as LLM
 from ..services import business_case
 from ..utils import jsonable
 
@@ -16,9 +17,17 @@ def portfolio(request: Request):
 
 
 @router.get("/portfolio/findings")
-def portfolio_findings(request: Request, status: str | None = None, responsibility: str | None = None):
-    """Sorted by 28-day potential SEK if hourly spot (high first), then id."""
-    return jsonable(request.app.state.engine.portfolio_findings(status, responsibility))
+def portfolio_findings(request: Request, status: str | None = None, responsibility: str | None = None,
+                       texts: bool = Query(True)):
+    """Sorted by 28-day potential SEK if hourly spot (high first), then id. Each finding gets `triage`
+    (deterministic; behaviour is never maintenance) and `manager_text`."""
+    return jsonable(LLM.manager_findings(request.app.state.engine, status, responsibility, with_text=texts))
+
+
+@router.get("/portfolio/summary")
+def portfolio_summary(request: Request):
+    """Manager overview text built from /portfolio (performance, simulated potential, evidence quality, maintenance)."""
+    return jsonable(LLM.portfolio_summary(request.app.state.engine))
 
 
 @router.get("/reports")
@@ -38,13 +47,13 @@ def list_workorders(request: Request):
 
 @router.post("/workorders")
 def create_workorder(body: WorkOrderCreate, request: Request):
-    """Opening a work order counts as the manager CONFIRMING the finding."""
+    """Opening a work order does NOT confirm the finding; the technician outcome does (PATCH fault_found)."""
     return jsonable(request.app.state.engine.create_workorder(body.finding_id, body.note))
 
 
 @router.patch("/workorders/{wid}")
 def patch_workorder(wid: str, body: WorkOrderPatch, request: Request):
-    return jsonable(request.app.state.engine.patch_workorder(wid, body.status))
+    return jsonable(request.app.state.engine.patch_workorder(wid, body.status, body.fault_found))
 
 
 @router.post("/workorders/{wid}/verify")

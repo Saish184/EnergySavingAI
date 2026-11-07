@@ -53,6 +53,14 @@ await page.waitForSelector('#s-hours .bar');
 check('hourly chart has 24 local hours', (await page.$$('#s-hours .bar')).length === 24);
 check('daily chart has local dates incl. partial days', (await page.$$('#s-days .bar')).length === get('/flats/F002/profile').daily.length);
 
+// LLM / text layer (validated text from the backend; template wording offline)
+const ex = sc.explainer.output;
+const scoreText = await page.innerText('#s-score-text');
+check('score explanation connected (no "not connected")', scoreText.includes(ex.summary) && !/not connected/i.test(await page.innerText('#app')));
+check('text source is labelled', /Standard explanation|AI explanation/.test(scoreText));
+await page.waitForSelector('#s-digest .textcard');
+check('28-day digest shown', (await page.innerText('#s-digest')).includes(get('/flats/F002/digest').output.headline));
+
 // 2. fridge-like finding
 await page.waitForSelector('#finding-FS-F002-A01');
 const fs = get('/flats/F002/findings').find((f) => f.id === 'FS-F002-A01');
@@ -61,6 +69,7 @@ check('fridge finding: avoidable kWh', card.includes(`${n(fs.avoidable_28d.kwh, 
 check('fridge finding: 14-day window', card.includes('14 days'));
 check('fridge finding: SEK conditional on hourly spot', card.includes(`${n(fs.valuation.sek_if_hourly_spot, 2)} SEK if you pay hourly spot prices`));
 check('fridge finding: wording verbatim', card.includes(fs.wording));
+check('fridge finding: validated student explanation', card.includes(fs.student_text.output.explanation));
 check('no confidence percentages shown', !/confidence:\s*(medium|low)/i.test(await page.innerText('#app')));
 
 // 3. dishwasher scenario under hourly spot
@@ -94,8 +103,12 @@ check('portfolio kWh', mo.includes(`${n(pf.totals.kwh, 1)} kWh`), n(pf.totals.kw
 check('portfolio SEK', mo.includes(`${n(pf.totals.sek, 2)} SEK`), n(pf.totals.sek, 2));
 check('portfolio CO2e', mo.includes(`${n(pf.totals.co2_kg, 2)} kg CO₂e`), n(pf.totals.co2_kg, 2));
 check('portfolio potential (combined engine calc)', mo.includes(`${n(pf.potential.kwh, 1)} kWh`), n(pf.potential.kwh, 1));
+await page.waitForSelector('#m-summary .textcard');
+check('manager portfolio summary text', (await page.innerText('#m-summary')).includes(get('/portfolio/summary').output.headline));
 check('8 flats in comparison table', (await page.$$('#m-flats tbody tr')).length === 8);
 await page.waitForSelector('#m-maint .card');
+const mf = get('/portfolio/findings?responsibility=manager').find((f) => f.id === 'FS-F002-A01');
+check('maintenance: manager summary + triage', (await page.innerText('#finding-FS-F002-A01')).includes(mf.manager_text.output.suggested_check) && (await page.innerText('#finding-FS-F002-A01')).includes('Send a technician'));
 check('maintenance: F002 fridge-like finding listed', (await page.innerText('#m-maint')).includes('FS-F002-A01') || (await page.$('#finding-FS-F002-A01')) !== null);
 await page.waitForSelector('#m-res table');
 check('resident findings include F007 heater', (await page.innerText('#m-res')).includes('F007'));

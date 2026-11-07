@@ -102,8 +102,35 @@ PROJECTABLE_TYPES = {"fault_step_change", "base_load_outlier", "scheduled_block"
 VERIFY_MIN_DAYS = 7
 VERIFY_INTERVAL = (5, 95)            # 90% interval
 
-# LLM
-LLM_MODEL = "claude-sonnet-5-5"
+# ---------------------------------------------------------------- LLM communication layer (wording only, app/llm/)
+def env(name: str, default: str = "") -> str:
+    """Read a setting at call time (keys are never stored in module globals or logged)."""
+    return os.getenv(name, default).strip()
+
+
+# Provider: template (own wording, phrases.json, default) | gonka | anthropic. Missing key -> template.
+LLM_PROVIDER = os.getenv("FEC_LLM_PROVIDER", "template")
+LLM_MODEL = os.getenv("FEC_LLM_MODEL", "claude-sonnet-5-5")       # anthropic provider
+LLM_TIMEOUT_S = 20.0
+LLM_MAX_RETRIES = 1
+LLM_EFFORT = "low"
+LLM_MAX_TOKENS = 4096
+LLM_REPAIR_ATTEMPTS = 1              # re-ask once with the validator's failures
+LLM_BACKGROUND = os.getenv("FEC_LLM_BACKGROUND", "1") == "1"   # dashboard GETs never wait for a provider
+LLM_BACKGROUND_WORKERS = 2
+LLM_BACKGROUND_QUEUE_MAX = 200
+LLM_WORKERS = int(os.getenv("FEC_LLM_WORKERS", "4"))           # parallel calls for warm/export/evaluate
+LLM_CACHE_PATH = Path(os.getenv("FEC_LLM_CACHE", str(OUT_DIR / "llm_cache.json")))
+GONKA_BROKER_URL = os.getenv("GONKA_BROKER_URL", "https://api.gonkarouter.io/v1")
+GONKA_MODEL = os.getenv("GONKA_MODEL", "deepseek-ai/DeepSeek-V4-Flash-0731")
+GONKA_TIMEOUT_S = 30.0
+GONKA_RETRIES = 1                    # on network error / 5xx
+GONKA_MAX_TOKENS = 1500
+GONKA_TEMPERATURE = 0.3
+# Admin LLM operations (warm/regenerate) need X-Admin-Token == FEC_ADMIN_TOKEN; unset = disabled.
+ADMIN_RATE_LIMIT_PER_MIN = 5
+DEMO_NOTICE = ("Synthetic-data demonstration only: no authentication (the X-Flat-Id header is a demo filter, "
+               "not access control); do not use with real residents' data.")
 
 # Live prices
 LIVE_PRICE_URL = "https://www.elprisetjustnu.se/api/v1/prices/{y}/{m}-{d}_SE3.json"

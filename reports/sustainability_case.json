@@ -1,0 +1,937 @@
+{
+ "source": "engine (backend AppState) on data/processed/analytical_table.csv",
+ "references_hash": "a0b4475d31be9674",
+ "observed": {
+  "period": "2026-10-01..2026-10-28 (28 days, UTC)",
+  "flats": 8,
+  "residents": 25,
+  "kwh": 1904.5265,
+  "sek_spot": 1010.70941692,
+  "co2_kg": 73.061318689,
+  "by_flat": {
+   "F001": {
+    "kwh": 435.2399,
+    "sek_spot": 210.81156135,
+    "co2_kg": 15.853900946,
+    "residents": 2
+   },
+   "F002": {
+    "kwh": 173.3596,
+    "sek_spot": 99.640007,
+    "co2_kg": 6.9075089499999995,
+    "residents": 3
+   },
+   "F003": {
+    "kwh": 143.1454,
+    "sek_spot": 82.61042518,
+    "co2_kg": 5.7898698,
+    "residents": 4
+   },
+   "F004": {
+    "kwh": 148.1214,
+    "sek_spot": 80.19229517,
+    "co2_kg": 5.874951957,
+    "residents": 2
+   },
+   "F005": {
+    "kwh": 232.92880000000002,
+    "sek_spot": 135.48661402,
+    "co2_kg": 9.313436131,
+    "residents": 5
+   },
+   "F006": {
+    "kwh": 147.3919,
+    "sek_spot": 82.21268458,
+    "co2_kg": 5.887743705999999,
+    "residents": 3
+   },
+   "F007": {
+    "kwh": 491.4625,
+    "sek_spot": 243.59678895999997,
+    "co2_kg": 17.976323197,
+    "residents": 4
+   },
+   "F008": {
+    "kwh": 132.877,
+    "sek_spot": 76.15904066,
+    "co2_kg": 5.457584002,
+    "residents": 2
+   }
+  }
+ },
+ "interventions": [
+  {
+   "id": "BL-F005-A06",
+   "flat_id": "F005",
+   "title": "Always-on load above other flats",
+   "appliance": "lighting/standby-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "reduction",
+   "window_days": 28.0,
+   "kwh_avoided": 62.79499999999999,
+   "kwh_moved": 0.0,
+   "sek_by_tariff": {
+    "hourly_spot": 29.457799499999993,
+    "monthly_average_spot": 29.998883231174702,
+    "fixed_price": null,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 2.338160899999999,
+   "ci95_kwh": [
+    62.320000000000014,
+    63.27000000000001
+   ],
+   "ci95_sek_hourly": [
+    26.717737537499996,
+    32.2221399
+   ],
+   "scenario_range_kwh": [
+    15.69874999999999,
+    62.79499999999999
+   ],
+   "annual": {
+    "kwh": {
+     "value": 818.5776785714288,
+     "low": 813.6241071428574,
+     "high": 823.5312500000002
+    },
+    "sek": {
+     "value": 384.0034577678571,
+     "low": 352.8356172991072,
+     "high": 415.042932625
+    },
+    "co2_kg": {
+     "value": 30.479597446428574,
+     "low": 29.05402708169643,
+     "high": 31.855669248660725
+    }
+   },
+   "annual_reason": null
+  },
+  {
+   "id": "FS-F002-A01",
+   "flat_id": "F002",
+   "title": "Sudden lasting increase",
+   "appliance": "fridge-like (inferred)",
+   "owner": "building manager (equipment)",
+   "status": "PLAUSIBLE",
+   "wording": "possible fault",
+   "kind": "reduction",
+   "window_days": 14.0,
+   "kwh_avoided": 23.361500000000007,
+   "kwh_moved": 0.0,
+   "sek_by_tariff": {
+    "hourly_spot": 11.542859249337354,
+    "monthly_average_spot": 11.160425361972898,
+    "fixed_price": null,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.771382859096386,
+   "ci95_kwh": [
+    22.96328000753012,
+    23.764744111445783
+   ],
+   "ci95_sek_hourly": [
+    9.94801396452937,
+    13.11346305382455
+   ],
+   "scenario_range_kwh": [
+    5.755061141705369,
+    23.361500000000007
+   ],
+   "annual": {
+    "kwh": {
+     "value": 609.0676785714285,
+     "low": 600.5208105367899,
+     "high": 617.96963946321
+    },
+    "sek": {
+     "value": 300.9388304291523,
+     "low": 264.08476640480484,
+     "high": 336.6993243324011
+    },
+    "co2_kg": {
+     "value": 20.111053112155766,
+     "low": 18.977786771825627,
+     "high": 21.31314232814367
+    }
+   },
+   "annual_reason": null
+  },
+  {
+   "id": "PK-F001-A04",
+   "flat_id": "F001",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 13.596799999999998,
+   "sek_by_tariff": {
+    "hourly_spot": 9.85871302999999,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.23820361000000112,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    5.383982893749998,
+    15.780277112249994
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F007-A04",
+   "flat_id": "F007",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 12.21,
+   "sek_by_tariff": {
+    "hourly_spot": 8.698513899999995,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.21278228700000312,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    4.869912954249999,
+    13.535404705249993
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F005-A04",
+   "flat_id": "F005",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 12.0041,
+   "sek_by_tariff": {
+    "hourly_spot": 8.52799487,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.2068171069999991,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    4.7704223695,
+    13.271218695749997
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F003-A04",
+   "flat_id": "F003",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 11.150599999999999,
+   "sek_by_tariff": {
+    "hourly_spot": 7.804566289999997,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.19699552899999961,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    4.163714340999999,
+    12.230158929000002
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F005-A03",
+   "flat_id": "F005",
+   "title": "Runs in expensive peak hours",
+   "appliance": "washing-machine-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 9.439100000000002,
+   "sek_by_tariff": {
+    "hourly_spot": 6.6976507900000115,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.18185175800000053,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    3.2400768777499995,
+    11.606322763
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F002-A04",
+   "flat_id": "F002",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 12.939599999999999,
+   "sek_by_tariff": {
+    "hourly_spot": 6.477842140000007,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.21204988299999972,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    3.9351659109999995,
+    9.018473296749997
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F008-A04",
+   "flat_id": "F008",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 12.284799999999999,
+   "sek_by_tariff": {
+    "hourly_spot": 6.093271819999998,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.20270238600000035,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    3.67910744375,
+    8.471231371499995
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F004-A04",
+   "flat_id": "F004",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 12.0615,
+   "sek_by_tariff": {
+    "hourly_spot": 5.977342520000008,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.20457152299999937,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    3.6329936529999998,
+    8.38267089225
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F006-A04",
+   "flat_id": "F006",
+   "title": "Runs in expensive peak hours",
+   "appliance": "dishwasher-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 11.386699999999998,
+   "sek_by_tariff": {
+    "hourly_spot": 5.786709540000004,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.18230205500000007,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    3.4220385782499996,
+    8.227230894499998
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F003-A03",
+   "flat_id": "F003",
+   "title": "Runs in expensive peak hours",
+   "appliance": "washing-machine-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 7.801499999999999,
+   "sek_by_tariff": {
+    "hourly_spot": 5.7783953,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.15386092299999987,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    2.527562272,
+    9.803411869499998
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "HU-F007-A07",
+   "flat_id": "F007",
+   "title": "Heater-like use while nobody is home",
+   "appliance": "heater-like (inferred)",
+   "owner": "needs confirmation (heating)",
+   "status": "PLAUSIBLE",
+   "wording": "possible heating opportunity, needs confirmation",
+   "kind": "reduction",
+   "window_days": 28.0,
+   "kwh_avoided": 9.189099999999996,
+   "kwh_moved": 0.0,
+   "sek_by_tariff": {
+    "hourly_spot": 5.654145349999993,
+    "monthly_average_spot": 4.389883556009039,
+    "fixed_price": null,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.37482837800000013,
+   "ci95_kwh": [
+    3.890582500000001,
+    15.153397499999997
+   ],
+   "ci95_sek_hourly": [
+    1.6830564230000025,
+    10.322930636499999
+   ],
+   "scenario_range_kwh": [
+    2.4052500000000236,
+    23.27030000000002
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "SB-F004-A05",
+   "flat_id": "F004",
+   "title": "Device running at fixed hours, also when nobody is home",
+   "appliance": "electronics-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "reduction",
+   "window_days": 28.0,
+   "kwh_avoided": 14.300000000000011,
+   "kwh_moved": 0.0,
+   "sek_by_tariff": {
+    "hourly_spot": 5.2906619999999975,
+    "monthly_average_spot": 6.831499804216875,
+    "fixed_price": null,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.49239124999999984,
+   "ci95_kwh": [
+    13.974999999999994,
+    14.559999999999993
+   ],
+   "ci95_sek_hourly": [
+    4.8259550624999985,
+    5.7802112874999985
+   ],
+   "scenario_range_kwh": [
+    2.8600000000000136,
+    14.300000000000011
+   ],
+   "annual": {
+    "kwh": {
+     "value": 186.4107142857142,
+     "low": 183.0214285714285,
+     "high": 188.95267857142852
+    },
+    "sek": {
+     "value": 68.9675582142857,
+     "low": 63.62825543749999,
+     "high": 74.24636224107141
+    },
+    "co2_kg": {
+     "value": 6.418671651785713,
+     "low": 6.085358703125,
+     "high": 6.7424153758928576
+    }
+   },
+   "annual_reason": null
+  },
+  {
+   "id": "PK-F001-A03",
+   "flat_id": "F001",
+   "title": "Runs in expensive peak hours",
+   "appliance": "washing-machine-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 6.088400000000001,
+   "sek_by_tariff": {
+    "hourly_spot": 4.595818570000006,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.12639252700000014,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    1.8690692452499986,
+    8.465846041750003
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F008-A03",
+   "flat_id": "F008",
+   "title": "Runs in expensive peak hours",
+   "appliance": "washing-machine-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 6.6238,
+   "sek_by_tariff": {
+    "hourly_spot": 3.7039265399999977,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.12332944300000026,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    1.7324027029999995,
+    5.767621620749999
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  },
+  {
+   "id": "PK-F002-A03",
+   "flat_id": "F002",
+   "title": "Runs in expensive peak hours",
+   "appliance": "washing-machine-like (inferred)",
+   "owner": "residents (behaviour)",
+   "status": "PLAUSIBLE",
+   "wording": "consistent pattern",
+   "kind": "shift",
+   "window_days": 28.0,
+   "kwh_avoided": 0.0,
+   "kwh_moved": 6.3319,
+   "sek_by_tariff": {
+    "hourly_spot": 3.184756770000007,
+    "monthly_average_spot": 0.0,
+    "fixed_price": 0.0,
+    "included_in_rent": 0.0
+   },
+   "co2_kg": 0.09411755699999969,
+   "ci95_kwh": [
+    0.0,
+    0.0
+   ],
+   "ci95_sek_hourly": [
+    1.4629993827500007,
+    5.0393547365
+   ],
+   "scenario_range_kwh": [
+    0.0,
+    0.0
+   ],
+   "annual": null,
+   "annual_reason": "not extrapolated: heating depends on weather, timing on prices; only persistent equipment/base-load patterns are"
+  }
+ ],
+ "groups": {
+  "manager_equipment": {
+   "flats": [
+    "F002"
+   ],
+   "kwh": 23.361500000000007,
+   "sek_hourly_spot": 11.542859249337354,
+   "sek_monthly_average": 11.160425361972898,
+   "co2_kg": 0.771382859096386,
+   "overlap_kwh": 0.0
+  },
+  "resident_reductions": {
+   "flats": [
+    "F004",
+    "F005",
+    "F007"
+   ],
+   "kwh": 86.2841,
+   "sek_hourly_spot": 40.402606849999984,
+   "sek_monthly_average": 41.220266591400616,
+   "co2_kg": 3.205380527999999,
+   "overlap_kwh": 0.0
+  },
+  "resident_timing_shifts": {
+   "flats": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008"
+   ],
+   "kwh": 0.0,
+   "sek_hourly_spot": 83.18550207999999,
+   "sek_monthly_average": 0.0,
+   "co2_kg": 2.335976588000001,
+   "overlap_kwh": 0.0
+  },
+  "all": {
+   "flats": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008"
+   ],
+   "kwh": 109.6456,
+   "sek_hourly_spot": 135.13096817933734,
+   "sek_monthly_average": 52.380691953373514,
+   "co2_kg": 6.312739975096387,
+   "overlap_kwh": 0.0
+  }
+ },
+ "per_flat": {
+  "F001": {
+   "residents": 2,
+   "resident_controlled": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 14.454531599999996,
+    "co2_kg": 0.3645961369999995,
+    "sek_by_tariff": {
+     "hourly_spot": 14.454531599999996,
+     "monthly_average_spot": 0.0,
+     "fixed_price": 0.0,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 7.227265799999998,
+    "co2_kg": 0.18229806849999974
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  },
+  "F002": {
+   "residents": 3,
+   "resident_controlled": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 9.66259891,
+    "co2_kg": 0.3061674400000003,
+    "sek_by_tariff": {
+     "hourly_spot": 9.66259891,
+     "monthly_average_spot": 0.0,
+     "fixed_price": 0.0,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 3.220866303333333,
+    "co2_kg": 0.10205581333333343
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  },
+  "F003": {
+   "residents": 4,
+   "resident_controlled": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 13.582961589999996,
+    "co2_kg": 0.3508564519999995,
+    "sek_by_tariff": {
+     "hourly_spot": 13.582961589999996,
+     "monthly_average_spot": 0.0,
+     "fixed_price": 0.0,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 3.395740397499999,
+    "co2_kg": 0.08771411299999987
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  },
+  "F004": {
+   "residents": 2,
+   "resident_controlled": {
+    "kwh": 14.300000000000011,
+    "sek_hourly_spot": 11.268004520000005,
+    "co2_kg": 0.6969627730000001,
+    "sek_by_tariff": {
+     "hourly_spot": 11.268004520000005,
+     "monthly_average_spot": 6.831499804216875,
+     "fixed_price": null,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 7.150000000000006,
+    "sek_hourly_spot": 5.634002260000003,
+    "co2_kg": 0.34848138650000005
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  },
+  "F005": {
+   "residents": 5,
+   "resident_controlled": {
+    "kwh": 62.79499999999999,
+    "sek_hourly_spot": 44.683445160000005,
+    "co2_kg": 2.7268297649999997,
+    "sek_by_tariff": {
+     "hourly_spot": 44.683445160000005,
+     "monthly_average_spot": 29.998883231174702,
+     "fixed_price": null,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 12.558999999999997,
+    "sek_hourly_spot": 8.936689032,
+    "co2_kg": 0.5453659529999999
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  },
+  "F006": {
+   "residents": 3,
+   "resident_controlled": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 5.786709540000004,
+    "co2_kg": 0.18230205500000007,
+    "sek_by_tariff": {
+     "hourly_spot": 5.786709540000004,
+     "monthly_average_spot": 0.0,
+     "fixed_price": 0.0,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 1.9289031800000014,
+    "co2_kg": 0.06076735166666669
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  },
+  "F007": {
+   "residents": 4,
+   "resident_controlled": {
+    "kwh": 9.189099999999996,
+    "sek_hourly_spot": 14.352659249999988,
+    "co2_kg": 0.5876106650000033,
+    "sek_by_tariff": {
+     "hourly_spot": 14.352659249999988,
+     "monthly_average_spot": 4.389883556009039,
+     "fixed_price": null,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 2.297274999999999,
+    "sek_hourly_spot": 3.588164812499997,
+    "co2_kg": 0.1469026662500008
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  },
+  "F008": {
+   "residents": 2,
+   "resident_controlled": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 9.797198359999996,
+    "co2_kg": 0.3260318289999997,
+    "sek_by_tariff": {
+     "hourly_spot": 9.797198359999996,
+     "monthly_average_spot": 0.0,
+     "fixed_price": 0.0,
+     "included_in_rent": 0.0
+    },
+    "overlap_kwh": 0.0,
+    "window_days": 28.0
+   },
+   "per_resident_average": {
+    "kwh": 0.0,
+    "sek_hourly_spot": 4.898599179999998,
+    "co2_kg": 0.16301591449999986
+   },
+   "label": "average per resident of this flat's shared household action; not an individual saving"
+  }
+ },
+ "annual_supported": {
+  "ids": [
+   "BL-F005-A06",
+   "FS-F002-A01",
+   "SB-F004-A05"
+  ],
+  "kwh_central_sum": 1614.0560714285714,
+  "sek_central_sum": 753.9098464112951,
+  "co2_central_sum": 57.00932221037005,
+  "note": "sum of central projections for persistent patterns only; the per-item p5-p95 ranges are not additive"
+ }
+}

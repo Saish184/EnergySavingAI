@@ -1,5 +1,6 @@
 {
   "ok": true,
+  "demo_notice": "Synthetic-data demonstration only: no authentication (the X-Flat-Id header is a demo filter, not access control); do not use with real residents' data.",
   "data_source": "processed",
   "data_quality": {
     "data_source": "processed",

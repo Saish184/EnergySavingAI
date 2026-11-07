@@ -17,14 +17,17 @@ import os
 import shutil
 from pathlib import Path
 
-os.environ["ANTHROPIC_API_KEY"] = ""                       # deterministic template tips
+os.environ["ANTHROPIC_API_KEY"] = ""                       # never call a paid provider while recording
+os.environ["GONKA_BROKER_API_KEY"] = ""
+os.environ["FEC_LLM_PROVIDER"] = "template"                 # our validated wording (phrases.json): deterministic
+os.environ["FEC_LLM_BACKGROUND"] = "0"
 
 from fastapi.testclient import TestClient  # noqa: E402
 
 from app.api.main import app  # noqa: E402
 
 OUT = Path(__file__).resolve().parents[2] / "watt-wise-ts" / "fixtures"
-VOLATILE = {"computed_seconds", "seconds", "created", "at", "history", "path"}
+VOLATILE = {"computed_seconds", "seconds", "created", "at", "history", "path", "background", "last_error", "calls"}
 TARIFFS = ["unknown", "hourly_spot", "monthly_average_spot", "included_in_rent"]   # fixed_price needs a user price -> live only
 ADOPTION_VARIANTS = [0.5]
 
@@ -88,9 +91,9 @@ def main():
         flats = get("/flats")
         grid = get("/interventions")["parameters"]
         paths = ["/health", "/flats", "/references", "/interventions", "/portfolio", "/portfolio/findings",
-                 "/workorders", "/reports", "/notifications"]
+                 "/portfolio/summary", "/llm/status", "/workorders", "/reports", "/notifications"]
         for fl in [f["flat_id"] for f in flats]:
-            paths += [f"/flats/{fl}/{p}" for p in ("scores", "breakdown", "profile", "findings", "tips", "notifications")]
+            paths += [f"/flats/{fl}/{p}" for p in ("scores", "breakdown", "profile", "findings", "tips", "digest", "notifications")]
         for p in paths:
             index["get"][p] = save("get", p.strip("/").replace("/", "_") or "root", get(p))
         for resp in ("manager", "resident", "unknown"):

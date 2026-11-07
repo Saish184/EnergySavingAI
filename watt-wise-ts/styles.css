@@ -215,3 +215,7 @@ table.data.compact th,table.data.compact td{padding:6px 8px}
   dl.kv{grid-template-columns:1fr}
   .score-num{font-size:44px}
 }
+.textcard-title{font-weight:600;margin:2px 0}
+.textcard .question{background:#fff;border-radius:10px;padding:8px 10px}
+.textcard code{font-size:12px}
+.triage{margin:8px 0 0}

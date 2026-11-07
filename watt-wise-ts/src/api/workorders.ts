@@ -1,13 +1,15 @@
 /**
- * Work-order adapter. The backend owns the lifecycle; this file only maps its current statuses to labels and to the
- * actions its API accepts (mina: open -> sent -> repaired, then verification). Saish is reworking the lifecycle
- * (e.g. fault_found / dismissed): extend ACTIONS here; unknown statuses are shown verbatim with no actions,
- * so a new backend status never breaks the UI.
+ * Work-order adapter. The backend owns the lifecycle; this file maps its statuses to labels and to the requests its
+ * API accepts. Current backend (mina + saish-llm-integration):
+ *   open -> sent -> repaired -> verification;  technician outcome at open/sent:
+ *   fault_found=true -> finding CONFIRMED;  fault_found=false -> finding DISMISSED, work order closed_no_fault.
+ * Opening a work order does not confirm anything. Unknown statuses are shown verbatim with no actions.
  */
+import type { WorkOrderPatch } from './client';
 import type { WorkOrderRaw } from './contracts';
 
 export type WorkOrderAction =
-  | { kind: 'patch'; status: string; label: string }
+  | { kind: 'patch'; body: WorkOrderPatch; label: string; tone?: 'primary' | 'secondary' }
   | { kind: 'verify_simulated'; label: string };
 
 export interface WorkOrderView {
@@ -16,35 +18,53 @@ export interface WorkOrderView {
   flatId: string;
   status: string;
   statusLabel: string;
+  outcome: string;
   actions: WorkOrderAction[];
   verification: WorkOrderRaw['verification'];
   simulated: boolean;
 }
 
 const LABEL: Record<string, string> = {
-  open: 'Open',
+  open: 'Open: technician not yet sent',
   sent: 'Sent to technician',
   repaired: 'Repaired, waiting for post-repair data',
+  closed_no_fault: 'Closed: technician found no fault',
 };
 
-const ACTIONS: Record<string, WorkOrderAction[]> = {
-  open: [{ kind: 'patch', status: 'sent', label: 'Mark as sent to technician' }],
-  sent: [{ kind: 'patch', status: 'repaired', label: 'Mark as repaired' }],
-  repaired: [{ kind: 'verify_simulated', label: 'Run verification with SIMULATED post-repair data (demo)' }],
-};
+function outcomeActions(w: WorkOrderRaw): WorkOrderAction[] {
+  if (w.fault_found != null) return [];
+  return [
+    { kind: 'patch', body: { fault_found: true }, label: 'Technician: fault found' },
+    { kind: 'patch', body: { fault_found: false }, label: 'Technician: no fault found', tone: 'secondary' },
+  ];
+}
+
+export function actionsFor(w: WorkOrderRaw): WorkOrderAction[] {
+  if (w.verification) return [];
+  switch (w.status) {
+    case 'open':
+      return [{ kind: 'patch', body: { status: 'sent' }, label: 'Mark as sent to technician' }, ...outcomeActions(w)];
+    case 'sent':
+      return [...outcomeActions(w), { kind: 'patch', body: { status: 'repaired' }, label: 'Mark as repaired' }];
+    case 'repaired':
+      return [{ kind: 'verify_simulated', label: 'Verify with SIMULATED post-repair data (demo)' }];
+    default:
+      return [];
+  }
+}
 
 export function toView(w: WorkOrderRaw): WorkOrderView {
-  const verified = w.verification != null;
-  const simulated = Boolean(w.verification?.simulated);
+  const v = w.verification;
   return {
     id: w.id,
     findingId: w.finding_id,
     flatId: w.flat_id,
     status: w.status,
-    statusLabel: verified ? `${LABEL[w.status] ?? w.status} · verification ${w.verification?.status ?? ''}`.trim() : LABEL[w.status] ?? w.status,
-    actions: verified ? [] : ACTIONS[w.status] ?? [],
-    verification: w.verification,
-    simulated,
+    statusLabel: LABEL[w.status] ?? w.status,
+    outcome: w.fault_found === true ? 'Technician found a fault' : w.fault_found === false ? 'Technician found no fault' : 'No technician outcome yet',
+    actions: actionsFor(w),
+    verification: v,
+    simulated: Boolean(v?.simulated),
   };
 }
 

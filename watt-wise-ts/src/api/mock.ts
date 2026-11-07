@@ -7,6 +7,10 @@
 import type { Api } from './client';
 import { ApiError } from './client';
 import type {
+  DigestText,
+  LlmStatus,
+  PortfolioSummaryText,
+  TextObject,
   Breakdown,
   Finding,
   FlatMeta,
@@ -98,6 +102,9 @@ export class MockApi implements Api {
     return (await this.load(rel)) as ScenarioResponse;
   }
 
+  digest(f: string) { return this.get<TextObject<DigestText> & { flat_id: string; horizon: string }>(`/flats/${f}/digest`); }
+  llmStatus() { return this.get<LlmStatus>('/llm/status'); }
+  portfolioSummary() { return this.get<TextObject<PortfolioSummaryText>>('/portfolio/summary'); }
   portfolio() { return this.get<Portfolio>('/portfolio'); }
   portfolioFindings(filter: { responsibility?: string; status?: string } = {}) {
     if (filter.status) return Promise.reject(new ApiError('offline_unsupported', 'Status filters need live mode.'));

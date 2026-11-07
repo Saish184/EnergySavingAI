@@ -67,7 +67,10 @@ def test_manager_workflow_to_verified(c):
     w = c.post("/workorders", json={"finding_id": fid}).json()
     assert c.get("/portfolio/findings").json()[0]  # still serves
     f = next(x for x in c.get("/portfolio/findings").json() if x["id"] == fid)
-    assert f["status"] == "CONFIRMED"
+    assert f["status"] == "PLAUSIBLE"                     # opening a work order proves nothing
+    assert c.patch(f"/workorders/{w['id']}", json={"fault_found": True}).json()["fault_found"] is True
+    f = next(x for x in c.get("/portfolio/findings").json() if x["id"] == fid)
+    assert f["status"] == "CONFIRMED"                     # technician outcome confirms
     assert c.post(f"/workorders/{w['id']}/verify", json={"simulate": True}).status_code == 400  # not repaired yet
     assert c.patch(f"/workorders/{w['id']}", json={"status": "repaired"}).status_code == 400   # must be sent first
     assert c.patch(f"/workorders/{w['id']}", json={"status": "sent"}).json()["status"] == "sent"

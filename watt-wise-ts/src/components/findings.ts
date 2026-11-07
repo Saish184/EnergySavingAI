@@ -153,8 +153,7 @@ export function findingCard(f: Finding, o: CardOptions): string {
       f.assumed_type_is_assumption ? ' <span class="note">(type inferred from the load shape)</span>' : ''
     }<br>${esc(windowText(f))}</p>
     <p class="owner">${badge('owner', f.responsibility_note)}</p>
-    ${o.text ? textCard(o.text) : ''}
-    <div class="subhead">What you can do</div><p>${esc(NEXT_STEP[f.type] ?? '')}</p>
+    ${o.text && o.text.state === 'ok' ? textCard(o.text) : `<div class="subhead">What you can do</div><p>${esc(NEXT_STEP[f.type] ?? '')}</p>`}
     ${savingsBlock(f, o.tariff)}
     ${projectionBlock(f)}
     <p class="note">Score if fixed: ${scoreIfFixed(f, lenses)}. Counts as: ${esc(f.counts_as)}.</p>

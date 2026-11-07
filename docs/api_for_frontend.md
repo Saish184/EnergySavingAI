@@ -23,7 +23,10 @@ Send `X-Flat-Id: F00x`. If it doesn't match the path you get 403; this is a demo
 | GET | `/flats/{id}/findings` | finding cards (see below) | `GET_flats_F002_findings.json` |
 | POST | `/flats/{id}/findings/{fid}/report` | "report to manager", body `{"message": "..."}` | |
 | POST | `/flats/{id}/scenarios` | what-if calculator | `POST_flats_*_scenarios_*.json` |
-| GET | `/flats/{id}/tips` | short tips (LLM rewording; template fallback) | `GET_flats_F002_tips.json` |
+| GET | `/flats/{id}/tips` | short tips (validated LLM or our own wording) | `GET_flats_F002_tips.json` |
+| GET | `/flats/{id}/digest` | 28-day overview, 3 bullets | `GET_flats_F002_digest.json` |
+
+Text fields (`student_text`, `manager_text`, `explainer`, digest, summary) are validated and rendered by the backend; show `output` verbatim. See [llm_integration.md](llm_integration.md).
 | GET | `/flats/{id}/notifications` | | |
 | GET | `/prices/today?hourly_contract=true` | live SE3 prices (only shown for hourly contracts) | |
 
@@ -77,8 +80,9 @@ Show the resident lens to students. The apartment lens is "how the flat performs
 | GET | `/portfolio/findings?status=&responsibility=` | all findings, sorted by 28-day potential SEK | `GET_portfolio_findings_manager.json` |
 | GET | `/references` | frozen benchmarks (with hash) and what each detector found and why | `GET_references.json` |
 | GET | `/reports`, `/notifications`, `/workorders` | inbox lists | |
-| POST | `/workorders` | `{"finding_id": "FS-F002-A01"}` → the finding becomes CONFIRMED | |
-| PATCH | `/workorders/{id}` | `{"status": "sent" \| "repaired"}` | |
+| POST | `/workorders` | `{"finding_id": "FS-F002-A01"}`; the finding keeps its status (opening proves nothing) | |
+| PATCH | `/workorders/{id}` | `{"status": "sent" \| "repaired", "fault_found": true \| false}`: true → CONFIRMED, false → DISMISSED (not counted) | |
+| GET | `/portfolio/summary` | manager overview text | `GET_portfolio_summary.json` |
 | POST | `/workorders/{id}/verify` | `{"post_readings": [...]}` or `{"simulate": true}` (flagged `simulated`) | |
 | GET/POST | `/business-case/reference`, `/business-case` | business-case inputs (all explicit) | |
 | GET | `/health`, POST `/recompute` | data source and quality; reload | `GET_health.json` |

@@ -1,0 +1,108 @@
+{
+  "_readme": "Our own wording (no API). {PLACEHOLDERS} are engine facts (number + unit + period/tariff); [[keys]] are engine labels (no numbers). For each field the first variant whose placeholders all exist is used. Every rendered text must pass app/llm/validator.py: run `python -m pytest tests/test_llm_v2.py` after editing.",
+  "version": "phrases-v2",
+
+  "status_phrase": {
+    "DETECTED": "an unusual pattern",
+    "PLAUSIBLE": {"manager": "a possible fault", "resident": "a consistent pattern",
+                  "unknown": "a possible heating opportunity that needs confirmation"},
+    "CONFIRMED": "a confirmed issue",
+    "REPAIRED": "repaired, waiting for new data to measure the saving",
+    "VERIFIED": "a saving measured after the change",
+    "DISMISSED": "checked by a technician with no fault found"
+  },
+
+  "finding_student": {
+    "fault_step_change": {
+      "explanation": ["The [[appliance]] has used more since {SINCE}, [[phrase]]. Back at its earlier level it could use about {SAVE_KWH} less over {P_WINDOW} ({SAVE_SEK_HOURLY})."],
+      "action": ["Check that the door closes properly, then report it, because this is an equipment question for the building manager."],
+      "question": [""]
+    },
+    "base_load_outlier": {
+      "explanation": ["The [[appliance]] shows [[phrase]]: an always-on load {EXCESS_KWH} above the other flats' level over {P_WINDOW}. Depending on what can really be switched off, the potential saving is {RANGE_KWH} over {P_WINDOW}."],
+      "action": ["Look for devices that stay on day and night, such as chargers, routers or screens, and switch off the ones nobody needs."],
+      "question": ["Do you know which device is always on, and can it be switched off?"]
+    },
+    "scheduled_block": {
+      "explanation": ["The [[appliance]] runs at {BLOCK_HOURS} even when nobody is home, [[phrase]] of potentially unnecessary consumption. If it can be switched off then, it could save about {SAVE_KWH} over {P_WINDOW} ({SAVE_SEK_HOURLY})."],
+      "action": ["Check what is plugged in on this circuit during the day and whether it needs to run then."],
+      "question": ["What is this device, and can it be switched off during the day?"]
+    },
+    "heater_pattern": {
+      "explanation": ["The [[appliance]] was on while nobody was home on {HEAT_DAYS}, [[phrase]]. Turning it down in those hours could save about {SAVE_KWH} over {P_WINDOW} ({SAVE_SEK_HOURLY})."],
+      "action": ["Turn the heater-like appliance down when the last person leaves, and keep rooms comfortable when people are home."],
+      "question": ["Is this a portable heater, and is it needed when nobody is home?"]
+    },
+    "peak_usage": {
+      "explanation": ["The [[appliance]] usually starts in peak-price hours ({PEAK_HOURS}), [[phrase]]. Over {P_WINDOW}, starting it after the peak could have saved {SAVE_SEK_HOURLY}, for the same {MOVED_KWH} of use."],
+      "action": ["Next time, start it after the peak period ends instead of during it."],
+      "question": [""]
+    },
+    "_closed": {
+      "explanation": ["The [[appliance]] is [[phrase]]."],
+      "action": ["Nothing to do right now."],
+      "question": [""]
+    }
+  },
+
+  "finding_manager": {
+    "_headline": ["{FLAT} {APPLIANCE_ID}: [[title]]"],
+    "fault_step_change": {
+      "summary": ["[[Phrase]] on the [[appliance]] since {SINCE}, status [[status]] by a permutation test on day means ({P_VALUE}). Measured above the earlier level: {EXCESS_KWH} over {P_WINDOW}; a repair to that level could avoid about {SAVE_KWH} ({SAVE_SEK_HOURLY})."],
+      "evidence_points": ["Day-permutation test {P_VALUE}, threshold {ALPHA}", "Level {OBS_RATE} after the step vs {BASE_RATE} before"],
+      "suggested_check": ["Send a technician to check the door seal, thermostat setting and compressor of the fridge-like appliance."]
+    },
+    "base_load_outlier": {
+      "summary": ["[[Phrase]] on the [[appliance]]: an always-on load {EXCESS_KWH} above the other flats over {P_WINDOW}. How much could be avoided depends on what can be switched off: {RANGE_KWH} over {P_WINDOW}."],
+      "evidence_points": ["Always-on floor above every other flat in {WEEKS_ABOVE} of {WEEKS} weeks", "About {EXCESS_W} above the other flats' median floor"],
+      "suggested_check": ["No technician needed; residents can act on this, unless they report a device they cannot control."]
+    },
+    "scheduled_block": {
+      "summary": ["[[Phrase]] on the [[appliance]]: it runs at {BLOCK_HOURS} also when nobody is home, potentially unnecessary consumption. If it can be switched off then, about {SAVE_KWH} could be avoided over {P_WINDOW} ({SAVE_SEK_HOURLY})."],
+      "evidence_points": ["Level {OBS_RATE} vs other flats {BASE_RATE} at those hours", "Above every other flat in each observed week, also with nobody home"],
+      "suggested_check": ["No technician needed; ask the residents what the device is and whether it can be switched off."]
+    },
+    "heater_pattern": {
+      "summary": ["[[Phrase]] on the [[appliance]] since {SINCE}: used while nobody was home on {HEAT_DAYS}. Turning it down in those hours could avoid about {SAVE_KWH} over {P_WINDOW} ({SAVE_SEK_HOURLY})."],
+      "evidence_points": ["Heater-like use while nobody was home on {HEAT_DAYS}", "Occupancy is a simulated sensor estimate; not extrapolated beyond the observed weeks because heating depends on weather"],
+      "suggested_check": ["Check radiator function and indoor temperature with the residents before treating this as behaviour."]
+    },
+    "peak_usage": {
+      "summary": ["[[Phrase]]: {RUNS_IN_PEAK} of {RUNS_TOTAL} runs of the [[appliance]] start in peak-price hours ({PEAK_HOURS}). Moving {MOVED_KWH} over {P_WINDOW} could save {SAVE_SEK_HOURLY}, with unchanged energy use."],
+      "evidence_points": ["{RUNS_IN_PEAK} of {RUNS_TOTAL} runs start in peak-price hours", "Timing only: the cost changes only on hourly spot contracts"],
+      "suggested_check": ["No technician needed; this is a timing habit for the residents."]
+    }
+  },
+
+  "weekly_digest": {
+    "headline": ["Your Resident Actions score: {SCORE} ({BAND}) for {P_28}"],
+    "went_well": ["Going well: your [[strongest]] score is {STRONGEST_VALUE}."],
+    "look_at": ["Worth a look: [[top_title_lower]] on the [[top_appliance]], [[top_phrase]]; it could save {TOP_SAVE_SEK_HOURLY} over {TOP_P_WINDOW}.",
+                "Worth a look: [[top_title_lower]] on the [[top_appliance]], [[top_phrase]]."],
+    "look_at_none": ["Worth a look: no unusual patterns were found for your flat."],
+    "action_shift": ["Simple action: start the [[top_appliance]] after the evening peak instead of during it."],
+    "action_report": ["Simple action: report the [[top_appliance]] to your building manager with one tap."],
+    "action_default": ["Simple action: switch off devices nobody is using before you leave."],
+    "encouragement": ["Small habits add up, and every check helps the whole flat."]
+  },
+
+  "score_explainer": {
+    "summary": ["Your Resident Actions score is {SCORE} ({BAND}) for {P_28}: use {PILLAR_USE}, waste {PILLAR_WASTE}, timing {PILLAR_TIMING}. Your strongest area is [[strongest]] and the one with most room is [[weakest]]."],
+    "next_step": {
+      "use": ["Switch off devices you are not using, such as chargers, lights and screens."],
+      "waste": ["Make switching things off part of leaving the flat."],
+      "timing": ["Start the dishwasher-like appliance after the evening peak instead of during it."]
+    }
+  },
+
+  "portfolio_manager": {
+    "headline": ["Portfolio of {N_FLATS} over {P_28}"],
+    "bullets": [
+      "Measured use: {TOTAL_KWH} over {P_28}.",
+      "Simulated potential if every finding were acted on fully: {POT_KWH} and {POT_SEK_HOURLY} over {P_ALL}; not verified.",
+      "Evidence: {N_PLAUSIBLE} findings meet their stated statistical criterion; a person still has to check them before any is treated as fact.",
+      "Highest apartment score: {BEST_FLAT}; lowest: {LOW_FLAT}."
+    ],
+    "maintenance_note": ["Equipment findings for a technician check: {N_MAINT}. Behavioural findings are for residents, not maintenance."]
+  }
+}

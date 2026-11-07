@@ -27,7 +27,7 @@ test:       ## mathematical suite (tests/math) + backend suite (backend/tests)
 
 all: pipeline engine audit test
 
-api:
+api:        ## API on :8000; the app (live mode) at http://localhost:8000/app/  (FEC_LLM_PROVIDER=template|gonka|anthropic)
 	cd backend && uvicorn app.api.main:app --reload --port 8000
 
 mock:
@@ -42,7 +42,13 @@ web:        ## frontend at http://localhost:5173 (offline fixtures by default; ?
 web-build:
 	cd watt-wise-ts && npm install && npm run build
 
-web-smoke:  ## needs `make web` running
+web-smoke:  ## needs `make web` running (offline) ; live: SMOKE_URL=http://localhost:8000/app/ SMOKE_MODE=live
 	cd watt-wise-ts && npm run smoke
 
-.PHONY: pipeline engine examples audit test all api mock web fixtures web-build web-smoke
+web-live-flows:  ## state-changing browser flows against a FRESH `make api`
+	cd watt-wise-ts && npm run live-flows
+
+case:       ## hackathon sustainability case from the engine -> reports/sustainability_case.{json,md}
+	python analysis/sustainability_case.py
+
+.PHONY: pipeline engine examples audit test all api mock web fixtures web-build web-smoke web-live-flows case

@@ -30,6 +30,7 @@ export interface FlatMeta {
 
 export interface Health {
   ok: boolean;
+  demo_notice?: string;
   data_source: string;
   flats: number;
   findings: number;
@@ -156,6 +157,7 @@ export interface Scores {
   pillar_detail: { possible_avoidable_kwh: number; possible_fault_kwh: number; peak_flexible_kwh: number };
   assumptions: string[];
   uncertainty: { method: string; data_coverage: number };
+  explainer?: TextObject<ScoreExplainerText>;
 }
 
 /* ---------- findings ---------- */
@@ -268,6 +270,11 @@ export interface Finding {
   };
   verification: Verification | null;
   simulated: boolean;
+  /** Added by the text layer on GET /flats/{id}/findings (student) */
+  student_text?: TextObject<FindingStudentText>;
+  /** Added by the text layer on GET /portfolio/findings (manager) */
+  manager_text?: TextObject<FindingManagerText>;
+  triage?: Triage;
 }
 
 export interface Tip {
@@ -430,6 +437,7 @@ export interface WorkOrderRaw {
   status: string;
   note: string | null;
   verification: Verification | null;
+  fault_found?: boolean | null;
   [k: string]: unknown;
 }
 
@@ -455,4 +463,78 @@ export interface VerifyResponse {
   workorder: WorkOrderRaw;
   verification: Verification;
   finding: Finding;
+}
+
+/* ---------- LLM / text layer (backend/app/llm, saish-llm-integration 26a6292) ---------- */
+/** One fact the text cites: the value is the engine's, the text only shows its display string. */
+export interface TextClaim {
+  placeholder: string;
+  value: number | string | null;
+  unit: string | null;
+  category: string;
+  period: string | null;
+  tariff: string | null;
+  source: string;
+}
+
+/**
+ * Validated explanatory text. `output` fields depend on `use_case`; every number in them was inserted by the
+ * backend from engine fields (see `claims`). status: ok | safe_fallback | unavailable; source: llm | template | safe.
+ */
+export interface TextObject<O = Record<string, unknown>> {
+  use_case: string;
+  audience: 'student' | 'manager' | (string & {});
+  status: 'ok' | 'safe_fallback' | 'unavailable' | (string & {});
+  source: 'llm' | 'template' | 'safe' | (string & {});
+  provider: string | null;
+  model: string | null;
+  prompt_version: string;
+  output: O | null;
+  claims: TextClaim[];
+  validation: { passed: boolean; failures: unknown[] };
+  llm_status: 'cached' | 'generated' | 'pending' | 'disabled' | 'failed' | (string & {});
+  disclaimer: string;
+}
+
+export interface FindingStudentText {
+  headline: string;
+  explanation: string;
+  action: string;
+  question: string;
+  cta: string;
+}
+export interface FindingManagerText {
+  headline: string;
+  summary: string;
+  evidence_points: string[];
+  suggested_check: string;
+}
+export interface ScoreExplainerText {
+  summary: string;
+  strongest_pillar: string;
+  weakest_pillar: string;
+  next_step: string;
+}
+export interface DigestText {
+  headline: string;
+  bullets: string[];
+  encouragement: string;
+}
+export interface PortfolioSummaryText {
+  headline: string;
+  bullets: string[];
+  maintenance_note: string;
+}
+export interface Triage {
+  maintenance: boolean;
+  priority: 'inspect' | 'monitor' | 'verify' | 'none' | (string & {});
+  action_owner: string;
+  reason: string;
+}
+export interface LlmStatus {
+  provider: string;
+  llm_enabled: boolean;
+  model: string | null;
+  key_present: boolean;
+  [k: string]: unknown;
 }

@@ -22,7 +22,12 @@ const PARAM_LABEL: Record<string, string> = {
   max_delay_hours: 'Latest start (hours after the original)',
 };
 
-function valueLabel(v: unknown): string {
+const FRACTION_PARAMS = new Set(['fix_fraction', 'avoidable_fraction', 'share_moved', 'rebound', 'adoption']);
+
+function valueLabel(v: unknown, key = ''): string {
+  if (typeof v === 'number' && FRACTION_PARAMS.has(key)) return `${Math.round(v * 100)} %`;
+  if (key === 'repair_after_days' && typeof v === 'number') return v === 0 ? 'immediately' : `after ${v} days`;
+  if ((key === 'min_absence_hours' || key === 'max_delay_hours') && typeof v === 'number') return `${v} hours`;
   if (v === true) return 'yes';
   if (v === false) return 'no';
   if (v === 'pre_step_mean') return 'level before the step';
@@ -63,7 +68,7 @@ export function simulatorHtml(d: SimulatorDeps): string {
         <select id="sim-finding">${findingOpts}</select>
         <div id="sim-params"></div>
         <label class="range-label" for="sim-adoption">How much of it you would actually do</label>
-        <select id="sim-adoption">${adoption.map((a) => `<option value="${a}">${a === 1 ? 'All of it' : valueLabel(a)}</option>`).join('')}</select>
+        <select id="sim-adoption">${adoption.map((a) => `<option value="${a}">${a === 1 ? 'All of it' : valueLabel(a, 'adoption')}</option>`).join('')}</select>
       </div>
       <div data-show="shift" hidden>
         <label class="range-label" for="sim-channel">Appliance</label>
@@ -89,7 +94,7 @@ function paramsHtml(f: Finding, o: InterventionOptions): string {
       <select id="sim-p-${esc(k)}" data-param="${esc(k)}">${s.grid
         .map(
           (v, i) =>
-            `<option value="${i}" ${JSON.stringify(v) === JSON.stringify(s.default) ? 'selected' : ''}>${esc(valueLabel(v))}${
+            `<option value="${i}" ${JSON.stringify(v) === JSON.stringify(s.default) ? 'selected' : ''}>${esc(valueLabel(v, k))}${
               JSON.stringify(v) === JSON.stringify(s.default) ? ' (default)' : ''
             }</option>`,
         )

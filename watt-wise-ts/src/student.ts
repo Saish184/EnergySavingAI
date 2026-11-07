@@ -1,6 +1,6 @@
 /** Student view: one flat, every number from the backend (GET /flats/{id}/..., POST /flats/{id}/scenarios). */
 import type { Breakdown, Finding, InterventionOptions, Profile, Scores } from './api/contracts';
-import { studentFindingTexts, scoreExplanation, type TextView } from './api/texts';
+import * as T from './api/texts';
 import { channelBars, dailyChart, hourOfDayChart } from './components/charts';
 import { findingCard } from './components/findings';
 import { lensPanel, scoreDetails } from './components/score';
@@ -107,7 +107,6 @@ export function mountStudent(root: HTMLElement, flatId: string): void {
 
   const A = api();
   let findings: Finding[] = [];
-  let texts = new Map<string, TextView>();
   let sim: { select: (id: string) => void } | null = null;
 
   void loadInto($('#s-meta'), 'flat details', () => A.flats(), (fl) => {
@@ -124,12 +123,12 @@ export function mountStudent(root: HTMLElement, flatId: string): void {
   void loadInto($('#s-notes'), 'notifications', () => A.flatNotifications(flatId), (n) =>
     n.length ? `<ul class="plain">${n.map((x) => `<li>${esc(x.text)}</li>`).join('')}</ul>` : emptyHtml('No notifications.'),
   );
-  $('#s-digest').innerHTML = '';
+  void loadInto($('#s-digest'), 'your 28-day summary', () => A.digest(flatId), (d) => textCard(T.digest(d)));
 
   const findingsEl = $('#s-findings');
   const renderFindings = () => {
     findingsEl.innerHTML = findings.length
-      ? findings.map((f) => findingCard(f, { audience: 'student', tariff: state.tariff, text: texts.get(f.id), actionsHtml: reportForm(f) })).join('')
+      ? findings.map((f) => findingCard(f, { audience: 'student', tariff: state.tariff, text: T.studentFinding(f.student_text), actionsHtml: reportForm(f) })).join('')
       : emptyHtml('No patterns were detected for your flat. That is good news.');
   };
 
@@ -143,11 +142,6 @@ export function mountStudent(root: HTMLElement, flatId: string): void {
       findingsEl.innerHTML = errorHtml(e, 'findings');
       simEl.innerHTML = errorHtml(e, 'the simulator');
       return;
-    }
-    try {
-      texts = await studentFindingTexts(A, flatId);
-    } catch {
-      texts = new Map(); // text is optional: cards still show every engine figure
     }
     renderFindings();
     let options: InterventionOptions;
@@ -195,11 +189,8 @@ export function mountStudent(root: HTMLElement, flatId: string): void {
 
 function scoreHtml(s: Scores): string {
   return `${lensPanel(s.lenses.resident, 'resident')}
-    <div id="s-score-text">${textCard({ kind: 'score_explanation', audience: 'student', state: 'unavailable', source: 'none', text: '', note: 'AI explanations of the score are not connected yet. The pillar notes above describe how each part is calculated.' })}</div>
+    <div id="s-score-text">${textCard(T.scoreExplainer(s.explainer))}</div>
     ${details('Apartment score (includes possible equipment faults you are not scored on)', lensPanel(s.lenses.apartment, 'apartment'))}
     ${scoreDetails(s)}
     ${kv([['Measured over', esc(s.horizon)]])}`;
 }
-
-// keep the adapter's async API referenced so future wiring is a one-line change
-void scoreExplanation;

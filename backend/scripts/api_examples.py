@@ -6,7 +6,8 @@ import json
 import os
 from pathlib import Path
 
-os.environ["ANTHROPIC_API_KEY"] = ""                       # template tips -> deterministic
+os.environ["ANTHROPIC_API_KEY"] = ""                       # our own wording -> deterministic examples
+os.environ["FEC_LLM_PROVIDER"] = "template"
 
 from fastapi.testclient import TestClient  # noqa: E402
 
@@ -35,6 +36,12 @@ def main():
             "GET_flats_F002_breakdown.json": c.get("/flats/F002/breakdown"),
             "GET_flats_F002_findings.json": c.get("/flats/F002/findings"),
             "GET_flats_F002_tips.json": c.get("/flats/F002/tips"),
+            "GET_flats_F002_digest.json": c.get("/flats/F002/digest"),
+            "GET_flats_F004_findings.json": c.get("/flats/F004/findings"),
+            "GET_flats_F005_findings.json": c.get("/flats/F005/findings"),
+            "GET_flats_F007_findings.json": c.get("/flats/F007/findings"),
+            "GET_portfolio_summary.json": c.get("/portfolio/summary"),
+            "GET_llm_status.json": c.get("/llm/status"),
             "POST_flats_F002_scenarios_combined.json": c.post("/flats/F002/scenarios", json={
                 "scenario": "apply_interventions",
                 "params": {"items": [{"anomaly_id": "FS-F002-A01"}, {"anomaly_id": "PK-F002-A04"}],

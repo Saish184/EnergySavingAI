@@ -16,7 +16,7 @@ from .core.evaluate import evaluate, prepare
 from .core.projection import project_triplet
 from .core.verification import simulate_post_repair, verify
 from .loader import load
-from .services import business_case, findings as F, notifications, tips
+from .services import business_case, findings as F, notifications
 from .services.reports import Reports
 from .services.workorders import WorkOrders
 
@@ -51,7 +51,6 @@ class AppState:
         self.ev = evaluate(self.ds)
         self.findings = F.build_findings(self.ds, self.ev)
         self.findings_by_id = {f["id"]: f for f in self.findings}
-        tips._cache.clear()
         self.computed_seconds = time.time() - t0
         return {"ok": True, "seconds": self.computed_seconds, "data_source": self.quality["data_source"],
                 "references_hash": self.ev["references"]["hash"]}
@@ -62,7 +61,13 @@ class AppState:
                 a = self.ds.anomaly(w["finding_id"])
             except KeyError:
                 continue
-            a["status"] = Status.REPAIRED if w["status"] == "repaired" else max(a["status"], Status.CONFIRMED)
+            if w.get("fault_found") is False:
+                a["status"] = Status.DISMISSED
+                continue
+            if w.get("fault_found"):
+                a["status"] = max(a["status"], Status.CONFIRMED)
+            if w["status"] == "repaired":
+                a["status"] = Status.REPAIRED
             if w.get("verification") and w["verification"]["status"] == "VERIFIED":
                 a["status"] = Status.VERIFIED
                 a["verification"] = w["verification"]
@@ -193,7 +198,7 @@ class AppState:
             rs = self.ev["lenses"]["resident"].loc[fid]
             t = self.ev["totals"].loc[fid]
             d = self.ev["detail"]["apartment"].loc[fid]
-            open_f = [f for f in self.findings if f["flat_id"] == fid and f["status_level"] < Status.VERIFIED]
+            open_f = [f for f in self.findings if f["flat_id"] == fid and f["status_level"] not in (Status.VERIFIED, Status.DISMISSED)]
             rows.append({
                 "flat_id": fid, "residents": t["residents"], "floor_area_m2": t["floor_area_m2"],
                 "apartment_score": ap["score"], "apartment_band": ap["band"], "apartment_rank": ap["rank"],
@@ -250,18 +255,33 @@ class AppState:
         f = self.findings_by_id.get(finding_id)
         if not f:
             raise KeyError(f"unknown finding {finding_id}")
-        w = self.workorders.create(f, note)
-        a = self.ds.anomaly(finding_id)
-        if a["status"] < Status.CONFIRMED:
-            self._set_status(finding_id, Status.CONFIRMED)
-        self.recompute()
-        return w
+        # Opening a work order proves nothing: the finding keeps its engine status until the technician reports.
+        return self.workorders.create(f, note)
 
-    def patch_workorder(self, wid: str, status: str) -> dict:
-        w = self.workorders.advance(wid, status)
-        if status == "repaired":
-            self._set_status(w["finding_id"], Status.REPAIRED)
-            self.recompute()
+    def patch_workorder(self, wid: str, status: str | None = None, fault_found: bool | None = None) -> dict:
+        """Technician outcome: fault_found=true -> CONFIRMED; fault_found=false -> DISMISSED (no longer counted in
+        any pillar); status=repaired -> REPAIRED (a saving still needs verification)."""
+        w = self.workorders.get(wid)
+        if status is None and fault_found is None:
+            raise ValueError("send status and/or fault_found")
+        if fault_found is False and status == "repaired":
+            raise ValueError("cannot be repaired when no fault was found")
+        a = self.ds.anomaly(w["finding_id"])
+        if fault_found is False:
+            self._set_status(a["id"], Status.DISMISSED)
+            w["fault_found"] = False
+            self.workorders.advance(wid, "closed_no_fault")
+        elif fault_found:
+            if a["status"] < Status.CONFIRMED:
+                self._set_status(a["id"], Status.CONFIRMED)
+            w["fault_found"] = True
+        if status:
+            self.workorders.advance(wid, status)
+            if status == "repaired":
+                w["fault_found"] = True
+                if a["status"] < Status.REPAIRED:
+                    self._set_status(a["id"], Status.REPAIRED)
+        self.recompute()
         return w
 
     def verify_workorder(self, wid: str, post_readings: list[dict] | None, simulate: bool) -> dict:

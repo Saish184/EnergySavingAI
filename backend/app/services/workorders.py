@@ -5,7 +5,8 @@ import itertools
 
 import pandas as pd
 
-FLOW = {"open": {"sent"}, "sent": {"repaired"}, "repaired": set()}
+FLOW = {"open": {"sent", "closed_no_fault"}, "sent": {"repaired", "closed_no_fault"},
+        "repaired": set(), "closed_no_fault": set()}
 
 
 class WorkOrders:
@@ -20,7 +21,7 @@ class WorkOrders:
         wid = f"WO{next(self._ids):03d}"
         now = pd.Timestamp.now(tz="UTC")
         w = {"id": wid, "finding_id": finding["id"], "flat_id": finding["flat_id"],
-             "appliance_id": finding["appliance_id"], "status": "open", "note": note,
+             "appliance_id": finding["appliance_id"], "status": "open", "note": note, "fault_found": None,
              "created": now, "history": [{"status": "open", "at": now}], "verification": None}
         self.items[wid] = w
         return w

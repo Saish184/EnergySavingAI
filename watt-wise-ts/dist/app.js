@@ -91,6 +91,15 @@
     report(f, findingId, message) {
       return this.student(f, `/findings/${encodeURIComponent(findingId)}/report`, "POST", { message });
     }
+    digest(f) {
+      return this.student(f, "/digest");
+    }
+    llmStatus() {
+      return this.call("GET", "/llm/status");
+    }
+    portfolioSummary() {
+      return this.call("GET", "/portfolio/summary");
+    }
     portfolio() {
       return this.call("GET", "/portfolio");
     }
@@ -107,8 +116,8 @@
     createWorkorder(findingId, note) {
       return this.call("POST", "/workorders", { finding_id: findingId, note });
     }
-    patchWorkorder(id, status) {
-      return this.call("PATCH", `/workorders/${encodeURIComponent(id)}`, { status });
+    patchWorkorder(id, body) {
+      return this.call("PATCH", `/workorders/${encodeURIComponent(id)}`, body);
     }
     verifyWorkorder(id, simulate) {
       return this.call("POST", `/workorders/${encodeURIComponent(id)}/verify`, { simulate });
@@ -170,11 +179,11 @@
 
   // src/api/mock.ts
   function browserLoader(baseUrl) {
-    const base = baseUrl.replace(/\/+$/, "");
+    const base2 = baseUrl.replace(/\/+$/, "");
     return async (rel) => {
       let res;
       try {
-        res = await fetch(`${base}/${rel}`);
+        res = await fetch(`${base2}/${rel}`);
       } catch (e) {
         throw new ApiError("network", "Offline fixtures could not be loaded. Serve the app over http (npm run serve).", void 0, String(e));
       }
@@ -246,6 +255,15 @@
         );
       }
       return await this.load(rel);
+    }
+    digest(f) {
+      return this.get(`/flats/${f}/digest`);
+    }
+    llmStatus() {
+      return this.get("/llm/status");
+    }
+    portfolioSummary() {
+      return this.get("/portfolio/summary");
     }
     portfolio() {
       return this.get("/portfolio");
@@ -580,27 +598,43 @@
 
   // src/api/workorders.ts
   var LABEL = {
-    open: "Open",
+    open: "Open: technician not yet sent",
     sent: "Sent to technician",
-    repaired: "Repaired, waiting for post-repair data"
+    repaired: "Repaired, waiting for post-repair data",
+    closed_no_fault: "Closed: technician found no fault"
   };
-  var ACTIONS = {
-    open: [{ kind: "patch", status: "sent", label: "Mark as sent to technician" }],
-    sent: [{ kind: "patch", status: "repaired", label: "Mark as repaired" }],
-    repaired: [{ kind: "verify_simulated", label: "Run verification with SIMULATED post-repair data (demo)" }]
-  };
+  function outcomeActions(w) {
+    if (w.fault_found != null) return [];
+    return [
+      { kind: "patch", body: { fault_found: true }, label: "Technician: fault found" },
+      { kind: "patch", body: { fault_found: false }, label: "Technician: no fault found", tone: "secondary" }
+    ];
+  }
+  function actionsFor(w) {
+    if (w.verification) return [];
+    switch (w.status) {
+      case "open":
+        return [{ kind: "patch", body: { status: "sent" }, label: "Mark as sent to technician" }, ...outcomeActions(w)];
+      case "sent":
+        return [...outcomeActions(w), { kind: "patch", body: { status: "repaired" }, label: "Mark as repaired" }];
+      case "repaired":
+        return [{ kind: "verify_simulated", label: "Verify with SIMULATED post-repair data (demo)" }];
+      default:
+        return [];
+    }
+  }
   function toView(w) {
-    const verified = w.verification != null;
-    const simulated = Boolean(w.verification?.simulated);
+    const v = w.verification;
     return {
       id: w.id,
       findingId: w.finding_id,
       flatId: w.flat_id,
       status: w.status,
-      statusLabel: verified ? `${LABEL[w.status] ?? w.status} \xB7 verification ${w.verification?.status ?? ""}`.trim() : LABEL[w.status] ?? w.status,
-      actions: verified ? [] : ACTIONS[w.status] ?? [],
-      verification: w.verification,
-      simulated
+      statusLabel: LABEL[w.status] ?? w.status,
+      outcome: w.fault_found === true ? "Technician found a fault" : w.fault_found === false ? "Technician found no fault" : "No technician outcome yet",
+      actions: actionsFor(w),
+      verification: v,
+      simulated: Boolean(v?.simulated)
     };
   }
   function byFinding(list) {
@@ -738,15 +772,34 @@
   var TITLE = {
     finding: "In plain words",
     finding_summary: "Summary for the manager",
-    digest: "Your week in brief",
-    score_explanation: "What your score means"
+    digest: "Your 28 days in brief",
+    score_explanation: "What your score means",
+    portfolio_summary: "Portfolio in brief"
   };
-  function textCard(t) {
+  function sourceBadge(t) {
+    if (t.source === "llm") return badge("data", "AI explanation \xB7 checked");
+    if (t.source === "safe") return badge("placeholder", "Safe short wording");
+    return badge("placeholder", "Standard explanation");
+  }
+  function textCard(t, opts = {}) {
+    const heading = opts.heading ?? TITLE[t.kind];
     if (t.state === "unavailable") {
-      return `<div class="textcard unavailable"><div class="textcard-head"><strong>${esc(TITLE[t.kind])}</strong>${badge("placeholder", "Not connected yet")}</div><p class="note">${esc(t.note)}</p></div>`;
+      return `<div class="textcard unavailable"><div class="textcard-head"><strong>${esc(heading)}</strong>${badge("placeholder", "No text available")}</div><p class="note">${esc(t.note)}</p></div>`;
     }
-    const b = t.source === "llm" ? badge("data", "AI-worded \xB7 numbers from the engine") : badge("placeholder", "Standard wording");
-    return `<div class="textcard"><div class="textcard-head"><strong>${esc(TITLE[t.kind])}</strong>${b}</div><p>${esc(t.text)}</p><p class="note">${esc(t.note)}</p></div>`;
+    const claims = opts.showClaims && t.claims.length ? details(
+      "Where the numbers in this text come from",
+      `<ul class="plain">${t.claims.map((c) => `<li><code>${esc(c.source)}</code>: ${esc(String(c.value ?? ""))} ${esc(c.unit ?? "")}${c.period ? `, ${esc(c.period)}` : ""}${c.tariff ? `, ${esc(c.tariff)}` : ""} (${esc(c.category)})</li>`).join("")}</ul>`
+    ) : "";
+    return `<div class="textcard">
+    <div class="textcard-head"><strong>${esc(heading)}</strong>${sourceBadge(t)}</div>
+    ${t.title && t.kind !== "finding" ? `<p class="textcard-title">${esc(t.title)}</p>` : ""}
+    ${t.paragraphs.map((p) => `<p>${esc(p)}</p>`).join("")}
+    ${t.bullets.length ? `<ul class="plain">${t.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}
+    ${t.action ? `<p><strong>${t.audience === "manager" ? "Suggested check:" : "Next step:"}</strong> ${esc(t.action)}</p>` : ""}
+    ${t.question ? `<p class="question"><strong>Question for you:</strong> ${esc(t.question)}</p>` : ""}
+    <p class="note">${esc(t.note)}${t.pending ? " An AI version is being prepared and will appear on a later visit." : ""}</p>
+    ${claims}
+  </div>`;
   }
 
   // src/components/findings.ts
@@ -852,8 +905,7 @@
     <h3>${esc(f.title)}</h3>
     <p class="meta">${esc(o.audience === "manager" ? `${f.flat_id} \xB7 ` : "")}${esc(f.channel)} \xB7 ${esc(appliance(f.assumed_type))}${f.assumed_type_is_assumption ? ' <span class="note">(type inferred from the load shape)</span>' : ""}<br>${esc(windowText(f))}</p>
     <p class="owner">${badge("owner", f.responsibility_note)}</p>
-    ${o.text ? textCard(o.text) : ""}
-    <div class="subhead">What you can do</div><p>${esc(NEXT_STEP[f.type] ?? "")}</p>
+    ${o.text && o.text.state === "ok" ? textCard(o.text) : `<div class="subhead">What you can do</div><p>${esc(NEXT_STEP[f.type] ?? "")}</p>`}
     ${savingsBlock(f, o.tariff)}
     ${projectionBlock(f)}
     <p class="note">Score if fixed: ${scoreIfFixed(f, lenses)}. Counts as: ${esc(f.counts_as)}.</p>
@@ -866,30 +918,71 @@
   }
 
   // src/api/texts.ts
-  function fromTip(t) {
-    const src2 = t.source === "llm" ? "llm" : "template";
+  function base(kind, audience, t) {
+    if (!t || !t.output || t.status === "unavailable") return null;
+    const src2 = t.source === "llm" ? "llm" : t.source === "safe" ? "safe" : "template";
     return {
-      kind: "finding",
-      audience: "student",
+      kind,
+      audience,
       state: "ok",
       source: src2,
-      text: t.text,
-      note: src2 === "llm" ? "AI-worded text. Every number in it comes from the engine." : "Standard wording filled with engine numbers."
+      title: "",
+      paragraphs: [],
+      bullets: [],
+      action: "",
+      question: "",
+      claims: t.claims ?? [],
+      pending: t.llm_status === "pending",
+      disclaimer: t.disclaimer ?? "",
+      note: src2 === "llm" ? "Written by the AI layer and checked by the validator. Every number in it was inserted from the engine." : src2 === "safe" ? "Short safe wording: the detailed text could not be validated." : "Standard wording filled in with the engine\u2019s numbers."
     };
   }
-  function unavailable(kind, audience) {
+  function unavailable(kind, audience, why = "No explanation is available for this right now.") {
     return {
       kind,
       audience,
       state: "unavailable",
       source: "none",
-      text: "",
-      note: "AI explanations for this view are not connected yet. The figures below come directly from the engine."
+      title: "",
+      paragraphs: [],
+      bullets: [],
+      action: "",
+      question: "",
+      claims: [],
+      pending: false,
+      disclaimer: "",
+      note: `${why} The figures shown come directly from the engine.`
     };
   }
-  async function studentFindingTexts(api2, flatId) {
-    const tips = await api2.tips(flatId);
-    return new Map(tips.map((t) => [t.finding_id, fromTip(t)]));
+  function studentFinding(t) {
+    const v = base("finding", "student", t);
+    if (!v || !t?.output) return unavailable("finding", "student");
+    const o = t.output;
+    return { ...v, title: o.headline, paragraphs: [o.explanation].filter(Boolean), action: o.action, question: o.question };
+  }
+  function managerFinding(t) {
+    const v = base("finding_summary", "manager", t);
+    if (!v || !t?.output) return unavailable("finding_summary", "manager");
+    const o = t.output;
+    return { ...v, title: o.headline, paragraphs: [o.summary].filter(Boolean), bullets: o.evidence_points ?? [], action: o.suggested_check };
+  }
+  function scoreExplainer(t) {
+    const v = base("score_explanation", "student", t);
+    if (!v || !t?.output) return unavailable("score_explanation", "student");
+    const o = t.output;
+    return { ...v, paragraphs: [o.summary].filter(Boolean), action: o.next_step };
+  }
+  function digest(t) {
+    const v = base("digest", "student", t);
+    if (!v || !t?.output) return unavailable("digest", "student");
+    const o = t.output;
+    return { ...v, title: o.headline, bullets: o.bullets ?? [], paragraphs: [o.encouragement].filter(Boolean) };
+  }
+  function portfolioSummary(t) {
+    const v = base("portfolio_summary", "manager", t);
+    if (!v || !t?.output) return unavailable("portfolio_summary", "manager");
+    const o = t.output;
+    return { ...v, title: o.headline, bullets: o.bullets ?? [], paragraphs: [o.maintenance_note].filter(Boolean) };
   }
 
   // src/state.ts
@@ -984,17 +1077,28 @@
       ["Frozen references", `hash ${esc(p.references.hash)}`]
     ]);
   }
+  var PRIORITY_LABEL = {
+    inspect: "Send a technician to check",
+    monitor: "Monitor",
+    verify: "Verify the saving",
+    none: "No maintenance action"
+  };
+  function triageLine(f) {
+    const t = f.triage;
+    if (!t) return "";
+    return `<p class="triage">${badge(t.maintenance ? "hypothesis" : "owner", PRIORITY_LABEL[t.priority] ?? t.priority)} <span class="note">${esc(t.reason)}</span></p>`;
+  }
   function workOrderPanel(f, w, live) {
-    if (!live) return `<div class="wo"><div class="subhead">Work order</div><p class="note">Work orders change data on the backend and need live mode.</p></div>`;
+    if (!live) return `<div class="wo"><div class="subhead">Work order</div><p class="note">Work orders change data on the backend, so they need live mode (start the backend and open the app with ?mode=live).</p></div>`;
     if (!w) {
-      return `<div class="wo"><div class="subhead">Work order</div><p class="note">Opening a work order records the manager's confirmation of this finding.</p>
+      return `<div class="wo"><div class="subhead">Work order</div><p class="note">Opening a work order does not confirm the fault. The technician's outcome decides.</p>
       <button class="btn inline" type="button" data-wo-create="${esc(f.id)}">Open work order</button><p class="form-status" role="status" aria-live="polite"></p></div>`;
     }
     const v = w.verification;
-    return `<div class="wo"><div class="subhead">Work order ${esc(w.id)}</div><p><strong>${esc(w.statusLabel)}</strong>${w.simulated ? ` ${badge("simulated", "SIMULATED post-repair data")}` : ""}</p>
-    ${v ? `<p class="note">Verification: ${esc(v.status)}${v.saving_kwh != null ? `, saving ${esc(kwh(v.saving_kwh, 2))}` : ""}${v.reason ? ` (${esc(String(v.reason))})` : ""}</p>` : ""}
+    return `<div class="wo"><div class="subhead">Work order ${esc(w.id)}</div><p><strong>${esc(w.statusLabel)}</strong>${w.simulated ? ` ${badge("simulated", "SIMULATED post-repair data")}` : ""}<br><span class="note">${esc(w.outcome)}</span></p>
+    ${v ? `<p class="note">Verification: ${esc(v.status)}${v.saving_kwh != null ? `, saving ${esc(kwh(v.saving_kwh, 2))} over ${esc(days(v.post_days))}` : ""}${v.reason ? ` (${esc(String(v.reason))})` : ""}</p>` : ""}
     <div class="row">${w.actions.map(
-      (a) => a.kind === "patch" ? `<button class="btn inline secondary" type="button" data-wo="${esc(w.id)}" data-wo-status="${esc(a.status)}">${esc(a.label)}</button>` : `<button class="btn inline secondary" type="button" data-wo-verify="${esc(w.id)}">${esc(a.label)}</button>`
+      (a, i) => a.kind === "patch" ? `<button class="btn inline ${a.tone === "secondary" ? "secondary" : ""}" type="button" data-wo="${esc(w.id)}" data-wo-action="${i}">${esc(a.label)}</button>` : `<button class="btn inline secondary" type="button" data-wo-verify="${esc(w.id)}">${esc(a.label)}</button>`
     ).join("")}</div><p class="form-status" role="status" aria-live="polite"></p></div>`;
   }
   function mountManager(root) {
@@ -1011,6 +1115,7 @@
   <section class="panel" aria-labelledby="m-h-over">
     <div class="panel-head"><h2 id="m-h-over">Portfolio</h2>${badge("measured", "Measured")}</div>
     <div id="m-over"></div>
+    <div id="m-summary"></div>
   </section>
 
   <section class="panel" aria-labelledby="m-h-flats">
@@ -1021,7 +1126,6 @@
 
   <h2 class="section-title" id="m-h-maint">Possible equipment issues</h2>
   <p class="lead">Findings the building manager is responsible for. \u201CPossible fault\u201D means a statistical test was met; it becomes confirmed only when someone checks it.</p>
-  ${textCard(unavailable("finding_summary", "manager"))}
   <section class="cards" id="m-maint" aria-labelledby="m-h-maint"></section>
 
   <section class="panel" aria-labelledby="m-h-res">
@@ -1055,12 +1159,22 @@
       }
     })();
     const maint = $("#m-maint");
+    let views = /* @__PURE__ */ new Map();
+    void loadInto($("#m-summary"), "the portfolio summary", () => A.portfolioSummary(), (t) => textCard(portfolioSummary(t)));
     const renderMaint = async () => {
       maint.innerHTML = loadingHtml("maintenance findings");
       try {
         const [fs, wos] = await Promise.all([A.portfolioFindings({ responsibility: "manager" }), A.workorders()]);
         const map = byFinding(wos);
-        maint.innerHTML = fs.length ? fs.map((f) => findingCard(f, { audience: "manager", tariff: { type: "hourly_spot" }, actionsHtml: workOrderPanel(f, map.get(f.id), live) })).join("") : emptyHtml("No possible equipment issues were found.");
+        views = map;
+        maint.innerHTML = fs.length ? fs.map(
+          (f) => findingCard(f, {
+            audience: "manager",
+            tariff: { type: "hourly_spot" },
+            text: managerFinding(f.manager_text),
+            actionsHtml: triageLine(f) + workOrderPanel(f, map.get(f.id), live)
+          })
+        ).join("") : emptyHtml("No possible equipment issues were found.");
       } catch (e) {
         maint.innerHTML = errorHtml(e, "maintenance findings");
       }
@@ -1086,15 +1200,19 @@
       ({ reports, notes }) => (reports.length ? `<ul class="plain">${reports.map((r) => `<li>${esc(`${r.id} from ${r.flat_id} on ${r.finding_id}: ${r.message ?? "(no message)"}`)}</li>`).join("")}</ul>` : emptyHtml("No resident reports yet.")) + (notes.length ? `<div class="subhead">Notifications</div><ul class="plain">${notes.map((n) => `<li>${esc(n.text)}</li>`).join("")}</ul>` : "")
     );
     root.addEventListener("click", async (e) => {
-      const t = e.target.closest("[data-wo-create],[data-wo],[data-wo-verify]");
+      const t = e.target.closest("[data-wo-create],[data-wo-action],[data-wo-verify]");
       if (!t) return;
       const status = t.closest(".wo")?.querySelector(".form-status");
       t.disabled = true;
       if (status) status.textContent = "Saving\u2026";
       try {
         if (t.dataset.woCreate) await A.createWorkorder(t.dataset.woCreate, null);
-        else if (t.dataset.wo) await A.patchWorkorder(t.dataset.wo, t.dataset.woStatus ?? "");
-        else if (t.dataset.woVerify) await A.verifyWorkorder(t.dataset.woVerify, true);
+        else if (t.dataset.wo) {
+          const w = [...views.values()].find((x) => x.id === t.dataset.wo);
+          const a = w?.actions[Number(t.dataset.woAction)];
+          if (!a || a.kind !== "patch") throw new Error("This action is no longer available. Reload the page.");
+          await A.patchWorkorder(t.dataset.wo, a.body);
+        } else if (t.dataset.woVerify) await A.verifyWorkorder(t.dataset.woVerify, true);
         await renderMaint();
       } catch (err) {
         t.disabled = false;
@@ -1221,7 +1339,11 @@
     share_moved: "Share of peak-hour runs moved",
     max_delay_hours: "Latest start (hours after the original)"
   };
-  function valueLabel(v) {
+  var FRACTION_PARAMS = /* @__PURE__ */ new Set(["fix_fraction", "avoidable_fraction", "share_moved", "rebound", "adoption"]);
+  function valueLabel(v, key = "") {
+    if (typeof v === "number" && FRACTION_PARAMS.has(key)) return `${Math.round(v * 100)} %`;
+    if (key === "repair_after_days" && typeof v === "number") return v === 0 ? "immediately" : `after ${v} days`;
+    if ((key === "min_absence_hours" || key === "max_delay_hours") && typeof v === "number") return `${v} hours`;
     if (v === true) return "yes";
     if (v === false) return "no";
     if (v === "pre_step_mean") return "level before the step";
@@ -1248,7 +1370,7 @@
         <select id="sim-finding">${findingOpts}</select>
         <div id="sim-params"></div>
         <label class="range-label" for="sim-adoption">How much of it you would actually do</label>
-        <select id="sim-adoption">${adoption.map((a) => `<option value="${a}">${a === 1 ? "All of it" : valueLabel(a)}</option>`).join("")}</select>
+        <select id="sim-adoption">${adoption.map((a) => `<option value="${a}">${a === 1 ? "All of it" : valueLabel(a, "adoption")}</option>`).join("")}</select>
       </div>
       <div data-show="shift" hidden>
         <label class="range-label" for="sim-channel">Appliance</label>
@@ -1268,7 +1390,7 @@
     return Object.entries(spec).map(
       ([k, s]) => `<label class="range-label" for="sim-p-${esc(k)}">${esc(PARAM_LABEL[k] ?? k)}</label>
       <select id="sim-p-${esc(k)}" data-param="${esc(k)}">${s.grid.map(
-        (v, i) => `<option value="${i}" ${JSON.stringify(v) === JSON.stringify(s.default) ? "selected" : ""}>${esc(valueLabel(v))}${JSON.stringify(v) === JSON.stringify(s.default) ? " (default)" : ""}</option>`
+        (v, i) => `<option value="${i}" ${JSON.stringify(v) === JSON.stringify(s.default) ? "selected" : ""}>${esc(valueLabel(v, k))}${JSON.stringify(v) === JSON.stringify(s.default) ? " (default)" : ""}</option>`
       ).join("")}</select>`
     ).join("");
   }
@@ -1526,7 +1648,6 @@
   </section>`;
     const A = api();
     let findings = [];
-    let texts = /* @__PURE__ */ new Map();
     let sim = null;
     void loadInto($("#s-meta"), "flat details", () => A.flats(), (fl) => {
       const f = fl.find((x) => x.flat_id === flatId);
@@ -1543,10 +1664,10 @@
       () => A.flatNotifications(flatId),
       (n) => n.length ? `<ul class="plain">${n.map((x) => `<li>${esc(x.text)}</li>`).join("")}</ul>` : emptyHtml("No notifications.")
     );
-    $("#s-digest").innerHTML = "";
+    void loadInto($("#s-digest"), "your 28-day summary", () => A.digest(flatId), (d) => textCard(digest(d)));
     const findingsEl = $("#s-findings");
     const renderFindings = () => {
-      findingsEl.innerHTML = findings.length ? findings.map((f) => findingCard(f, { audience: "student", tariff: state.tariff, text: texts.get(f.id), actionsHtml: reportForm(f) })).join("") : emptyHtml("No patterns were detected for your flat. That is good news.");
+      findingsEl.innerHTML = findings.length ? findings.map((f) => findingCard(f, { audience: "student", tariff: state.tariff, text: studentFinding(f.student_text), actionsHtml: reportForm(f) })).join("") : emptyHtml("No patterns were detected for your flat. That is good news.");
     };
     void (async () => {
       findingsEl.innerHTML = loadingHtml("findings");
@@ -1558,11 +1679,6 @@
         findingsEl.innerHTML = errorHtml(e, "findings");
         simEl.innerHTML = errorHtml(e, "the simulator");
         return;
-      }
-      try {
-        texts = await studentFindingTexts(A, flatId);
-      } catch {
-        texts = /* @__PURE__ */ new Map();
       }
       renderFindings();
       let options;
@@ -1606,7 +1722,7 @@
   }
   function scoreHtml(s) {
     return `${lensPanel(s.lenses.resident, "resident")}
-    <div id="s-score-text">${textCard({ kind: "score_explanation", audience: "student", state: "unavailable", source: "none", text: "", note: "AI explanations of the score are not connected yet. The pillar notes above describe how each part is calculated." })}</div>
+    <div id="s-score-text">${textCard(scoreExplainer(s.explainer))}</div>
     ${details("Apartment score (includes possible equipment faults you are not scored on)", lensPanel(s.lenses.apartment, "apartment"))}
     ${scoreDetails(s)}
     ${kv([["Measured over", esc(s.horizon)]])}`;
