@@ -1,6 +1,6 @@
 # AI Energy Coach and Savings & Sustainability Calculator: design for review
 
-**Status:** design only. Nothing is implemented. **Branch:** `mina`.
+**Status:** design only. Nothing is implemented. **Branch:** `mina`. This is the **minimum working baseline, not a fixed final specification**. The chatbot and frontend belong to other teammates; the mathematics is owned and reviewed by the team mathematician (see [`../math/mathematical_review.md`](../math/mathematical_review.md)). Review-round-2 decisions are recorded in §8.
 **Inputs:** `reports/opportunities.json` (v1.0), `data/processed/analytical_table.csv`.
 **Contracts:** [`contracts.schema.json`](contracts.schema.json). **Worked examples (schema-valid):** [`examples/record_O3_F002.json`](examples/record_O3_F002.json), [`examples/calculator_result_O5_F002.json`](examples/calculator_result_O5_F002.json).
 
@@ -16,7 +16,7 @@
 | Savings tiers | **Potential** (engine) → **estimated realised** (potential × student-stated adoption, only after confirmation) → **verified** (always `null` in v1). | This is the separation you asked for. Verification needs post-intervention meter data, which doesn't exist. |
 | Tariff | The student chooses: hourly spot / monthly-average spot / fixed (their price) / included in rent / unknown. Default `unknown`, so kWh and CO₂e are shown and SEK appears only as "if you pay hourly spot prices". | No tariff data exists, and shifting usage to other hours is worth 0 SEK on anything except an hourly tariff. |
 | ML | **None.** | Every anomaly is already found by simple, auditable rules (step change, constant floor, fixed daily block, fixed start hour, heating while the flat is empty). An ML model would add uncertainty we cannot validate on 4 weeks of 8 synthetic flats. |
-| Coach LLM | Claude `claude-opus-5-5`, adaptive thinking, `output_config.effort: "medium"` set explicitly, streaming, the SDK tool runner with `strict: true` tools. Server-side refusal fallbacks (`fallbacks: "default"`, beta) enabled by default. | Default model per Anthropic guidance. `effort` defaults to medium on Opus 5.5, but we set it so the behaviour is explicit, and can test `low` for chat later. |
+| Coach LLM | Claude `claude-opus-5-5`, adaptive thinking, `output_config.effort: "medium"` set explicitly, streaming, the SDK tool runner with `strict: true` tools. **No automatic model fallback after refusals** (decided); a predefined safe-tips fallback for API outages. | Default model per Anthropic guidance. `effort` defaults to medium on Opus 5.5, but we set it so the behaviour is explicit, and can test `low` for chat later. |
 | UI | One **Streamlit** app with two tabs (Coach, Calculator). The calculator works without the LLM. | Fastest Python path in 5 hours, and the demo survives an API outage. |
 
 ---
@@ -214,7 +214,7 @@ Here q is the share of runs moved. It is applied as a deterministic weight, not 
   - Each tool function writes its result into the session's `turn_ledger` before returning, so the guard can see every number.
   - `strict: true` on every tool (schemas with `additionalProperties: false`).
   - `tool_choice` stays `auto`: Opus 5.5 rejects forced tool choice. The system prompt instructs the model to call a tool before stating any number.
-- **Fallbacks:** server-side refusal fallbacks (`betas=["server-side-fallback-2026-07-01"]`, `fallbacks="default"`) are on by default. Tell me if you'd rather drop them.
+- **Fallbacks (decided):** no automatic model fallback after refusals; server-side refusal fallbacks are **not** enabled. A refusal is shown as a polite decline plus the safe tips. During API outages or errors, show a **predefined, reviewed safe-tips fallback**: static text with no flat-specific numbers unless they come from the engine.
 - **Caching:** prompt caching on a frozen prefix (tools → system). Everything flat-specific comes through tool results, never the system prompt, so the cache prefix stays byte-stable.
 - **No key:** if no API key is set, the Coach tab switches to *template mode*. Deterministic explanations are rendered from `claims.may_say` plus the calculator result, so the demo still runs.
 
@@ -381,10 +381,12 @@ Prompt 10 is a trap: the window is 14 days, so the answer must correct the perio
 
 ---
 
-## 8. Questions for your review
+## 8. Decisions (review round 2)
 
-1. **Persona:** a flat selector (demo) or a fixed persona per demo device?
-2. **Language:** English only, or Swedish UI strings as well?
-3. **Adders:** should the calculator let students enter energy tax and network fees (no defaults), or keep spot-only for the hackathon?
-4. **Team:** with a team of one, Track B moves to after 2:20 and the O1/O2 stretch is dropped. Is that acceptable?
-5. **Fallbacks:** keep server-side refusal fallbacks on (default) or turn them off?
+1. **Persona:** a flat selector for the demo.
+2. **Language:** English first; Swedish only if time allows.
+3. **Tariffs:** spot-price calculations only for the initial demo. They are always labelled as the synthetic spot-energy component, explicitly distinguished from actual student bills. The `tariffType` contract keeps other tariffs possible later; no adders in the demo.
+4. **Team:** parallel development by different teammates (engine, chatbot, frontend, mathematics). The build plan's tracks are owned by different people; no single-person fallback plan is assumed.
+5. **Fallbacks:** no automatic model fallback after refusals; a predefined safe-tips fallback for API outages.
+
+Open mathematical decisions (score definition, intervals, combination rules, per-student expression) are tracked in [`../math/mathematical_review.md`](../math/mathematical_review.md) §9 and need the mathematician's approval before engine changes.
