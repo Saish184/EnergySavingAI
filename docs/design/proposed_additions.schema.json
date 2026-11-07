@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "energysavingai/contracts/proposed-additions/0.1",
+  "title": "PROPOSED backward-compatible additions (draft, not adopted)",
+  "description": "Draft only. Nothing here modifies contracts.schema.json v1.0. Each definition is either a new object or an OPTIONAL field to add to an existing object. Adoption requires the mathematician's approval.",
+  "$defs": {
+    "period": {"$ref": "contracts.schema.json#/$defs/period"},
+    "responsibility": {
+      "description": "Proposed OPTIONAL field on savingsRecord: who acts, who pays, who sees.",
+      "type": "object",
+      "required": ["action_owner", "cost_bearer", "visibility"],
+      "additionalProperties": false,
+      "properties": {
+        "action_owner": {"enum": ["student", "provider", "shared"]},
+        "cost_bearer": {"enum": ["student", "provider", "unknown"], "description": "provider when electricity is included in rent; unknown until the tariff is known."},
+        "visibility": {"type": "object", "properties": {"student": {"type": "boolean"}, "manager": {"type": "boolean"}}, "required": ["student", "manager"]}
+      }
+    },
+    "quantityType": {
+      "description": "Proposed OPTIONAL field on scenario (decision D6).",
+      "enum": ["measured_excess", "avoidable_estimate", "counterfactual_saving"]
+    },
+    "flatSummary": {
+      "description": "Proposed NEW object: current consumption for both interfaces.",
+      "type": "object",
+      "required": ["flat_id", "period", "totals", "by_channel", "hourly_profile", "data_quality", "per_resident_average"],
+      "properties": {
+        "flat_id": {"type": "string"},
+        "residents": {"type": "integer"},
+        "floor_area_m2": {"type": "number"},
+        "period": {"$ref": "#/$defs/period"},
+        "totals": {"type": "object", "required": ["kwh", "co2e_kg", "sek_spot_hourly"],
+                   "properties": {"kwh": {"type": "number"}, "co2e_kg": {"type": "number"}, "sek_spot_hourly": {"type": "number"},
+                                  "kwh_unpriced": {"type": "number"}, "estimand": {"enum": ["observed_hours", "window_coverage_adjusted"]}}},
+        "by_channel": {"type": "array", "items": {"type": "object", "required": ["appliance_code", "display_label", "kwh", "share"],
+                       "properties": {"appliance_code": {"type": "string"}, "display_label": {"type": "string"}, "identity_status": {"type": "string"},
+                                      "kwh": {"type": "number"}, "share": {"type": "number"}, "coverage": {"type": "number"}}}},
+        "hourly_profile": {"type": "object", "required": ["clock", "mean_kwh_per_hour"],
+                           "properties": {"clock": {"enum": ["local_Europe/Stockholm", "utc"]}, "mean_kwh_per_hour": {"type": "array", "minItems": 24, "maxItems": 24},
+                                          "mean_spot_sek_per_kwh": {"type": "array"}, "mean_carbon_g_per_kwh": {"type": "array"}}},
+        "data_quality": {"type": "object", "required": ["coverage_pct", "missing_cells"],
+                         "properties": {"coverage_pct": {"type": "number"}, "missing_cells": {"type": "integer"},
+                                        "occupancy_unknown_hours": {"type": "integer"}, "unpriced_hours": {"type": "integer"}}},
+        "per_resident_average": {"type": "object", "required": ["kwh", "label"],
+                                 "properties": {"kwh": {"type": "number"}, "label": {"const": "average per resident (flat total / residents), not measured per person"}}},
+        "weather_normalised_heating": {"type": ["object", "null"], "properties": {"kwh_per_heating_degree_hour": {"type": "number"}, "base_c": {"type": "number"}}}
+      }
+    },
+    "scoreResult": {
+      "description": "Proposed NEW object: any sustainability score (method-agnostic).",
+      "type": "object",
+      "required": ["flat_id", "method_id", "method_version", "period", "pillars", "aggregate", "references", "status", "invariants"],
+      "properties": {
+        "flat_id": {"type": "string"},
+        "method_id": {"type": "string"},
+        "method_version": {"type": "string"},
+        "period": {"$ref": "#/$defs/period"},
+        "pillars": {"type": "array", "items": {"type": "object", "required": ["name", "value", "raw_indicator", "raw_unit", "normalisation"],
+                    "properties": {"name": {"type": "string"}, "value": {"type": "number"}, "raw_indicator": {"type": "number"}, "raw_unit": {"type": "string"},
+                                   "normalisation": {"type": "object"}, "evidence_class": {"enum": ["measured", "inferred", "hypothetical", "simulated"]},
+                                   "energy_only": {"type": "boolean"}}}},
+        "aggregate": {"type": "object", "required": ["method", "weights", "value"],
+                      "properties": {"method": {"enum": ["arithmetic", "geometric", "other"]}, "weights": {"type": "object"},
+                                     "floor": {"type": ["number", "null"]}, "value": {"type": "number"}}},
+        "references": {"type": "object", "required": ["frozen_at", "hash"], "properties": {"frozen_at": {"type": "string"}, "hash": {"type": "string"}}},
+        "status": {"enum": ["provisional", "validated"]},
+        "invariants": {"type": "object", "required": ["universal_passed", "failed"], "properties": {"universal_passed": {"type": "boolean"}, "failed": {"type": "array"}}}
+      }
+    },
+    "projectedScore": {
+      "description": "Proposed NEW object: score after interventions, computed on ONE combined trajectory with frozen references.",
+      "type": "object",
+      "required": ["flat_id", "baseline", "projected", "interventions", "tier", "overlap_kwh"],
+      "properties": {
+        "flat_id": {"type": "string"},
+        "baseline": {"$ref": "#/$defs/scoreResult"},
+        "projected": {"$ref": "#/$defs/scoreResult"},
+        "interventions": {"type": "array", "items": {"type": "object", "required": ["record_id", "scenario_id"]}},
+        "combination_order": {"type": "array", "items": {"enum": ["repair", "reduction", "shift"]}},
+        "tier": {"enum": ["potential", "estimated_realized"]},
+        "overlap_kwh": {"type": "number", "minimum": 0}
+      }
+    },
+    "combinedCalculation": {
+      "description": "Proposed NEW object: several records for one flat combined without double counting.",
+      "type": "object",
+      "required": ["flat_id", "record_ids", "period", "combined_difference", "sum_of_individual", "overlap"],
+      "properties": {
+        "flat_id": {"type": "string"}, "record_ids": {"type": "array"}, "period": {"$ref": "#/$defs/period"},
+        "combined_difference": {"type": "object"}, "sum_of_individual": {"type": "object"}, "overlap": {"type": "object"}
+      }
+    },
+    "alert": {
+      "description": "Proposed NEW object for the manager dashboard (e.g. F002 suspected equipment fault).",
+      "type": "object",
+      "required": ["alert_id", "record_id", "flat_id", "type", "first_detected_utc", "evidence", "status", "action_owner"],
+      "properties": {
+        "alert_id": {"type": "string"}, "record_id": {"type": "string"}, "flat_id": {"type": "string"},
+        "type": {"enum": ["suspected_equipment_fault", "persistent_base_load", "behavioural_pattern"]},
+        "first_detected_utc": {"type": "string"},
+        "evidence": {"type": "object", "properties": {"excess_w": {"type": "number"}, "excess_kwh_per_day": {"type": "number"}, "ratio": {"type": "number"}}},
+        "status": {"enum": ["open", "acknowledged", "repair_scheduled", "resolved", "dismissed"]},
+        "action_owner": {"enum": ["student", "provider", "shared"]},
+        "verification_record_id": {"type": ["string", "null"]}
+      }
+    },
+    "verificationResult": {
+      "description": "Proposed NEW object: only source of 'verified' savings (needs post-intervention data).",
+      "type": "object",
+      "required": ["record_id", "pre_period", "post_period", "reference_method", "measured_saving", "status"],
+      "properties": {
+        "record_id": {"type": "string"}, "pre_period": {"$ref": "#/$defs/period"}, "post_period": {"$ref": "#/$defs/period"},
+        "reference_method": {"type": "string"}, "measured_saving": {"type": "object"},
+        "status": {"enum": ["insufficient_data", "verified", "not_confirmed"]}
+      }
+    },
+    "portfolioSummary": {
+      "description": "Proposed NEW object for the apartment-manager dashboard.",
+      "type": "object",
+      "required": ["period", "flats", "totals", "alerts", "combined_potential"],
+      "properties": {
+        "period": {"$ref": "#/$defs/period"},
+        "flats": {"type": "array", "items": {"$ref": "#/$defs/flatSummary"}},
+        "totals": {"type": "object"},
+        "alerts": {"type": "array", "items": {"$ref": "#/$defs/alert"}},
+        "combined_potential": {"type": "object", "description": "Sum over flats of each flat's combinedCalculation (flats are disjoint)."},
+        "normalisation": {"type": "object", "description": "Declared normaliser (R16) used for cross-flat comparison."}
+      }
+    }
+  }
+}

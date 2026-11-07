@@ -1,0 +1,469 @@
+{
+  "X1_normalisation": {
+    "metric": "non-heater kWh (A01-A06), 28 days, observed hours",
+    "ols": {
+      "a_kwh": 95.9,
+      "b_kwh_per_resident": 20.4
+    },
+    "values": {
+      "per_flat_kwh": {
+        "F001": 143.062,
+        "F002": 173.36,
+        "F003": 143.145,
+        "F004": 148.121,
+        "F005": 232.929,
+        "F006": 147.392,
+        "F007": 155.302,
+        "F008": 132.877
+      },
+      "per_resident": {
+        "F001": 71.531,
+        "F002": 57.787,
+        "F003": 35.786,
+        "F004": 74.061,
+        "F005": 46.586,
+        "F006": 49.131,
+        "F007": 38.826,
+        "F008": 66.439
+      },
+      "per_m2": {
+        "F001": 2.555,
+        "F002": 2.512,
+        "F003": 1.746,
+        "F004": 2.645,
+        "F005": 2.452,
+        "F006": 2.136,
+        "F007": 1.894,
+        "F008": 2.373
+      },
+      "per_equivalent_resident (OLS a+b*n)": {
+        "F001": 1.047,
+        "F002": 1.104,
+        "F003": 0.807,
+        "F004": 1.084,
+        "F005": 1.178,
+        "F006": 0.939,
+        "F007": 0.876,
+        "F008": 0.973
+      },
+      "per_person_hour_home": {
+        "F001": 0.163,
+        "F002": 0.131,
+        "F003": 0.092,
+        "F004": 0.17,
+        "F005": 0.105,
+        "F006": 0.111,
+        "F007": 0.086,
+        "F008": 0.146
+      }
+    },
+    "rank_highest_first": {
+      "per_flat_kwh": [
+        "F005",
+        "F002",
+        "F007",
+        "F004",
+        "F006",
+        "F003",
+        "F001",
+        "F008"
+      ],
+      "per_resident": [
+        "F004",
+        "F001",
+        "F008",
+        "F002",
+        "F006",
+        "F005",
+        "F007",
+        "F003"
+      ],
+      "per_m2": [
+        "F004",
+        "F001",
+        "F002",
+        "F005",
+        "F008",
+        "F006",
+        "F007",
+        "F003"
+      ],
+      "per_equivalent_resident (OLS a+b*n)": [
+        "F005",
+        "F002",
+        "F004",
+        "F001",
+        "F008",
+        "F006",
+        "F007",
+        "F003"
+      ],
+      "per_person_hour_home": [
+        "F004",
+        "F001",
+        "F008",
+        "F002",
+        "F006",
+        "F005",
+        "F003",
+        "F007"
+      ]
+    },
+    "kendall_tau": {
+      "per_flat_kwh vs per_resident": -0.143,
+      "per_flat_kwh vs per_m2": 0.071,
+      "per_flat_kwh vs per_equivalent_resident (OLS a+b*n)": 0.429,
+      "per_flat_kwh vs per_person_hour_home": -0.214,
+      "per_resident vs per_m2": 0.786,
+      "per_resident vs per_equivalent_resident (OLS a+b*n)": 0.429,
+      "per_resident vs per_person_hour_home": 0.929,
+      "per_m2 vs per_equivalent_resident (OLS a+b*n)": 0.643,
+      "per_m2 vs per_person_hour_home": 0.714,
+      "per_equivalent_resident (OLS a+b*n) vs per_person_hour_home": 0.357
+    },
+    "worst_flat_by_variant": {
+      "per_flat_kwh": "F005",
+      "per_resident": "F004",
+      "per_m2": "F004",
+      "per_equivalent_resident (OLS a+b*n)": "F005",
+      "per_person_hour_home": "F004"
+    }
+  },
+  "X2_weather": {
+    "heater_model": "kWh_h = 0.12 x max(0, 12 - T_out) (validated, both flats)",
+    "flats": {
+      "F001": {
+        "observed_heater_kwh": 292.2,
+        "heating_degree_hours_base12": 2866.2,
+        "kwh_per_degree_hour": 0.1019,
+        "model_kwh_by_outdoor_shift_c": {
+          "-3": 581.6,
+          "-1": 421.1,
+          "0": 343.9,
+          "1": 271.3,
+          "3": 147.9
+        },
+        "pct_change_per_degc_colder": 22.4
+      },
+      "F007": {
+        "observed_heater_kwh": 336.2,
+        "heating_degree_hours_base12": 2861.5,
+        "kwh_per_degree_hour": 0.1175,
+        "model_kwh_by_outdoor_shift_c": {
+          "-3": 580.7,
+          "-1": 420.4,
+          "0": 343.4,
+          "1": 270.9,
+          "3": 147.7
+        },
+        "pct_change_per_degc_colder": 22.4
+      }
+    },
+    "note": "Raw heater kWh changes with weather at fixed behaviour; kWh per heating degree-hour does not."
+  },
+  "X3_aggregation": {
+    "warning": "Pillar values are STAND-INS (illustrative candidate from the math review), mapped positionally onto the teammate's pillar names only to exercise the aggregation; they are not the teammate's pillars.",
+    "geometric_no_floor": {
+      "F001": 65.9,
+      "F002": 26.3,
+      "F003": 42.6,
+      "F004": 40.6,
+      "F005": 0.0,
+      "F006": 51.6,
+      "F007": 89.5,
+      "F008": 0.0
+    },
+    "geometric_floor_1": {
+      "F001": 65.9,
+      "F002": 26.3,
+      "F003": 42.6,
+      "F004": 40.6,
+      "F005": 1.6,
+      "F006": 51.6,
+      "F007": 89.5,
+      "F008": 24.8
+    },
+    "geometric_floor_5": {
+      "F001": 65.9,
+      "F002": 26.3,
+      "F003": 42.6,
+      "F004": 40.6,
+      "F005": 6.3,
+      "F006": 51.6,
+      "F007": 89.5,
+      "F008": 31.6
+    },
+    "arithmetic": {
+      "F001": 74.1,
+      "F002": 38.6,
+      "F003": 68.3,
+      "F004": 48.1,
+      "F005": 3.5,
+      "F006": 59.6,
+      "F007": 89.8,
+      "F008": 49.1
+    },
+    "flats_with_score_0_geometric": [
+      "F005",
+      "F008"
+    ],
+    "rank_geometric_floor_1": [
+      "F007",
+      "F001",
+      "F006",
+      "F003",
+      "F004",
+      "F002",
+      "F008",
+      "F005"
+    ],
+    "rank_arithmetic": [
+      "F007",
+      "F001",
+      "F003",
+      "F006",
+      "F008",
+      "F004",
+      "F002",
+      "F005"
+    ],
+    "weight_perturbation_pm10pct_rank_changes": 1,
+    "weight_perturbations": [
+      {
+        "pillar": "Use",
+        "change": -0.1,
+        "rank_changed": true
+      },
+      {
+        "pillar": "Use",
+        "change": 0.1,
+        "rank_changed": false
+      },
+      {
+        "pillar": "Waste",
+        "change": -0.1,
+        "rank_changed": false
+      },
+      {
+        "pillar": "Waste",
+        "change": 0.1,
+        "rank_changed": false
+      },
+      {
+        "pillar": "Timing",
+        "change": -0.1,
+        "rank_changed": false
+      },
+      {
+        "pillar": "Timing",
+        "change": 0.1,
+        "rank_changed": false
+      },
+      {
+        "pillar": "Health",
+        "change": -0.1,
+        "rank_changed": false
+      },
+      {
+        "pillar": "Health",
+        "change": 0.1,
+        "rank_changed": false
+      }
+    ],
+    "single_pillar_drop_factor": {
+      "Use": {
+        "to_50": 0.758,
+        "to_10": 0.398,
+        "to_1": 0.158
+      },
+      "Waste": {
+        "to_50": 0.841,
+        "to_10": 0.562,
+        "to_1": 0.316
+      },
+      "Timing": {
+        "to_50": 0.871,
+        "to_10": 0.631,
+        "to_1": 0.398
+      },
+      "Health": {
+        "to_50": 0.901,
+        "to_10": 0.708,
+        "to_1": 0.501
+      }
+    }
+  },
+  "X4_combined": {
+    "F002": {
+      "individual": [
+        {
+          "op": "O3 fridge repair",
+          "kwh": 23.362,
+          "sek_spot_hourly": 11.543,
+          "co2e_kg": 0.771
+        },
+        {
+          "op": "O5 dishwasher shift",
+          "kwh": 0.0,
+          "sek_spot_hourly": 6.478,
+          "co2e_kg": 0.212
+        }
+      ],
+      "combined": {
+        "kwh": 23.362,
+        "sek_spot_hourly": 18.021,
+        "co2e_kg": 0.983
+      },
+      "sum_of_individual": {
+        "kwh": 23.362,
+        "sek_spot_hourly": 18.021,
+        "co2e_kg": 0.983
+      },
+      "double_count_if_summed_kwh": 0.0
+    },
+    "F004": {
+      "individual": [
+        {
+          "op": "O4 daytime electronics",
+          "kwh": 14.3,
+          "sek_spot_hourly": 5.291,
+          "co2e_kg": 0.492
+        },
+        {
+          "op": "O5 dishwasher shift",
+          "kwh": 0.0,
+          "sek_spot_hourly": 5.977,
+          "co2e_kg": 0.205
+        }
+      ],
+      "combined": {
+        "kwh": 14.3,
+        "sek_spot_hourly": 11.268,
+        "co2e_kg": 0.697
+      },
+      "sum_of_individual": {
+        "kwh": 14.3,
+        "sek_spot_hourly": 11.268,
+        "co2e_kg": 0.697
+      },
+      "double_count_if_summed_kwh": 0.0
+    },
+    "F005": {
+      "individual": [
+        {
+          "op": "O2 always-on base load",
+          "kwh": 31.397,
+          "sek_spot_hourly": 14.729,
+          "co2e_kg": 1.169
+        },
+        {
+          "op": "O5 dishwasher shift",
+          "kwh": 0.0,
+          "sek_spot_hourly": 8.528,
+          "co2e_kg": 0.207
+        }
+      ],
+      "combined": {
+        "kwh": 31.397,
+        "sek_spot_hourly": 23.257,
+        "co2e_kg": 1.376
+      },
+      "sum_of_individual": {
+        "kwh": 31.397,
+        "sek_spot_hourly": 23.257,
+        "co2e_kg": 1.376
+      },
+      "double_count_if_summed_kwh": 0.0
+    },
+    "F007": {
+      "individual": [
+        {
+          "op": "O1 heater off when unoccupied",
+          "kwh": 9.189,
+          "sek_spot_hourly": 5.654,
+          "co2e_kg": 0.375
+        },
+        {
+          "op": "O5 dishwasher shift",
+          "kwh": 0.0,
+          "sek_spot_hourly": 8.699,
+          "co2e_kg": 0.213
+        }
+      ],
+      "combined": {
+        "kwh": 9.189,
+        "sek_spot_hourly": 14.353,
+        "co2e_kg": 0.588
+      },
+      "sum_of_individual": {
+        "kwh": 9.189,
+        "sek_spot_hourly": 14.353,
+        "co2e_kg": 0.588
+      },
+      "double_count_if_summed_kwh": 0.0
+    },
+    "F007 overlap (O1 + illustrative S1b)": {
+      "individual": [
+        {
+          "op": "O1 heater off when unoccupied",
+          "kwh": 9.189,
+          "sek_spot_hourly": 5.654,
+          "co2e_kg": 0.375
+        },
+        {
+          "op": "S1b heater setback (illustrative)",
+          "kwh": 71.295,
+          "sek_spot_hourly": 34.196,
+          "co2e_kg": 2.651
+        }
+      ],
+      "combined": {
+        "kwh": 77.939,
+        "sek_spot_hourly": 38.578,
+        "co2e_kg": 2.929
+      },
+      "sum_of_individual": {
+        "kwh": 80.484,
+        "sek_spot_hourly": 39.85,
+        "co2e_kg": 3.026
+      },
+      "double_count_if_summed_kwh": 2.545
+    }
+  },
+  "X5_missing": {
+    "F002_O3_observed_hours_total_kwh": 23.361,
+    "F002_O3_window_total_at_observed_rate_kwh": 23.643,
+    "F002_post_step_missing_hours": 4,
+    "F002_baseline_understatement_if_missing_zero_filled_kwh": 0.488,
+    "dishwasher_runs_moved_into_missing_hours": [
+      {
+        "flat": "F003",
+        "from_hour": 138,
+        "to_hour": 139,
+        "kwh": 1.073,
+        "sek": 0.574,
+        "co2e_kg": 0.0216
+      },
+      {
+        "flat": "F007",
+        "from_hour": 426,
+        "to_hour": 427,
+        "kwh": 1.13,
+        "sek": 0.694,
+        "co2e_kg": 0.0218
+      },
+      {
+        "flat": "F007",
+        "from_hour": 570,
+        "to_hour": 571,
+        "kwh": 0.839,
+        "sek": 0.575,
+        "co2e_kg": 0.0139
+      }
+    ],
+    "value_lost_if_such_moves_are_rejected": {
+      "sek": 1.843,
+      "co2e_kg": 0.0573
+    }
+  }
+}
