@@ -1,0 +1,2712 @@
+{
+ "8b12bb6c86bb1586224113e4de1a2c29e490b106ce4ce3a82c90a05b5cab26ff": {
+  "use_case": "finding_student",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "action": "Check that the door of the fridge-like appliance closes properly, then report the issue to the building manager.",
+   "body": "Your fridge-like appliance shows a possible fault since 12 Oct, costing about 22 SEK measured over the last 4 weeks (projected 199–369 SEK per year). You can check that the door closes properly and report it to the building manager so it can be fixed.",
+   "cta": "report",
+   "title": "Sudden lasting increase"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "action": "Check that the door of the fridge-like appliance closes properly, then report the issue to the building manager.",
+     "body": "Your fridge-like appliance shows a possible fault since 12 Oct, costing about 22 SEK measured over the last 4 weeks (projected 199–369 SEK per year). You can check that the door closes properly and report it to the building manager so it can be fixed.",
+     "cta": "report",
+     "title": "Sudden lasting increase"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 1.131,
+    "error": null,
+    "usage": {
+     "completion_tokens": 602,
+     "completion_tokens_details": {
+      "reasoning_tokens": 428
+     },
+     "prompt_tokens": 976,
+     "total_tokens": 1578
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F003",
+   "finding_id": "AN001"
+  }
+ },
+ "297e390206b749bb64b263f2bc4b1575396aa35f8079328b3160eb49e369533b": {
+  "use_case": "finding_manager",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "evidence_points": [
+    "Sustained step change: the fridge-like channel runs at about 3 times its first-11-day level, with no return.",
+    "Measured over the last 4 weeks: 45.0 kWh, 21.78 SEK, 1.53 kg CO2.",
+    "Projected per year: 199 to 369 SEK (411 to 763 kWh)."
+   ],
+   "priority": "medium",
+   "suggested_check": "Check the fridge-like appliance in flat F003 (e.g. door seal, temperature setting, or something blocking airflow) and report the finding if a technician visit is needed.",
+   "summary": "A possible fault in a fridge-like appliance in flat F003 has caused a sudden lasting increase since 12 Oct (detector confidence 0.92). Measured over the last 4 weeks, the impact is about 21.78 SEK. Projected yearly impact is 199 to 369 SEK.",
+   "title": "Sudden lasting increase"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "evidence_points": [
+      "Sustained step change detected since 12 Oct (17 days)",
+      "Energy use increased from 0.07 kWh/h to 0.181 kWh/h",
+      "28-day measured impact: 45.0 kWh, 21.78 SEK",
+      "Detector confidence: 92%"
+     ],
+     "priority": "medium",
+     "suggested_check": "Check whether the fridge-like appliance in flat F003 is operating normally (e.g., door sealing, temperature settings, compressor running continuously). If the cause is unclear, report it for technician inspection.",
+     "summary": "A possible fault was detected on a fridge-like appliance in flat F003. Since 12 Oct (17 days), there has been a sustained increase in energy use to about 2.6x its baseline level. The 28-day measured impact is 21.78 SEK. This is a possible issue that needs confirmation.",
+     "title": "Possible fault on fridge-like appliance in flat F003"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "numbers",
+       "detail": "number 2.6 is not in the engine input"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 4 sentences (max 3)"
+      },
+      {
+       "check": "length",
+       "detail": "evidence_points must have 2-3 items, has 4"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": false,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 14.604,
+    "error": null,
+    "usage": {
+     "completion_tokens": 679,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 946,
+     "total_tokens": 1625
+    }
+   },
+   {
+    "reply": {
+     "evidence_points": [
+      "Sustained step change: the fridge-like channel runs at about 3 times its first-11-day level, with no return.",
+      "Measured over the last 4 weeks: 45.0 kWh, 21.78 SEK, 1.53 kg CO2.",
+      "Projected per year: 199 to 369 SEK (411 to 763 kWh)."
+     ],
+     "priority": "medium",
+     "suggested_check": "Check the fridge-like appliance in flat F003 (e.g. door seal, temperature setting, or something blocking airflow) and report the finding if a technician visit is needed.",
+     "summary": "A possible fault in a fridge-like appliance in flat F003 has caused a sudden lasting increase since 12 Oct (detector confidence 0.92). Measured over the last 4 weeks, the impact is about 21.78 SEK. Projected yearly impact is 199 to 369 SEK.",
+     "title": "Sudden lasting increase"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 27.324,
+    "error": null,
+    "usage": {
+     "completion_tokens": 955,
+     "completion_tokens_details": {
+      "reasoning_tokens": 667
+     },
+     "prompt_tokens": 1209,
+     "total_tokens": 2164
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F003",
+   "finding_id": "AN001"
+  }
+ },
+ "3b16cfef638a5b6bc60845ffadae4ee9294b0df9f2ae16b872824e0690f1d7eb": {
+  "use_case": "finding_student",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "action": "Check what could be running and report it so we can look closer.",
+   "body": "Your home shows a possible heater-like pattern since 15 Oct, measured over the last 4 weeks at about 32 SEK (projected 139–284 SEK per year). It may be a heating opportunity that needs confirmation, so check what could be running and report it.",
+   "cta": "report",
+   "title": "Heater-like use pattern"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "action": "Check for a heater-like appliance that might be on and report it.",
+     "body": "A heater-like appliance may be running more than usual since 15 Oct, costing about 32 SEK measured over the last 4 weeks (projected 139–284 SEK per year). This could be a heating opportunity, so check what's on and report it to confirm.",
+     "cta": "report",
+     "title": "Heater-like use pattern"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "wording",
+       "detail": "status PLAUSIBLE needs the phrase 'possible'"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": false,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 16.247,
+    "error": null,
+    "usage": {
+     "completion_tokens": 692,
+     "completion_tokens_details": {
+      "reasoning_tokens": 525
+     },
+     "prompt_tokens": 965,
+     "total_tokens": 1657
+    }
+   },
+   {
+    "reply": {
+     "action": "Check what could be running and report it so we can look closer.",
+     "body": "Your home shows a possible heater-like pattern since 15 Oct, measured over the last 4 weeks at about 32 SEK (projected 139–284 SEK per year). It may be a heating opportunity that needs confirmation, so check what could be running and report it.",
+     "cta": "report",
+     "title": "Heater-like use pattern"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 15.026,
+    "error": null,
+    "usage": {
+     "completion_tokens": 604,
+     "completion_tokens_details": {
+      "reasoning_tokens": 437
+     },
+     "prompt_tokens": 993,
+     "total_tokens": 1597
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F006",
+   "finding_id": "AN007"
+  }
+ },
+ "2a587a36e41043f58959c52bd870f2851e2a0b7df510e8040c29f31d85d5fd38": {
+  "use_case": "finding_student",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "action": "Report the unusual pattern to the building manager using the report button.",
+   "body": "The appliance on channel A06 shows an unusual pattern: it has used about 12 SEK measured over the last 4 weeks, projected to around 107–199 SEK per year. This looks like an equipment issue the building manager can fix, so you can report it and check that nothing is left running.",
+   "cta": "report",
+   "title": "Much higher than the same channel in other flats"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "action": "Report the unusual pattern to the building manager using the report button.",
+     "body": "The appliance on channel A06 shows an unusual pattern: it has used about 12 SEK measured over the last 4 weeks, projected to around 107–199 SEK per year. This looks like an equipment issue the building manager can fix, so you can report it and check that nothing is left running.",
+     "cta": "report",
+     "title": "Much higher than the same channel in other flats"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 13.202,
+    "error": null,
+    "usage": {
+     "completion_tokens": 707,
+     "completion_tokens_details": {
+      "reasoning_tokens": 531
+     },
+     "prompt_tokens": 987,
+     "total_tokens": 1694
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F004",
+   "finding_id": "AN003"
+  }
+ },
+ "5c913dbfefe0585e951b74e38cf25248c596e1c80ff7a50ccb80cd1d9fd6beec": {
+  "use_case": "finding_student",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "action": "Try running it at night (00:00) to shift usage to cheaper hours and save money.",
+   "body": "An unusual pattern shows your dishwasher-like appliance often runs during expensive peak hours, costing about 9.03 SEK over the last 4 weeks.",
+   "cta": "try",
+   "title": "Use in expensive peak hours"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "action": "Check if you can set a delayed start on your dishwasher (many models have this). Running it at night (cheapest hour: 00:00) instead of peak hours could save you around 9 SEK over the last 4 weeks.",
+     "body": "An unusual pattern has been detected with your dishwasher-like appliance: it's often running during expensive peak hours. This is something you can change yourself.",
+     "cta": "try",
+     "title": "Use in expensive peak hours"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "appliance",
+       "detail": "says 'dishwasher' as fact; use 'dishwasher-like appliance'"
+      },
+      {
+       "check": "length",
+       "detail": "action is 196 chars (max 160)"
+      },
+      {
+       "check": "length",
+       "detail": "action has 2 sentences (max 1)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": false,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 9.713,
+    "error": null,
+    "usage": {
+     "completion_tokens": 289,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 783,
+     "total_tokens": 1072
+    }
+   },
+   {
+    "reply": {
+     "action": "Try running it at night (00:00) to shift usage to cheaper hours and save money.",
+     "body": "An unusual pattern shows your dishwasher-like appliance often runs during expensive peak hours, costing about 9.03 SEK over the last 4 weeks.",
+     "cta": "try",
+     "title": "Use in expensive peak hours"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 14.718,
+    "error": null,
+    "usage": {
+     "completion_tokens": 604,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 842,
+     "total_tokens": 1446
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F007",
+   "finding_id": "AN006"
+  }
+ },
+ "708e7cebac69ceca4a5a736079bfe5f4977f5ac47aa8f333168c30661fe60e83": {
+  "use_case": "finding_manager",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "evidence_points": [
+    "Unusual pattern: the dishwasher-like appliance in flat F007 mostly starts runs at 18:00 local, in the price/carbon peak.",
+    "Detected since 1 Oct with detector confidence 0.66.",
+    "Measured over the last 4 weeks: about 9 SEK (0.22 kg CO2); projected yearly impact 70-168 SEK."
+   ],
+   "priority": "low",
+   "suggested_check": "Ask residents whether the dishwasher-like appliance can be run outside the 18:00 peak; if it cannot be shifted, report it for review.",
+   "summary": "An unusual pattern of peak-hour use was detected for the dishwasher-like appliance in flat F007 since 1 Oct (confidence 0.66). Measured over the last 4 weeks, the impact is about 9 SEK. Shifting this flexible load could give a projected yearly saving of 70-168 SEK.",
+   "title": "Use in expensive peak hours"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "evidence_points": [
+      "Status DETECTED (detector confidence 0.66), since 1 Oct",
+      "Dishwasher-like appliance (assumption) mostly starts at 18:00 local, in the price/carbon peak",
+      "Measured over the last 4 weeks: about 9 SEK (0.22 kg CO2)",
+      "Projected saving from shifting the load: 70-168 SEK per year (projected, not a promise)"
+     ],
+     "priority": "low",
+     "suggested_check": "Confirm when the dishwasher-like appliance is run and check whether its start time can be shifted outside the 18:00 peak. The resident can be asked about the usual schedule; no fault is confirmed at this stage.",
+     "summary": "Since 1 Oct, an unusual pattern has been detected in flat F007: a dishwasher-like appliance (assumption) mostly starts at 18:00 local, during the expensive peak period. Detector confidence is 0.66, so this is not confirmed. Measured over the last 4 weeks, the impact is about 9 SEK. Shifting this flexible load could save money, projected at 70-168 SEK per year (projected, not a promise). This is a load-shift scenario, so it saves money rather than energy.",
+     "title": "F007: Dishwasher-like appliance used in expensive peak hours"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "wording",
+       "detail": "'confirmed' overstates a DETECTED finding"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 5 sentences (max 3)"
+      },
+      {
+       "check": "length",
+       "detail": "evidence_points must have 2-3 items, has 4"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": false,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 28.669,
+    "error": null,
+    "usage": {
+     "completion_tokens": 1380,
+     "completion_tokens_details": {
+      "reasoning_tokens": 1010
+     },
+     "prompt_tokens": 1149,
+     "total_tokens": 2529
+    }
+   },
+   {
+    "reply": {
+     "evidence_points": [
+      "Unusual pattern: the dishwasher-like appliance in flat F007 mostly starts runs at 18:00 local, in the price/carbon peak.",
+      "Detected since 1 Oct with detector confidence 0.66.",
+      "Measured over the last 4 weeks: about 9 SEK (0.22 kg CO2); projected yearly impact 70-168 SEK."
+     ],
+     "priority": "low",
+     "suggested_check": "Ask residents whether the dishwasher-like appliance can be run outside the 18:00 peak; if it cannot be shifted, report it for review.",
+     "summary": "An unusual pattern of peak-hour use was detected for the dishwasher-like appliance in flat F007 since 1 Oct (confidence 0.66). Measured over the last 4 weeks, the impact is about 9 SEK. Shifting this flexible load could give a projected yearly saving of 70-168 SEK.",
+     "title": "Use in expensive peak hours"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 17.223,
+    "error": null,
+    "usage": {
+     "completion_tokens": 1080,
+     "completion_tokens_details": {
+      "reasoning_tokens": 796
+     },
+     "prompt_tokens": 1208,
+     "total_tokens": 2288
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F007",
+   "finding_id": "AN006"
+  }
+ },
+ "2b29a4ed7d26e6814e69d85824ddac000e6d1549f3f97e34fde0fafc504f0e9c": {
+  "use_case": "finding_student",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "action": "Check what is plugged into channel A02 and switch it off when you leave the flat.",
+   "body": "An appliance on channel A02 seems to be running while nobody is home — a possible pattern since 1 Oct. It has cost about 7 SEK over the last 4 weeks, which could add up to roughly 67–125 SEK projected per year.",
+   "cta": "try",
+   "title": "Use while nobody is home"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "action": "Check what is plugged into channel A02 and switch it off when you leave the flat.",
+     "body": "An appliance on channel A02 seems to be running while nobody is home — a possible pattern since 1 Oct. It has cost about 7 SEK over the last 4 weeks, which could add up to roughly 67–125 SEK projected per year.",
+     "cta": "try",
+     "title": "Use while nobody is home"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 12.211,
+    "error": null,
+    "usage": {
+     "completion_tokens": 684,
+     "completion_tokens_details": {
+      "reasoning_tokens": 517
+     },
+     "prompt_tokens": 972,
+     "total_tokens": 1656
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F002",
+   "finding_id": "AN004"
+  }
+ },
+ "471667f0bc9adb3d7ee5387b5e5bfd6a3e6d99b1a1c6355c0313abbcf33e0f0c": {
+  "use_case": "finding_student",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "action": "Report it to the building manager so they can check the fridge-like appliance.",
+   "body": "A fridge-like appliance shows an unusual pattern since 20 Oct. It is measured over the last 4 weeks at about 1.65 SEK, with a projected yearly cost up to 48 SEK; this is an equipment issue the manager can fix, so you can report it.",
+   "cta": "report",
+   "title": "Sudden lasting increase"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "action": "Check the fridge-like appliance door seals are closing tightly. If the unusual pattern continues, report it to your building manager who can investigate the equipment.",
+     "body": "Since 20 Oct, a fridge-like appliance has shown an unusual pattern. This costs about 1.65 SEK extra over the last 4 weeks, with a projected cost of up to 48.0 SEK per year if it continues.",
+     "cta": "report",
+     "title": "Unusual pattern detected in fridge-like appliance"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "action is 167 chars (max 160)"
+      },
+      {
+       "check": "length",
+       "detail": "action has 2 sentences (max 1)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 8.842,
+    "error": null,
+    "usage": {
+     "completion_tokens": 620,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 779,
+     "total_tokens": 1399
+    }
+   },
+   {
+    "reply": {
+     "action": "Report it to the building manager so they can check the fridge-like appliance.",
+     "body": "A fridge-like appliance shows an unusual pattern since 20 Oct. It is measured over the last 4 weeks at about 1.65 SEK, with a projected yearly cost up to 48 SEK; this is an equipment issue the manager can fix, so you can report it.",
+     "cta": "report",
+     "title": "Sudden lasting increase"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 11.462,
+    "error": null,
+    "usage": {
+     "completion_tokens": 504,
+     "completion_tokens_details": {
+      "reasoning_tokens": 336
+     },
+     "prompt_tokens": 1019,
+     "total_tokens": 1523
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F008",
+   "finding_id": "AN002"
+  }
+ },
+ "3b513295ad6d97e5d2502140b3a0b7eb657dc986c47ae4639f48d072aa0f6c22": {
+  "use_case": "weekly_digest",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "bullets": [
+    "Spending fell 26% compared with the week before — 23 SEK over the last 7 days (22–28 Oct).",
+    "The cheapest hour this week is 00:00. Moving flexible use to that hour can save money, though it won't change how much energy you use.",
+    "Simple action: try starting one energy-heavy task, like laundry, just after midnight when electricity is cheapest."
+   ],
+   "encouragement": "Your flat's use score is strong at 98 — keep this up and the savings keep adding up.",
+   "headline": "A lighter week for your energy bill"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "bullets": [
+      "Spending fell 26% compared with the week before — 23 SEK over the last 7 days (22–28 Oct).",
+      "The cheapest hour this week is 00:00. Moving flexible use to that hour can save money, though it won't change how much energy you use.",
+      "Simple action: try starting one energy-heavy task, like laundry, just after midnight when electricity is cheapest."
+     ],
+     "encouragement": "Your flat's use score is strong at 98 — keep this up and the savings keep adding up.",
+     "headline": "A lighter week for your energy bill"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 20.061,
+    "error": null,
+    "usage": {
+     "completion_tokens": 957,
+     "completion_tokens_details": {
+      "reasoning_tokens": 763
+     },
+     "prompt_tokens": 936,
+     "total_tokens": 1893
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F001"
+  }
+ },
+ "d7dfc544f07907dc527b33775bdaa85e298e1623e0992de6389168e15b9e5869": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "Try shifting some flexible activities like laundry or dishwasher to cleaner hours when more renewable energy is available.",
+   "strongest_pillar": "use",
+   "summary": "Your flat scores 85 out of 100 on Resident Actions, placing it 4th out of 8 flats. The score is measured over the last 4 weeks and shows your use efficiency is excellent (98) and waste is low (92), but timing of flexible use could be better (53).",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Check when you run flexible appliances (like dishwashers or laundry). Shifting even some of this use to evening or night hours can help, since the grid is cleaner then.",
+     "strongest_pillar": "use",
+     "summary": "Your flat scores 85 out of 100 in Resident Actions, placing it in band B and 4th out of 8 flats. This means you use electricity quite efficiently overall. The score is measured over the last 4 weeks.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary has 3 sentences (max 2)"
+      },
+      {
+       "check": "length",
+       "detail": "next_step has 2 sentences (max 1)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 12.622,
+    "error": null,
+    "usage": {
+     "completion_tokens": 479,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 826,
+     "total_tokens": 1305
+    }
+   },
+   {
+    "reply": {
+     "next_step": "Try shifting some flexible activities like laundry or dishwasher to cleaner hours when more renewable energy is available.",
+     "strongest_pillar": "use",
+     "summary": "Your flat scores 85 out of 100 on Resident Actions, placing it 4th out of 8 flats. The score is measured over the last 4 weeks and shows your use efficiency is excellent (98) and waste is low (92), but timing of flexible use could be better (53).",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 43.321,
+    "error": null,
+    "usage": {
+     "completion_tokens": 469,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 868,
+     "total_tokens": 1337
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F001"
+  }
+ },
+ "5ce545a79720331596405a846efc26fd34a39a264b3881fe4b93cc324d7ae52b": {
+  "use_case": "weekly_digest",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "bullets": [
+    "Your flat used about 25 SEK for 22–28 Oct, down 28% from the week before, and your 'use' score is strong at 97.",
+    "We see a possible pattern of use while nobody is home, from an appliance on channel A02 (type unknown); over the last 4 weeks this measured about 7.39 SEK.",
+    "Simple action: return that appliance to normal use and watch it for a few days — you can report it if the pattern keeps showing up."
+   ],
+   "encouragement": "Nice progress this week — keep up the good rhythm and the small check on that appliance will help you keep it.",
+   "headline": "A lighter week for your flat"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "bullets": [
+      "Your flat used about 25 SEK for 22–28 Oct, down 28% from the week before, and your 'use' score is strong at 97.",
+      "We see a possible pattern of use while nobody is home, from an appliance on channel A02 (type unknown); over the last 4 weeks this measured about 7.39 SEK.",
+      "Simple action: return that appliance to normal use and watch it for a few days — you can report it if the pattern keeps showing up."
+     ],
+     "encouragement": "Nice progress this week — keep up the good rhythm and the small check on that appliance will help you keep it.",
+     "headline": "A lighter week for your flat"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 19.147,
+    "error": null,
+    "usage": {
+     "completion_tokens": 920,
+     "completion_tokens_details": {
+      "reasoning_tokens": 705
+     },
+     "prompt_tokens": 1063,
+     "total_tokens": 1983
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F002"
+  }
+ },
+ "ca3fab6842fbb9c56a0484fa2579bb9b0ef68430cb5275e70bc985bf2b52d96c": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "Try running dishwashers or laundry at midday when the grid is cleaner",
+   "strongest_pillar": "use",
+   "summary": "Your flat scores 82 on Resident Actions (rank 7 of 8), with 'use' strongest (97) but 'timing' weakest (55) since flexible use happens less during cleaner hours.",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Move flexible electricity use, like laundry or charging, to cleaner hours of the day to lift your timing score.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 82 out of 100 (band B), measured over the last 4 weeks, placing you 7th out of 8 flats. Your strongest pillar is use at 97, meaning your flat's electricity use is close to the most efficient flats. Your waste pillar is 80, covering electricity used while nobody is home. Your weakest pillar is timing at 55, which is about whether flexible use happens in cleaner hours.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary is 400 chars (max 320)"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 4 sentences (max 2)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 11.326,
+    "error": null,
+    "usage": {
+     "completion_tokens": 444,
+     "completion_tokens_details": {
+      "reasoning_tokens": 230
+     },
+     "prompt_tokens": 1021,
+     "total_tokens": 1465
+    }
+   },
+   {
+    "reply": {
+     "next_step": "Try running dishwashers or laundry at midday when the grid is cleaner",
+     "strongest_pillar": "use",
+     "summary": "Your flat scores 82 on Resident Actions (rank 7 of 8), with 'use' strongest (97) but 'timing' weakest (55) since flexible use happens less during cleaner hours.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 14.242,
+    "error": null,
+    "usage": {
+     "completion_tokens": 982,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 867,
+     "total_tokens": 1849
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F002"
+  }
+ },
+ "d52588d5542fdf5a4671969d20053f30b5ac51295df756ecd9270537a85d7c50": {
+  "use_case": "weekly_digest",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "bullets": [
+    "Great news: your energy spending dropped 28% this week compared to last week, down to 34 SEK.",
+    "A possible fault has been detected with a fridge-like appliance showing a sudden lasting increase in use – this needs confirmation.",
+    "Check that the appliance door seals properly and report any unusual noises to your property manager."
+   ],
+   "encouragement": "You're on track – keep it up!",
+   "headline": "Weekly Summary for Flat F003"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "bullets": [
+      "Great news: your energy spending dropped 28% this week compared to last week, down to 34 SEK.",
+      "A possible fault has been detected with a fridge-like appliance showing a sudden lasting increase in use – this needs confirmation.",
+      "Check that the appliance door seals properly and report any unusual noises to your property manager."
+     ],
+     "encouragement": "You're on track – keep it up!",
+     "headline": "Weekly Summary for Flat F003"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 5.852,
+    "error": null,
+    "usage": {
+     "completion_tokens": 301,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 857,
+     "total_tokens": 1158
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F003"
+  }
+ },
+ "39bc65deb1a593dc261e0b6afa4d3fba516523b7a830fb21716426b210289713": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "Try shifting flexible electricity use to cleaner hours of the day to lift your timing pillar.",
+   "strongest_pillar": "use",
+   "summary": "Your Resident Actions score is 87 out of 100 (band B), measured over the last 4 weeks. Your strongest pillar is use (100) and your weakest is timing (57), so shifting flexible use to cleaner hours is your best next step.",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Try moving flexible electricity use (like charging devices or running the dishwasher) to cleaner hours of the day — this is your weakest pillar and the easiest place to save money.",
+     "strongest_pillar": "use",
+     "summary": "Your flat scored 87 out of 100 (band B), ranking 2nd out of 8 flats, measured over the last 4 weeks. Your strongest pillar is use (100/100) — your flat uses about as little electricity as the most efficient flats. Waste is also strong at 90/100, meaning little electricity is used while nobody is home. Your weakest pillar is timing (57/100), which is about whether flexible electricity use happens in cleaner hours. Shifting flexible use to cleaner hours is a good next step to save money.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary is 490 chars (max 320)"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 5 sentences (max 2)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 18.874,
+    "error": null,
+    "usage": {
+     "completion_tokens": 543,
+     "completion_tokens_details": {
+      "reasoning_tokens": 296
+     },
+     "prompt_tokens": 1021,
+     "total_tokens": 1564
+    }
+   },
+   {
+    "reply": {
+     "next_step": "Try shifting flexible electricity use to cleaner hours of the day to lift your timing pillar.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 87 out of 100 (band B), measured over the last 4 weeks. Your strongest pillar is use (100) and your weakest is timing (57), so shifting flexible use to cleaner hours is your best next step.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 42.999,
+    "error": null,
+    "usage": {
+     "completion_tokens": 185,
+     "completion_tokens_details": {
+      "reasoning_tokens": 16
+     },
+     "prompt_tokens": 1062,
+     "total_tokens": 1247
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F003"
+  }
+ },
+ "f82764b1a3f96eb961fa4ee568958300b209b42574e3d15e4971d9110bcb0819": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "Try moving flexible use like laundry or dishwashing to cleaner hours and check the app next week to see if your timing score improves.",
+   "strongest_pillar": "use",
+   "summary": "Your Resident Actions score is 84 (band B), placing you 5th of 8 flats, measured over the last 4 weeks. Your strongest pillar is use (100) and your weakest is timing (54), so shifting flexible electricity to cleaner hours is your best opportunity.",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Your timing pillar is the weakest at 54 out of 100. Try moving flexible electricity use, like charging a laptop or running a dishwasher, to cleaner hours of the day when the grid is greener.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 84 out of 100, which puts you in band B and 5th out of 8 flats, measured over the last 4 weeks. Your strongest pillar is use (100 out of 100), meaning your flat uses about as little electricity as the most efficient flats. Your weakest pillar is timing (54 out of 100), which is about whether flexible electricity use happens in cleaner hours. Waste sits in between at 85 out of 100.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary is 414 chars (max 320)"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 4 sentences (max 2)"
+      },
+      {
+       "check": "length",
+       "detail": "next_step has 2 sentences (max 1)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 9.196,
+    "error": null,
+    "usage": {
+     "completion_tokens": 427,
+     "completion_tokens_details": {
+      "reasoning_tokens": 188
+     },
+     "prompt_tokens": 1021,
+     "total_tokens": 1448
+    }
+   },
+   {
+    "reply": {
+     "next_step": "Try moving flexible use like laundry or dishwashing to cleaner hours and check the app next week to see if your timing score improves.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 84 (band B), placing you 5th of 8 flats, measured over the last 4 weeks. Your strongest pillar is use (100) and your weakest is timing (54), so shifting flexible electricity to cleaner hours is your best opportunity.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 18.661,
+    "error": null,
+    "usage": {
+     "completion_tokens": 410,
+     "completion_tokens_details": {
+      "reasoning_tokens": 227
+     },
+     "prompt_tokens": 1076,
+     "total_tokens": 1486
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F004"
+  }
+ },
+ "d19d4c28ae6a1061f29b84e4de3a0f7cd43c1607c9f62385b8884093ae00f893": {
+  "use_case": "weekly_digest",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "bullets": [
+    "Your energy use last week (22–28 Oct) came in at 31 SEK, down about 23% from the previous week's 40 SEK – a nice step in the right direction.",
+    "There is a possible high night-time base load from an appliance on channel A05 (type unknown). Measured over the last 4 weeks it has used about 6 SEK, so it is worth a look.",
+    "Check what is plugged into channel A05 and return it to normal use. If you can, running things around 00:00 (the cheapest hour) can save money."
+   ],
+   "encouragement": "You're doing well – a small check on channel A05 could make your next week even lighter.",
+   "headline": "A lighter week for your energy use"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "bullets": [
+      "Your energy use last week (22–28 Oct) came in at 31 SEK, down about 23% from the previous week's 40 SEK – a nice step in the right direction.",
+      "There is a possible high night-time base load from an appliance on channel A05 (type unknown). Measured over the last 4 weeks it has used about 6 SEK, so it is worth a look.",
+      "Check what is plugged into channel A05 and return it to normal use. If you can, running things around 00:00 (the cheapest hour) can save money."
+     ],
+     "encouragement": "You're doing well – a small check on channel A05 could make your next week even lighter.",
+     "headline": "A lighter week for your energy use"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 28.711,
+    "error": null,
+    "usage": {
+     "completion_tokens": 1010,
+     "completion_tokens_details": {
+      "reasoning_tokens": 780
+     },
+     "prompt_tokens": 1065,
+     "total_tokens": 2075
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F005"
+  }
+ },
+ "e0f75b1c187311279fea0fdea31e21f6da0c848b1662fae910a5e1a1f1f7414e": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "To lift your timing pillar, try shifting flexible electricity use to cleaner hours, for example running washing or charging devices when demand is lower.",
+   "strongest_pillar": "use",
+   "summary": "Your Resident Actions score is 89 out of 100 (band B), ranked 1st of 8 flats, measured over the last 4 weeks. Your strongest pillar is use (100) — how much electricity you use compared with the most efficient flats — while timing (58) is your weakest.",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Your weakest area is timing (58 out of 100), which is about when flexible electricity use happens. Try moving things like laundry or dishwashing to cleaner hours of the day — this saves money, not energy, so it won't show up as lower electricity use but can lower the bill.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 89 out of 100 (band B), measured over the last 4 weeks, and you rank 1st out of 8 flats. Your strongest pillar is use (100 out of 100) — how much electricity the flat uses compared with the most efficient flats. Your waste pillar is also strong at 98 out of 100, meaning little electricity is used while nobody is home. Your weakest pillar is timing (58 out of 100), which is about whether flexible use happens in cleaner hours.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary is 459 chars (max 320)"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 4 sentences (max 2)"
+      },
+      {
+       "check": "length",
+       "detail": "next_step is 273 chars (max 200)"
+      },
+      {
+       "check": "length",
+       "detail": "next_step has 2 sentences (max 1)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 12.918,
+    "error": null,
+    "usage": {
+     "completion_tokens": 562,
+     "completion_tokens_details": {
+      "reasoning_tokens": 295
+     },
+     "prompt_tokens": 1021,
+     "total_tokens": 1583
+    }
+   },
+   {
+    "reply": {
+     "next_step": "To lift your timing pillar, try shifting flexible electricity use to cleaner hours, for example running washing or charging devices when demand is lower.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 89 out of 100 (band B), ranked 1st of 8 flats, measured over the last 4 weeks. Your strongest pillar is use (100) — how much electricity you use compared with the most efficient flats — while timing (58) is your weakest.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 4.262,
+    "error": null,
+    "usage": {
+     "completion_tokens": 589,
+     "completion_tokens_details": {
+      "reasoning_tokens": 400
+     },
+     "prompt_tokens": 1090,
+     "total_tokens": 1679
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F005"
+  }
+ },
+ "57a486f204487c85a613e341e8eda99b352cfff63609eb8e322d414637170f9c": {
+  "use_case": "weekly_digest",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "bullets": [
+    "Great news: costs dropped 23% compared to last week, down to 38 SEK for the week",
+    "Detected a possible heater-like use pattern that needs attention",
+    "Try shifting some usage to 00:00 when rates are cheapest"
+   ],
+   "encouragement": "Keep up the good work — small shifts add up!",
+   "headline": "Weekly Summary for Flat F006"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "bullets": [
+      "Great news: you spent 38 SEK this week, down from 49 SEK last week (a 23% reduction)",
+      "Possible unusual pattern detected with a heater-like appliance – worth checking when you get a chance",
+      "Quick action: take a moment to look at any portable heaters or similar appliances in the flat"
+     ],
+     "encouragement": "Your waste score is excellent at 94 – keep up the good habits! The possible heater pattern is an opportunity to spot a fault early and save even more.\"",
+     "headline": "Flat F006 weekly summary: 22–28 Oct"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "encouragement has 2 sentences (max 1)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 14.825,
+    "error": null,
+    "usage": {
+     "completion_tokens": 697,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 859,
+     "total_tokens": 1556
+    }
+   },
+   {
+    "reply": {
+     "bullets": [
+      "Great news: costs dropped 23% compared to last week, down to 38 SEK for the week",
+      "Detected a possible heater-like use pattern that needs attention",
+      "Try shifting some usage to 00:00 when rates are cheapest"
+     ],
+     "encouragement": "Keep up the good work — small shifts add up!",
+     "headline": "Weekly Summary for Flat F006"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 17.813,
+    "error": null,
+    "usage": {
+     "completion_tokens": 264,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 887,
+     "total_tokens": 1151
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F006"
+  }
+ },
+ "c9704cc02dc541d29a1c04c281b760f368edaec01c61dca8cfdb7627919d6054": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "Try shifting flexible electricity use (like laundry or charging) to cleaner hours of the day, since that is your weakest area.",
+   "strongest_pillar": "waste",
+   "summary": "Your Resident Actions score is 72 out of 100, measured over the last 4 weeks. Your strongest area is waste (94), meaning little electricity is used while nobody is home, while timing (53) is your weakest, so flexible use could shift to cleaner hours.",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Try moving flexible electricity use, like the dishwasher or laundry, into the cleaner hours of the day - this can save money without changing how much electricity the flat uses overall.",
+     "strongest_pillar": "waste",
+     "summary": "Your Resident Actions score is 72 out of 100, putting your flat in band C and 8th of 8 flats, measured over the last 4 weeks. Your strongest area is waste (94/100): electricity used while nobody is home is low, which is great. Your weakest area is timing (53/100): whether flexible use happens in cleaner hours. This is where you have the most room to improve.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary is 360 chars (max 320)"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 4 sentences (max 2)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 6.748,
+    "error": null,
+    "usage": {
+     "completion_tokens": 747,
+     "completion_tokens_details": {
+      "reasoning_tokens": 525
+     },
+     "prompt_tokens": 1022,
+     "total_tokens": 1769
+    }
+   },
+   {
+    "reply": {
+     "next_step": "Try shifting flexible electricity use (like laundry or charging) to cleaner hours of the day, since that is your weakest area.",
+     "strongest_pillar": "waste",
+     "summary": "Your Resident Actions score is 72 out of 100, measured over the last 4 weeks. Your strongest area is waste (94), meaning little electricity is used while nobody is home, while timing (53) is your weakest, so flexible use could shift to cleaner hours.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 4.449,
+    "error": null,
+    "usage": {
+     "completion_tokens": 198,
+     "completion_tokens_details": {
+      "reasoning_tokens": 16
+     },
+     "prompt_tokens": 1063,
+     "total_tokens": 1261
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F006"
+  }
+ },
+ "0f660551657b514ea9206b9590abc336633a517e2111147bb76e9eb0b5226b2a": {
+  "use_case": "weekly_digest",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "bullets": [
+    "Your energy use dropped 23% compared with the week before, from 41 SEK to 32 SEK (22–28 Oct) – nice work.",
+    "There is an unusual pattern of using a dishwasher-like appliance during expensive peak hours; measured over the last 4 weeks that has cost about 9 SEK, and the cheapest hour is 00:00.",
+    "Try running the dishwasher-like appliance later in the evening – this load shift saves money and CO2, though not energy."
+   ],
+   "encouragement": "You are already doing well – a small timing tweak could make the next week even better.",
+   "headline": "A lighter week on the meter"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "bullets": [
+      "Your energy use dropped 23% compared with the week before, from 41 SEK to 32 SEK (22–28 Oct) – nice work.",
+      "There is an unusual pattern of using a dishwasher-like appliance during expensive peak hours; measured over the last 4 weeks that has cost about 9 SEK, and the cheapest hour is 00:00.",
+      "Try running the dishwasher-like appliance later in the evening – this load shift saves money and CO2, though not energy."
+     ],
+     "encouragement": "You are already doing well – a small timing tweak could make the next week even better.",
+     "headline": "A lighter week on the meter"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 28.475,
+    "error": null,
+    "usage": {
+     "completion_tokens": 897,
+     "completion_tokens_details": {
+      "reasoning_tokens": 691
+     },
+     "prompt_tokens": 1062,
+     "total_tokens": 1959
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F007"
+  }
+ },
+ "0036a172afbc1281b4bbefbb5d15fde5e8ba08cb3403d27d3b9dc31f5997a17c": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "Try shifting flexible electricity use to cleaner hours to lift your timing score.",
+   "strongest_pillar": "waste",
+   "summary": "Your Resident Actions score is 84 out of 100 (band B), measured over the last 4 weeks. Your strongest area is waste (97) — little electricity used while nobody is home — while timing (48) is the weakest, meaning flexible use could happen more in cleaner hours.",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Check when you run appliances like the dishwasher, washing machine, or charge devices. Shifting some of this flexible use to evening or night hours can mean cleaner energy and lower costs.",
+     "strongest_pillar": "waste",
+     "summary": "Your flat scores 84 out of 100 on Resident Actions, placing it in band B and 6th out of 8 flats, measured over the last 4 weeks. The score is built from three pillars: use (96) measures how your electricity use compares with the most efficient flats, waste (97) tracks electricity used while no one is home, and timing (48) looks at whether flexible use happens in cleaner hours. Your strongest area is waste, meaning you are very good at not leaving things running when the flat is empty. Your weakest area is timing, meaning there is room to shift more flexible electricity use to cleaner hours.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary is 597 chars (max 320)"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 4 sentences (max 2)"
+      },
+      {
+       "check": "length",
+       "detail": "next_step has 2 sentences (max 1)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 6.483,
+    "error": null,
+    "usage": {
+     "completion_tokens": 562,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 827,
+     "total_tokens": 1389
+    }
+   },
+   {
+    "reply": {
+     "next_step": "Try shifting flexible electricity use to cleaner hours to lift your timing score.",
+     "strongest_pillar": "waste",
+     "summary": "Your Resident Actions score is 84 out of 100 (band B), measured over the last 4 weeks. Your strongest area is waste (97) — little electricity used while nobody is home — while timing (48) is the weakest, meaning flexible use could happen more in cleaner hours.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 13.233,
+    "error": null,
+    "usage": {
+     "completion_tokens": 509,
+     "completion_tokens_details": {
+      "reasoning_tokens": 335
+     },
+     "prompt_tokens": 1077,
+     "total_tokens": 1586
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F007"
+  }
+ },
+ "190a575c6263876d4e13a244b4a91f78cb9cd13edba3dc39f9d8c7d73e96720f": {
+  "use_case": "weekly_digest",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "bullets": [
+    "Great week: your energy use dropped 30% compared to the week before, from 29 SEK to 20 SEK, and your 'use' pillar is at 99.",
+    "One thing to look at: there is an unusual pattern from a fridge-like appliance, measured over the last 4 weeks at about 1.65 SEK. Since this is a building matter, you can check it and report it to the manager rather than worry about it yourself.",
+    "Simple action: the cheapest hour this week is 00:00, so try running larger appliances then to save a bit of money."
+   ],
+   "encouragement": "You're already doing really well — keep up the good habits and the small check on the fridge-like appliance can help the whole flat.",
+   "headline": "A 30% lighter week — nice work!"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "bullets": [
+      "Great week: your energy use dropped 30% compared to the week before, from 29 SEK to 20 SEK, and your 'use' pillar is at 99.",
+      "One thing to look at: there is an unusual pattern from a fridge-like appliance, measured over the last 4 weeks at about 1.65 SEK. Since this is a building matter, you can check it and report it to the manager rather than worry about it yourself.",
+      "Simple action: the cheapest hour this week is 00:00, so try running larger appliances then to save a bit of money."
+     ],
+     "encouragement": "You're already doing really well — keep up the good habits and the small check on the fridge-like appliance can help the whole flat.",
+     "headline": "A 30% lighter week — nice work!"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 20.154,
+    "error": null,
+    "usage": {
+     "completion_tokens": 814,
+     "completion_tokens_details": {
+      "reasoning_tokens": 574
+     },
+     "prompt_tokens": 1060,
+     "total_tokens": 1874
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F008"
+  }
+ },
+ "32d40b53170930b546488cffaf955e96db36e0c00334215bff9384eba636f905": {
+  "use_case": "score_explainer",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "next_step": "Shift flexible electricity use to cleaner hours to lift your timing pillar.",
+   "strongest_pillar": "use",
+   "summary": "Your Resident Actions score is 86 (band B, rank 3 of 8 flats), measured over the last 4 weeks. Your strongest pillar is use (99) and your weakest is timing (53), so shifting flexible electricity use to cleaner hours is a good next step.",
+   "weakest_pillar": "timing"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "next_step": "Your weakest area is timing, so try shifting flexible electricity use (like running the dishwasher or doing laundry) to the cleaner hours of the day, and check the app for when those hours are.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 86 out of 100, which puts your flat in band B and 3rd out of 8 flats, measured over the last 4 weeks. Your strongest pillar is use (99 out of 100), meaning your flat uses very little electricity compared with the most efficient flats. Your waste pillar is also strong at 93, so little electricity is used while nobody is home. Your weakest pillar is timing (53 out of 100), which is about whether flexible electricity use happens in cleaner hours.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary is 478 chars (max 320)"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 4 sentences (max 2)"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 13.145,
+    "error": null,
+    "usage": {
+     "completion_tokens": 426,
+     "completion_tokens_details": {
+      "reasoning_tokens": 180
+     },
+     "prompt_tokens": 1021,
+     "total_tokens": 1447
+    }
+   },
+   {
+    "reply": {
+     "next_step": "Shift flexible electricity use to cleaner hours to lift your timing pillar.",
+     "strongest_pillar": "use",
+     "summary": "Your Resident Actions score is 86 (band B, rank 3 of 8 flats), measured over the last 4 weeks. Your strongest pillar is use (99) and your weakest is timing (53), so shifting flexible electricity use to cleaner hours is a good next step.",
+     "weakest_pillar": "timing"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 9.225,
+    "error": null,
+    "usage": {
+     "completion_tokens": 408,
+     "completion_tokens_details": {
+      "reasoning_tokens": 238
+     },
+     "prompt_tokens": 1062,
+     "total_tokens": 1470
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F008"
+  }
+ },
+ "da8f2ab162a3902c6e76251b6b719e280d26d7cade39c961f64cf6cb3661da68": {
+  "use_case": "finding_manager",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "evidence_points": [
+    "Unusual pattern detected since 1 Oct on channel A06 in flat F004 (appliance type unknown).",
+    "Standby use is about 5x the same channel's median in other flats; detector confidence 0.62.",
+    "Measured over the last 4 weeks: 11.74 SEK, 28.1 kWh, 1.03 kg CO2."
+   ],
+   "priority": "low",
+   "suggested_check": "Since this is manager responsibility, please check what is connected to channel A06 in flat F004 and whether it can be switched off or replaced. Residents can report it if they cannot identify the device.",
+   "summary": "An appliance on channel A06 in flat F004 shows an unusual pattern since 1 Oct: standby use about 5x the same channel's median in other flats (detector confidence 0.62). Measured over the last 4 weeks, the impact is 11.74 SEK (28.1 kWh). The projected yearly cost is 107–199 SEK.",
+   "title": "Much higher than the same channel in other flats (F004-A06)"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "evidence_points": [
+      "Unusual pattern detected since 1 Oct on channel A06 in flat F004.",
+      "Standby draw is about 5x the median of the same channel in other flats (detector confidence 0.62).",
+      "Measured over the last 4 weeks: 28.1 kWh, 11.74 SEK, 1.03 kg CO2.",
+      "Projected yearly impact: 107–199 SEK."
+     ],
+     "priority": "low",
+     "suggested_check": "Check the appliance on channel A06 (type unknown) for a possible fault or a setting that keeps it running in standby. Since responsibility is with the manager, you can inspect or report it; no resident action is assumed.",
+     "summary": "An unusual pattern is detected on the appliance on channel A06 in flat F004, active since 1 Oct. Its standby draw is about 5x the median of the same channel in other flats (confidence 0.62). Measured over the last 4 weeks the impact is 11.74 SEK (28.1 kWh, 1.03 kg CO2), with a projected yearly impact of 107–199 SEK. This is not the largest 28-day impact in the portfolio, so priority is low. Since the appliance type is unknown, treat it as an assumption when deciding whether to send a technician.",
+     "title": "Flat F004, channel A06: unusual standby pattern since 1 Oct"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "length",
+       "detail": "summary has 5 sentences (max 3)"
+      },
+      {
+       "check": "length",
+       "detail": "evidence_points must have 2-3 items, has 4"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 0.319,
+    "error": null,
+    "usage": {
+     "completion_tokens": 629,
+     "completion_tokens_details": {
+      "reasoning_tokens": 244
+     },
+     "prompt_tokens": 1154,
+     "total_tokens": 1783
+    }
+   },
+   {
+    "reply": {
+     "evidence_points": [
+      "Unusual pattern detected since 1 Oct on channel A06 in flat F004 (appliance type unknown).",
+      "Standby use is about 5x the same channel's median in other flats; detector confidence 0.62.",
+      "Measured over the last 4 weeks: 11.74 SEK, 28.1 kWh, 1.03 kg CO2."
+     ],
+     "priority": "low",
+     "suggested_check": "Since this is manager responsibility, please check what is connected to channel A06 in flat F004 and whether it can be switched off or replaced. Residents can report it if they cannot identify the device.",
+     "summary": "An appliance on channel A06 in flat F004 shows an unusual pattern since 1 Oct: standby use about 5x the same channel's median in other flats (detector confidence 0.62). Measured over the last 4 weeks, the impact is 11.74 SEK (28.1 kWh). The projected yearly cost is 107–199 SEK.",
+     "title": "Much higher than the same channel in other flats (F004-A06)"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 24.88,
+    "error": null,
+    "usage": {
+     "completion_tokens": 787,
+     "completion_tokens_details": {
+      "reasoning_tokens": 468
+     },
+     "prompt_tokens": 1198,
+     "total_tokens": 1985
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F004",
+   "finding_id": "AN003"
+  }
+ },
+ "e84f7b0bec7d7f3346eeb9615fdf4bb3ac065b7e52eccfab4d68714a3ebe24e3": {
+  "use_case": "finding_student",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "action": "Check what is plugged into channel A05 and return it to normal use.",
+   "body": "There's a possible high night-time base load from the appliance on channel A05, running since 1 Oct. It cost about 6 SEK measured over the last 4 weeks, projected at 55–101 SEK per year, so a quick check is worth it.",
+   "cta": "try",
+   "title": "High night-time base load"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "action": "Check what's plugged into channel A05 and switch it off at night.",
+     "body": "An appliance on channel A05 may be drawing extra power at night since 1 Oct — about 6 SEK measured over the last 4 weeks, projected at 55–101 SEK per year. Check what's plugged into that channel and switch it off at night.",
+     "cta": "try",
+     "title": "High night-time base load"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "wording",
+       "detail": "status PLAUSIBLE needs the phrase 'possible'"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": false,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 0.577,
+    "error": null,
+    "usage": {
+     "completion_tokens": 737,
+     "completion_tokens_details": {
+      "reasoning_tokens": 571
+     },
+     "prompt_tokens": 974,
+     "total_tokens": 1711
+    }
+   },
+   {
+    "reply": {
+     "action": "Check what is plugged into channel A05 and return it to normal use.",
+     "body": "There's a possible high night-time base load from the appliance on channel A05, running since 1 Oct. It cost about 6 SEK measured over the last 4 weeks, projected at 55–101 SEK per year, so a quick check is worth it.",
+     "cta": "try",
+     "title": "High night-time base load"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 26.051,
+    "error": null,
+    "usage": {
+     "completion_tokens": 633,
+     "completion_tokens_details": {
+      "reasoning_tokens": 466
+     },
+     "prompt_tokens": 1002,
+     "total_tokens": 1635
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F005",
+   "finding_id": "AN005"
+  }
+ },
+ "9935c7d3a86fc7e3c3c29a3272a0bf027a0df456443f0c97ef2bf0570f71e0e1": {
+  "use_case": "finding_manager",
+  "source": "llm",
+  "provider": "gonka",
+  "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "prompt_version": "v1",
+  "phrases_version": "phrases-v1",
+  "output": {
+   "evidence_points": [
+    "Night-time (00–05) consumption is about double the baseline for this flat",
+    "Measured over last 4 weeks: 20.9 kWh costing 5.98 SEK",
+    "Projected yearly: 55–101 SEK if the issue continues"
+   ],
+   "priority": "medium",
+   "suggested_check": "Residents can check for any fridge-like appliance or device running continuously at night. If the pattern continues, they should report it so a technician can investigate.",
+   "summary": "A possible fault has been detected in flat F005 since 1 Oct: night-time base load is unusually high (76% confidence). Measured over the last 4 weeks, this has cost 5.98 SEK. The projected yearly cost if unaddressed is 55–101 SEK.",
+   "title": "High night-time base load in flat F005"
+  },
+  "validation": {
+   "passed": true,
+   "failures": [],
+   "checks": {
+    "schema": true,
+    "numbers": true,
+    "wording": true,
+    "projected": true,
+    "shift": true,
+    "blame": true,
+    "appliance": true,
+    "length": true,
+    "logic": true
+   }
+  },
+  "llm_attempts": [
+   {
+    "reply": {
+     "evidence_points": [
+      "Status PLAUSIBLE with 76% detector confidence (wording: possible).",
+      "Pattern since 1 Oct: night-time (00-05) base load on channel A05 in flat F005 is well above other flats.",
+      "Measured over the last 4 weeks: 5.98 SEK (20.9 kWh, 0.67 kg CO2).",
+      "Projected yearly impact (not a promise): 55-101 SEK.",
+      "Appliance type is unknown; channel A05 is treated as an assumption.",
+      "Responsibility is marked as resident; this is not the largest 28-day impact in the portfolio."
+     ],
+     "priority": "medium",
+     "suggested_check": "Check what is connected to channel A05 in flat F005 and ask the residents which devices are left running at night. If nothing explains the load, report it so a technician can inspect the appliance.",
+     "summary": "A possible high night-time base load is detected on the appliance on channel A05 in flat F005 since 1 Oct. The evidence is PLAUSIBLE (76% confidence), so it is a possible fault or behaviour, not confirmed. Measured over the last 4 weeks the impact is 5.98 SEK. The projected yearly impact is 55-101 SEK (projected, not a promise). Responsibility is marked as resident, so please check with the residents what is connected to this channel before deciding on a technician visit.",
+     "title": "Possible high night-time base load on channel A05 in flat F005"
+    },
+    "validation": {
+     "passed": false,
+     "failures": [
+      {
+       "check": "wording",
+       "detail": "'confirmed' overstates a PLAUSIBLE finding"
+      },
+      {
+       "check": "length",
+       "detail": "summary has 5 sentences (max 3)"
+      },
+      {
+       "check": "length",
+       "detail": "evidence_points must have 2-3 items, has 6"
+      }
+     ],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": false,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": false,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 0.565,
+    "error": null,
+    "usage": {
+     "completion_tokens": 882,
+     "completion_tokens_details": {
+      "reasoning_tokens": 479
+     },
+     "prompt_tokens": 1151,
+     "total_tokens": 2033
+    }
+   },
+   {
+    "reply": {
+     "evidence_points": [
+      "Night-time (00–05) consumption is about double the baseline for this flat",
+      "Measured over last 4 weeks: 20.9 kWh costing 5.98 SEK",
+      "Projected yearly: 55–101 SEK if the issue continues"
+     ],
+     "priority": "medium",
+     "suggested_check": "Residents can check for any fridge-like appliance or device running continuously at night. If the pattern continues, they should report it so a technician can investigate.",
+     "summary": "A possible fault has been detected in flat F005 since 1 Oct: night-time base load is unusually high (76% confidence). Measured over the last 4 weeks, this has cost 5.98 SEK. The projected yearly cost if unaddressed is 55–101 SEK.",
+     "title": "High night-time base load in flat F005"
+    },
+    "validation": {
+     "passed": true,
+     "failures": [],
+     "checks": {
+      "schema": true,
+      "numbers": true,
+      "wording": true,
+      "projected": true,
+      "shift": true,
+      "blame": true,
+      "appliance": true,
+      "length": true,
+      "logic": true
+     }
+    },
+    "provider": "gonka",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "latency_s": 14.639,
+    "error": null,
+    "usage": {
+     "completion_tokens": 587,
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "prompt_tokens": 1005,
+     "total_tokens": 1592
+    }
+   }
+  ],
+  "cached": false,
+  "meta": {
+   "flat_id": "F005",
+   "finding_id": "AN005"
+  }
+ }
+}
