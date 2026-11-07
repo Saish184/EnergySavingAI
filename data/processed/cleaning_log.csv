@@ -1,0 +1,719 @@
+source_file,source_line,reading_id,field,original_value,new_value,action,rule
+energy_readings.csv,539,R0006811,timestamp_utc,2026/10/06 01:00,2026-10-06T01:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,760,R0035393,timestamp_utc,2026/10/27 08:00,2026-10-27T08:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,2052,R0028272,timestamp_utc,2026/10/22 00:00,2026-10-22T00:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,2865,R0031694,timestamp_utc,2026/10/24 13:00,2026-10-24T13:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,3991,R0017217,timestamp_utc,2026/10/13 19:00,2026-10-13T19:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,5093,R0012018,timestamp_utc,2026/10/09 22:00,2026-10-09T22:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,5374,R0007021,timestamp_utc,2026/10/06 05:00,2026-10-06T05:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,5722,R0036190,timestamp_utc,2026/10/27 22:00,2026-10-27T22:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,5840,R0015575,timestamp_utc,2026/10/12 14:00,2026-10-12T14:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,5844,R0027138,timestamp_utc,2026/10/21 04:00,2026-10-21T04:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,6050,R0019763,timestamp_utc,2026/10/15 16:00,2026-10-15T16:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,6476,R0017002,timestamp_utc,2026/10/13 15:00,2026-10-13T15:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,6556,R0030660,timestamp_utc,2026/10/23 19:00,2026-10-23T19:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,6654,R0005293,timestamp_utc,2026/10/04 22:00,2026-10-04T22:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,7481,R0014121,timestamp_utc,2026/10/11 12:00,2026-10-11T12:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,7607,R0025096,timestamp_utc,2026/10/19 16:00,2026-10-19T16:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,8449,R0027515,timestamp_utc,2026/10/21 11:00,2026-10-21T11:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,9916,R0028141,timestamp_utc,2026/10/21 22:00,2026-10-21T22:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,10626,R0014446,timestamp_utc,2026/10/11 17:00,2026-10-11T17:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,10721,R0028277,timestamp_utc,2026/10/22 00:00,2026-10-22T00:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,10901,R0015891,timestamp_utc,2026/10/12 19:00,2026-10-12T19:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,10997,R0016339,timestamp_utc,2026/10/13 03:00,2026-10-13T03:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,11114,R0025731,timestamp_utc,2026/10/20 03:00,2026-10-20T03:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,11619,R0008160,timestamp_utc,2026/10/07 01:00,2026-10-07T01:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,12510,R0020612,timestamp_utc,2026/10/16 08:00,2026-10-16T08:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,12523,R0025608,timestamp_utc,2026/10/20 01:00,2026-10-20T01:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,13023,R0022209,timestamp_utc,2026/10/17 12:00,2026-10-17T12:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,13478,R0025884,timestamp_utc,2026/10/20 06:00,2026-10-20T06:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,13534,R0007765,timestamp_utc,2026/10/06 18:00,2026-10-06T18:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,13973,R0029049,timestamp_utc,2026/10/22 14:00,2026-10-22T14:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,14148,R0020275,timestamp_utc,2026/10/16 02:00,2026-10-16T02:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,14555,R0027657,timestamp_utc,2026/10/21 13:00,2026-10-21T13:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,15082,R0032471,timestamp_utc,2026/10/25 03:00,2026-10-25T03:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,15235,R0000060,timestamp_utc,2026/10/01 01:00,2026-10-01T01:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,15436,R0026555,timestamp_utc,2026/10/20 18:00,2026-10-20T18:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,15588,R0001724,timestamp_utc,2026/10/02 06:00,2026-10-02T06:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,16484,R0010298,timestamp_utc,2026/10/08 15:00,2026-10-08T15:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,17651,R0021843,timestamp_utc,2026/10/17 06:00,2026-10-17T06:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,18014,R0011405,timestamp_utc,2026/10/09 11:00,2026-10-09T11:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,18239,R0020186,timestamp_utc,2026/10/16 00:00,2026-10-16T00:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,19224,R0017361,timestamp_utc,2026/10/13 22:00,2026-10-13T22:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,19365,R0007516,timestamp_utc,2026/10/06 14:00,2026-10-06T14:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,19752,R0034514,timestamp_utc,2026/10/26 16:00,2026-10-26T16:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,20272,R0013604,timestamp_utc,2026/10/11 02:00,2026-10-11T02:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,21942,R0025905,timestamp_utc,2026/10/20 06:00,2026-10-20T06:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,21982,R0035051,timestamp_utc,2026/10/27 01:00,2026-10-27T01:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,23167,R0026671,timestamp_utc,2026/10/20 20:00,2026-10-20T20:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,23289,R0019949,timestamp_utc,2026/10/15 20:00,2026-10-15T20:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,23487,R0015435,timestamp_utc,2026/10/12 11:00,2026-10-12T11:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,23907,R0023086,timestamp_utc,2026/10/18 04:00,2026-10-18T04:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,23918,R0021951,timestamp_utc,2026/10/17 07:00,2026-10-17T07:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,25915,R0004111,timestamp_utc,2026/10/04 01:00,2026-10-04T01:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,26214,R0006862,timestamp_utc,2026/10/06 02:00,2026-10-06T02:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,26669,R0014878,timestamp_utc,2026/10/12 01:00,2026-10-12T01:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,27386,R0005370,timestamp_utc,2026/10/04 23:00,2026-10-04T23:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,27423,R0036929,timestamp_utc,2026/10/28 11:00,2026-10-28T11:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,27622,R0006916,timestamp_utc,2026/10/06 03:00,2026-10-06T03:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,28345,R0013983,timestamp_utc,2026/10/11 09:00,2026-10-11T09:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,28349,R0008765,timestamp_utc,2026/10/07 12:00,2026-10-07T12:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,28481,R0028518,timestamp_utc,2026/10/22 05:00,2026-10-22T05:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,28498,R0029460,timestamp_utc,2026/10/22 22:00,2026-10-22T22:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,29550,R0028339,timestamp_utc,2026/10/22 02:00,2026-10-22T02:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,30592,R0034199,timestamp_utc,2026/10/26 10:00,2026-10-26T10:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,30869,R0037046,timestamp_utc,2026/10/28 13:00,2026-10-28T13:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,31338,R0019698,timestamp_utc,2026/10/15 15:00,2026-10-15T15:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,32059,R0017074,timestamp_utc,2026/10/13 16:00,2026-10-13T16:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,32422,R0019530,timestamp_utc,2026/10/15 12:00,2026-10-15T12:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,32799,R0003429,timestamp_utc,2026/10/03 13:00,2026-10-03T13:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,32960,R0001601,timestamp_utc,2026/10/02 04:00,2026-10-02T04:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,33729,R0015103,timestamp_utc,2026/10/12 05:00,2026-10-12T05:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,34385,R0005732,timestamp_utc,2026/10/05 06:00,2026-10-05T06:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,34566,R0004394,timestamp_utc,2026/10/04 06:00,2026-10-04T06:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,34615,R0027106,timestamp_utc,2026/10/21 04:00,2026-10-21T04:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,35345,R0030188,timestamp_utc,2026/10/23 11:00,2026-10-23T11:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,35547,R0002868,timestamp_utc,2026/10/03 03:00,2026-10-03T03:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,35972,R0008260,timestamp_utc,2026/10/07 03:00,2026-10-07T03:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,36155,R0005703,timestamp_utc,2026/10/05 05:00,2026-10-05T05:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,36962,R0000979,timestamp_utc,2026/10/01 17:00,2026-10-01T17:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,37171,R0017448,timestamp_utc,2026/10/13 23:00,2026-10-13T23:00:00Z,corrected,legacy 'YYYY/MM/DD HH:MM' (UTC) -> ISO 8601 UTC
+energy_readings.csv,897,R0014291,appliance_id, f002-a04 ,F002-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,2364,R0018855,appliance_id, f006-a04 ,F006-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,2830,R0019131,appliance_id, f005-a07 ,F005-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,4316,R0000517,appliance_id, f002-a06 ,F002-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,4450,R0030032,appliance_id, f003-a02 ,F003-A02,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,4543,R0035116,appliance_id, f001-a04 ,F001-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,4673,R0001106,appliance_id, f006-a07 ,F006-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,5426,R0018524,appliance_id, f007-a02 ,F007-A02,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,5507,R0024866,appliance_id, f001-a02 ,F001-A02,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,5737,R0003001,appliance_id, f005-a05 ,F005-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,6303,R0032628,appliance_id, f006-a01 ,F006-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,7075,R0035439,appliance_id, f007-a05 ,F007-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,7753,R0031245,appliance_id, f008-a04 ,F008-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,8555,R0025983,appliance_id, f008-a06 ,F008-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,8628,R0025619,appliance_id, f004-a06 ,F004-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,8788,R0007266,appliance_id, f006-a07 ,F006-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,9252,R0007803,appliance_id, f003-a05 ,F003-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,9844,R0020200,appliance_id, f006-a05 ,F006-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,10302,R0022971,appliance_id, f002-a04 ,F002-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,10595,R0024094,appliance_id, f002-a07 ,F002-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,13054,R0032702,appliance_id, f008-a05 ,F008-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,13342,R0003401,appliance_id, f006-a06 ,F006-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,13624,R0013859,appliance_id, f004-a06 ,F004-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,13935,R0022919,appliance_id, f003-a01 ,F003-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,13998,R0030612,appliance_id, f006-a01 ,F006-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,14596,R0029191,appliance_id, f003-a01 ,F003-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,15516,R0021344,appliance_id, f002-a01 ,F002-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,16214,R0010696,appliance_id, f008-a07 ,F008-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,17270,R0003779,appliance_id, f004-a06 ,F004-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,18619,R0033755,appliance_id, f007-a01 ,F007-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,18818,R0012319,appliance_id, f008-a06 ,F008-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,18905,R0037499,appliance_id, f005-a07 ,F005-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,19991,R0030255,appliance_id, f003-a01 ,F003-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,20747,R0022007,appliance_id, f008-a06 ,F008-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,20818,R0011529,appliance_id, f007-a07 ,F007-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,23106,R0007550,appliance_id, f007-a04 ,F007-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,23387,R0031825,appliance_id, f003-a03 ,F003-A03,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,23978,R0018455,appliance_id, f005-a03 ,F005-A03,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,24128,R0027070,appliance_id, f004-a01 ,F004-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,24182,R0011739,appliance_id, f005-a07 ,F005-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,25444,R0030940,appliance_id, f004-a07 ,F004-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,25464,R0035378,appliance_id, f006-a07 ,F006-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,25587,R0022174,appliance_id, f008-a05 ,F008-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,25699,R0027093,appliance_id, f007-a03 ,F007-A03,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,26122,R0002275,appliance_id, f005-a07 ,F005-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,26250,R0007942,appliance_id, f007-a04 ,F007-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,27285,R0012551,appliance_id, f001-a07 ,F001-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,27549,R0026981,appliance_id, f007-a03 ,F007-A03,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,27644,R0028823,appliance_id, f006-a04 ,F006-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,28376,R0002560,appliance_id, f006-a05 ,F006-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,29080,R0002326,appliance_id, f005-a02 ,F005-A02,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,29147,R0026100,appliance_id, f001-a04 ,F001-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,29515,R0024217,appliance_id, f004-a04 ,F004-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,30571,R0026037,appliance_id, f008-a04 ,F008-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,31710,R0001333,appliance_id, f007-a03 ,F007-A03,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,32040,R0009312,appliance_id, f003-a02 ,F003-A02,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,32311,R0024263,appliance_id, f003-a01 ,F003-A01,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,32902,R0024912,appliance_id, f007-a06 ,F007-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,33128,R0026621,appliance_id, f003-a07 ,F003-A07,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,33548,R0013766,appliance_id, f007-a04 ,F007-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,34592,R0007643,appliance_id, f004-a06 ,F004-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,34909,R0028712,appliance_id, f006-a05 ,F006-A05,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,35111,R0020877,appliance_id, f007-a03 ,F007-A03,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,35200,R0021657,appliance_id, f006-a06 ,F006-A06,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,37267,R0026905,appliance_id, f004-a04 ,F004-A04,corrected,strip whitespace / upper-case appliance_id
+energy_readings.csv,3878,R0032484,appliance_id,F999-A01,F001-A04,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,4849,R0030219,appliance_id,F999-A01,F005-A07,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,5399,R0009798,appliance_id,F999-A01,F008-A05,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,7334,R0023991,appliance_id,F999-A01,F004-A02,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,7969,R0031733,appliance_id,F999-A01,F006-A02,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,11561,R0027692,appliance_id,F999-A01,F004-A07,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,13037,R0019485,appliance_id,F999-A01,F008-A04,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,19778,R0027113,appliance_id,F999-A01,F002-A02,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,20005,R0028571,appliance_id,F999-A01,F002-A04,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,26203,R0000486,appliance_id,F999-A01,F006-A03,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,30767,R0006795,appliance_id,F999-A01,F003-A05,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,36716,R0028012,appliance_id,F999-A01,F002-A05,corrected,placeholder F999 appliance: channel recovered from reading_id (flat_id and timestamp agree; slot otherwise empty)
+energy_readings.csv,340,R0034569,flat_id,F008,F003,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,1623,R0034055,flat_id,F008,F001,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,3256,R0029163,flat_id,F008,F007,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,4309,R0025369,flat_id,F008,F001,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,10845,R0017959,flat_id,F008,F006,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,14544,R0028862,flat_id,F008,F004,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,15484,R0027128,flat_id,F008,F004,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,17041,R0019771,flat_id,F008,F001,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,17292,R0028519,flat_id,F008,F003,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,17709,R0015400,flat_id,F001,F008,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,18125,R0012975,flat_id,F008,F006,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,20647,R0037360,flat_id,F008,F002,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,21297,R0024066,flat_id,F008,F006,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,21361,R0021167,flat_id,F001,F008,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,21860,R0033511,flat_id,F008,F004,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,22555,R0011833,flat_id,F008,F003,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,25798,R0019470,flat_id,F008,F006,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,26374,R0010748,flat_id,F001,F008,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,27199,R0002536,flat_id,F008,F003,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,30187,R0011238,flat_id,F008,F006,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,32284,R0036680,flat_id,F001,F008,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,33486,R0023358,flat_id,F008,F001,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,36381,R0035892,flat_id,F001,F008,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,36883,R0006597,flat_id,F008,F007,corrected,flat_id contradicted appliance_id prefix; appliance_id and reading_id agree (slot otherwise empty)
+energy_readings.csv,564,R0037569,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,672,R0019345,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,2109,R0009423,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,2772,R0032238,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,2815,R0020620,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,2906,R0023531,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,3368,R0033859,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,3798,R0024508,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,6255,R0002225,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,6608,R0017375,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,6818,R0020436,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,7109,R0009860,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,7462,R0025994,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,7672,R0011513,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,10258,R0022276,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,10875,R0021619,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,11370,R0037548,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,11648,R0009971,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,13033,R0036783,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,13453,R0021101,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,13462,R0036158,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,13699,R0037243,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,14032,R0032766,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,14429,R0011190,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,15226,R0037607,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,15570,R0016963,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,15663,R0018857,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,16488,R0003147,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,16522,R0008576,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,16957,R0003035,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,17881,R0029018,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,18154,R0028260,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,18266,R0017649,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,19634,R0009031,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,20135,R0021774,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,20373,R0036255,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,21300,R0014380,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,21932,R0006848,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,22247,R0007902,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,23078,R0011635,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,23566,R0014285,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,23892,R0009936,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,24792,R0003183,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,25445,R0005867,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,26153,R0000016,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,26181,R0032704,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,26391,R0034630,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,26548,R0011243,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,27069,R0003235,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,27419,R0016056,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,27651,R0029788,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,29174,R0014293,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,29497,R0009850,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,29634,R0026518,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,29636,R0020599,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,30189,R0028190,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,30951,R0017842,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,31290,R0020134,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,31660,R0033503,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,32706,R0014210,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,32847,R0033569,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,33286,R0036082,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,34346,R0036508,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,34522,R0018400,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,34543,R0001253,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,34647,R0027499,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,35988,R0008562,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,36394,R0025294,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,36781,R0000125,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,37124,R0009510,energy_unit,' kwh ',kWh,corrected,normalise unit spelling/whitespace
+energy_readings.csv,72,R0015777,energy_value,"0,0579",0.0579,corrected,decimal comma -> decimal point
+energy_readings.csv,521,R0001131,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,816,R0035389,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,987,R0029300,energy_value,"0,065",0.065,corrected,decimal comma -> decimal point
+energy_readings.csv,1166,R0011566,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,1345,R0030978,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,1554,R0000914,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,1821,R0034052,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,2039,R0029351,energy_value,"0,7377",0.7377,corrected,decimal comma -> decimal point
+energy_readings.csv,3096,R0035772,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,3142,R0035653,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,3234,R0006654,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,3312,R0012387,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,3732,R0003680,energy_value,"0,053",0.053,corrected,decimal comma -> decimal point
+energy_readings.csv,4040,R0014848,energy_value,"0,0357",0.0357,corrected,decimal comma -> decimal point
+energy_readings.csv,4045,R0031027,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,6274,R0000354,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,6333,R0020840,energy_value,"0,1326",0.1326,corrected,decimal comma -> decimal point
+energy_readings.csv,6367,R0028787,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,6445,R0033310,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,6895,R0009382,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,7232,R0032408,energy_value,"0,065",0.065,corrected,decimal comma -> decimal point
+energy_readings.csv,7283,R0020395,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,7515,R0034705,energy_value,"0,0497",0.0497,corrected,decimal comma -> decimal point
+energy_readings.csv,7612,R0016015,energy_value,"0,0983",0.0983,corrected,decimal comma -> decimal point
+energy_readings.csv,7794,R0013175,energy_value,"0,0383",0.0383,corrected,decimal comma -> decimal point
+energy_readings.csv,8055,R0034822,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,8300,R0035796,energy_value,"0,004",0.004,corrected,decimal comma -> decimal point
+energy_readings.csv,8400,R0023652,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,9046,R0003665,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,10147,R0037319,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,10157,R0010312,energy_value,"0,0415",0.0415,corrected,decimal comma -> decimal point
+energy_readings.csv,10697,R0033378,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,10859,R0033428,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,12546,R0014766,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,12707,R0035711,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,13056,R0008699,energy_value,"0,004",0.004,corrected,decimal comma -> decimal point
+energy_readings.csv,13268,R0000279,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,13479,R0015245,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,13993,R0027141,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,14060,R0013536,energy_value,"0,065",0.065,corrected,decimal comma -> decimal point
+energy_readings.csv,14135,R0033088,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,14856,R0027971,energy_value,"0,0641",0.0641,corrected,decimal comma -> decimal point
+energy_readings.csv,16038,R0025301,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,16685,R0002143,energy_value,"0,0478",0.0478,corrected,decimal comma -> decimal point
+energy_readings.csv,17091,R0020285,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,17191,R0000585,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,17475,R0033006,energy_value,"0,0671",0.0671,corrected,decimal comma -> decimal point
+energy_readings.csv,17844,R0000932,energy_value,"0,0632",0.0632,corrected,decimal comma -> decimal point
+energy_readings.csv,18475,R0000570,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,18491,R0035632,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,18852,R0005772,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,19114,R0026692,energy_value,"0,0533",0.0533,corrected,decimal comma -> decimal point
+energy_readings.csv,19673,R0019905,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,19906,R0008544,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,19937,R0007415,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,19994,R0012553,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,20249,R0000349,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,20482,R0008353,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,20641,R0028273,energy_value,"0,7902",0.7902,corrected,decimal comma -> decimal point
+energy_readings.csv,21244,R0002034,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,21497,R0002202,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,21651,R0034236,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,22290,R0027025,energy_value,"0,089",0.089,corrected,decimal comma -> decimal point
+energy_readings.csv,22877,R0007192,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,23525,R0014898,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,24398,R0013557,energy_value,"0,053",0.053,corrected,decimal comma -> decimal point
+energy_readings.csv,26639,R0016976,energy_value,"0,0419",0.0419,corrected,decimal comma -> decimal point
+energy_readings.csv,26817,R0015250,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,27475,R0011132,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,27636,R0032385,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,27785,R0008219,energy_value,"0,0618",0.0618,corrected,decimal comma -> decimal point
+energy_readings.csv,27978,R0023948,energy_value,"0,0447",0.0447,corrected,decimal comma -> decimal point
+energy_readings.csv,28668,R0016189,energy_value,"0,053",0.053,corrected,decimal comma -> decimal point
+energy_readings.csv,29168,R0023722,energy_value,"0,2043",0.2043,corrected,decimal comma -> decimal point
+energy_readings.csv,29719,R0018394,energy_value,"0,004",0.004,corrected,decimal comma -> decimal point
+energy_readings.csv,29729,R0012293,energy_value,"0,0691",0.0691,corrected,decimal comma -> decimal point
+energy_readings.csv,30306,R0022343,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,30427,R0006409,energy_value,"0,6576",0.6576,corrected,decimal comma -> decimal point
+energy_readings.csv,30542,R0002731,energy_value,"0,0565",0.0565,corrected,decimal comma -> decimal point
+energy_readings.csv,30708,R0003177,energy_value,"0,033",0.033,corrected,decimal comma -> decimal point
+energy_readings.csv,31846,R0008774,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,32431,R0032450,energy_value,"0,053",0.053,corrected,decimal comma -> decimal point
+energy_readings.csv,32497,R0030279,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,32675,R0011769,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,33403,R0032431,energy_value,"0,7627",0.7627,corrected,decimal comma -> decimal point
+energy_readings.csv,33545,R0009186,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,33791,R0028355,energy_value,"0,077",0.077,corrected,decimal comma -> decimal point
+energy_readings.csv,33872,R0014503,energy_value,"0,0718",0.0718,corrected,decimal comma -> decimal point
+energy_readings.csv,34115,R0016469,energy_value,"0,004",0.004,corrected,decimal comma -> decimal point
+energy_readings.csv,34234,R0034682,energy_value,"0,7576",0.7576,corrected,decimal comma -> decimal point
+energy_readings.csv,34356,R0035178,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,34738,R0032415,energy_value,"0,077",0.077,corrected,decimal comma -> decimal point
+energy_readings.csv,35965,R0032793,energy_value,"0,004",0.004,corrected,decimal comma -> decimal point
+energy_readings.csv,35984,R0023743,energy_value,"0,0615",0.0615,corrected,decimal comma -> decimal point
+energy_readings.csv,36948,R0021410,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,37121,R0027981,energy_value,"0,0",0.0,corrected,decimal comma -> decimal point
+energy_readings.csv,37205,R0031613,energy_value,"0,0528",0.0528,corrected,decimal comma -> decimal point
+energy_readings.csv,37284,R0023038,energy_value,"0,0371",0.0371,corrected,decimal comma -> decimal point
+energy_readings.csv,37556,R0030007,energy_value,"0,004",0.004,corrected,decimal comma -> decimal point
+energy_readings.csv,24,R0020194,energy_value,128.0 Wh,0.128 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,167,R0007084,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,475,R0021541,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,572,R0033972,energy_value,52.7 Wh,0.0527 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,584,R0005684,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,2097,R0000388,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,2571,R0027192,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,2581,R0000514,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,2619,R0030983,energy_value,50.7 Wh,0.0507 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,2930,R0000499,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,3097,R0030548,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,3687,R0008753,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,3691,R0000450,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,3928,R0031061,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,4283,R0014452,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,5202,R0036080,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,5269,R0017227,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,5338,R0007635,energy_value,53.0 Wh,0.053 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,6332,R0035359,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,6540,R0015703,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,6938,R0022633,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,6992,R0021722,energy_value,51.0 Wh,0.051 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8173,R0033961,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8213,R0013050,energy_value,642.3 Wh,0.6423 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8324,R0035426,energy_value,128.0 Wh,0.128 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8388,R0027248,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8484,R0012049,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8522,R0031959,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8677,R0020350,energy_value,58.0 Wh,0.058 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8805,R0035990,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8849,R0009694,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,8855,R0012081,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,9448,R0013880,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,9511,R0007306,energy_value,69.0 Wh,0.069 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,9553,R0005663,energy_value,272.1 Wh,0.2721 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,9616,R0011809,energy_value,365.7 Wh,0.3657 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,9633,R0017527,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,9996,R0007535,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,10005,R0026522,energy_value,128.0 Wh,0.128 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,10391,R0019048,energy_value,121.0 Wh,0.121 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,10465,R0009374,energy_value,61.3 Wh,0.0613 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,10667,R0016453,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,10744,R0002509,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,11130,R0035720,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,11514,R0007536,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,11702,R0032646,energy_value,53.0 Wh,0.053 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,11706,R0033231,energy_value,920.2 Wh,0.9202 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,12161,R0032718,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,12287,R0037140,energy_value,4.0 Wh,0.004 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,12610,R0005743,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,12887,R0027195,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,12956,R0029523,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,12978,R0012066,energy_value,53.0 Wh,0.053 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,13810,R0012586,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,13817,R0001282,energy_value,50.8 Wh,0.0508 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,14138,R0021417,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,14296,R0033959,energy_value,928.6 Wh,0.9286 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,14399,R0020182,energy_value,61.6 Wh,0.0616 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15028,R0006539,energy_value,66.0 Wh,0.066 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15148,R0002403,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15306,R0010087,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15315,R0002812,energy_value,65.0 Wh,0.065 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15406,R0006983,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15424,R0036466,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15452,R0003985,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,15511,R0013291,energy_value,77.0 Wh,0.077 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,16369,R0034100,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,16379,R0005999,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,16459,R0008696,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,17001,R0016157,energy_value,46.2 Wh,0.0462 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,17502,R0032889,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18000,R0012505,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18545,R0025089,energy_value,59.8 Wh,0.0598 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18603,R0030698,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18651,R0001029,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18853,R0020016,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18860,R0003895,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18890,R0035679,energy_value,198.5 Wh,0.1985 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,18995,R0015354,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,19193,R0036563,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,20723,R0019045,energy_value,53.0 Wh,0.053 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,21131,R0018548,energy_value,65.0 Wh,0.065 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,21192,R0011784,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,21401,R0012843,energy_value,4.0 Wh,0.004 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,21920,R0029872,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,23011,R0030581,energy_value,4.0 Wh,0.004 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,23328,R0013516,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,23369,R0024968,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,23714,R0019818,energy_value,45.3 Wh,0.0453 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,23728,R0032337,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,24206,R0020529,energy_value,4.0 Wh,0.004 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,25275,R0008076,energy_value,65.0 Wh,0.065 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,25520,R0015073,energy_value,961.9 Wh,0.9619 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,25659,R0002838,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,25689,R0027967,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,25757,R0026696,energy_value,65.0 Wh,0.065 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,25893,R0000052,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,26150,R0030039,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,26198,R0008804,energy_value,4.0 Wh,0.004 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,26249,R0030215,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,26338,R0020180,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,26458,R0028291,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,26710,R0033412,energy_value,64.3 Wh,0.0643 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,27150,R0012880,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,27354,R0011455,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,27512,R0024455,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,27553,R0034181,energy_value,0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,27620,R0008752,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,27788,R0007242,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,28117,R0016232,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,28666,R0020357,energy_value,60.3 Wh,0.0603 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,29574,R0021671,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,29594,R0029117,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,30555,R0003809,energy_value,65.2 Wh,0.0652 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,30855,R0007639,energy_value,0.13 Wh,0.00013 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,31907,R0019728,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,32141,R0019594,energy_value,59.6 Wh,0.0596 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,32555,R0000891,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,32765,R0010799,energy_value,77.0 Wh,0.077 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,32964,R0019091,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,33047,R0007639,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,33435,R0016101,energy_value,36.3 Wh,0.0363 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,33466,R0012491,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,34110,R0029308,energy_value,162.1 Wh,0.1621 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,34135,R0034249,energy_value,4.0 Wh,0.004 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,34421,R0005963,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,34532,R0024488,energy_value,266.4 Wh,0.2664 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,34867,R0021667,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,35070,R0014783,energy_value,33.0 Wh,0.033 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,35167,R0015842,energy_value,55.1 Wh,0.0551 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,35247,R0009027,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,35585,R0026649,energy_value,804.0 Wh,0.804 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,35862,R0022590,energy_value,51.5 Wh,0.0515 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,36683,R0020364,energy_value,37.9 Wh,0.0379 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,36805,R0011456,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,36971,R0037325,energy_value,45.2 Wh,0.0452 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,37066,R0036401,energy_value,66.8 Wh,0.0668 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,37362,R0022839,energy_value,77.0 Wh,0.077 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,37419,R0019496,energy_value,116.0 Wh,0.116 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,37481,R0024341,energy_value,0.0 Wh,0 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,37715,R0010736,energy_value,65.0 Wh,0.065 kWh,corrected,Wh -> kWh (/1000)
+energy_readings.csv,213,R0009048,energy_value,-0.0562,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,2296,R0036010,energy_value,20.381,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,2522,R0010744,energy_value,23.055,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,2622,R0027860,energy_value,-0.0311,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,3581,R0034098,energy_value,17.238,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,3751,R0020823,energy_value,-0.4784,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,3791,R0013715,energy_value,40.863,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,4091,R0003316,energy_value,-0.1125,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,4127,R0009999,energy_value,23.098,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,4129,R0022349,energy_value,-0.1628,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,4781,R0006447,energy_value,15.314,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,7067,R0000697,energy_value,30.718,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,7832,R0013547,energy_value,-0.4362,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,8652,R0025077,energy_value,-0.6114,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,9217,R0023380,energy_value,30.098,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,9408,R0021076,energy_value,41.684,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,10503,R0030056,energy_value,-0.3136,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,12918,R0028027,energy_value,15.888,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,13201,R0015997,energy_value,-0.3969,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,13272,R0017355,energy_value,10.772,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,13803,R0034826,energy_value,33.725,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,14390,R0012875,energy_value,-0.6781,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,15697,R0024704,energy_value,19.103,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,15761,R0035704,energy_value,-0.6073,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,16171,R0019632,energy_value,-0.4657,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,16798,R0024738,energy_value,-0.5475,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,16821,R0010762,energy_value,-0.586,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,16953,R0033464,energy_value,-0.3274,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,17712,R0020832,energy_value,-0.3808,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,18119,R0002386,energy_value,-0.6798,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,18998,R0018865,energy_value,20.523,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,19069,R0020443,energy_value,24.542,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,20926,R0004766,energy_value,16.789,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,22017,R0027608,energy_value,32.568,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,22166,R0031361,energy_value,-0.0191,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,22368,R0025920,energy_value,-0.6728,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,22993,R0026027,energy_value,37.854,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,23483,R0007545,energy_value,-0.5879,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,25408,R0013847,energy_value,-0.4839,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,26022,R0028132,energy_value,36.534,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,26081,R0022973,energy_value,34.018,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,26196,R0001859,energy_value,38.191,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,26762,R0015997,energy_value,-0.3969,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,27005,R0034098,energy_value,17.238,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,27221,R0035365,energy_value,-0.1299,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,27431,R0021861,energy_value,-0.1721,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,29089,R0032197,energy_value,-0.1419,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,30318,R0028980,energy_value,18.21,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,30346,R0032742,energy_value,-0.3717,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,30492,R0006364,energy_value,-0.1325,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,30750,R0022556,energy_value,-0.2223,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,31236,R0017955,energy_value,44.789,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,32287,R0010663,energy_value,38.279,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,32346,R0007002,energy_value,-0.2752,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,32501,R0002473,energy_value,-0.6637,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,32694,R0022368,energy_value,17.725,,set_missing,> 5.0 kWh in one hour on one circuit is physically implausible
+energy_readings.csv,33962,R0037595,energy_value,-0.6413,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,36430,R0019327,energy_value,-0.057,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,36885,R0025546,energy_value,-0.1625,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,36983,R0007185,energy_value,-0.5774,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,37010,R0017658,energy_value,-0.0436,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,37512,R0034803,energy_value,-0.0597,,set_missing,negative consumption impossible (no generation channel)
+energy_readings.csv,21113,R0000010,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,20802,R0000577,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,23385,R0000645,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,13536,R0000881,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,28043,R0001168,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,25583,R0001432,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,28674,R0001854,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,34205,R0002115,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,8960,R0002652,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,4028,R0003337,energy_value,0.134,,removed,conflicting duplicate; kept value 0.004 closest to neighbouring-hour median 0.004
+energy_readings.csv,6145,R0003421,energy_value,0.134,,removed,conflicting duplicate; kept value 0.004 closest to neighbouring-hour median 0.004
+energy_readings.csv,30255,R0003903,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,17433,R0004171,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,28239,R0004244,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,23381,R0004262,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,10495,R0004554,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,31405,R0004639,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35422,R0004643,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,23620,R0004917,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,33602,R0005020,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,34670,R0005408,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35680,R0005848,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,34394,R0005914,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,11805,R0006485,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,18326,R0006662,energy_value,0.183,,removed,conflicting duplicate; kept value 0.053 closest to neighbouring-hour median 0.053
+energy_readings.csv,21968,R0006937,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,33595,R0007173,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,30855,R0007639,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,24540,R0007641,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,5851,R0007678,energy_value,0.1883,,removed,conflicting duplicate; kept value 0.0583 closest to neighbouring-hour median 0.0793
+energy_readings.csv,1445,R0007774,energy_value,0.9691,,removed,conflicting duplicate; kept value 0.8391 closest to neighbouring-hour median 0
+energy_readings.csv,2421,R0008082,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,17373,R0008549,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,31297,R0008567,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,32200,R0008627,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,31821,R0008894,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35165,R0009204,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,4452,R0009677,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,34773,R0010022,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,23812,R0010601,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,26243,R0010604,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,19041,R0010876,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,21209,R0011080,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,22070,R0011727,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,22001,R0011832,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,26047,R0011979,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,14205,R0012063,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35310,R0012078,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,21688,R0012394,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,5022,R0013509,energy_value,0.163,,removed,conflicting duplicate; kept value 0.033 closest to neighbouring-hour median 0.033
+energy_readings.csv,26621,R0014773,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,5775,R0015519,energy_value,0.4619,,removed,conflicting duplicate; kept value 0.3319 closest to neighbouring-hour median 0
+energy_readings.csv,26762,R0015997,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35937,R0016164,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,22254,R0016703,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,10713,R0017124,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,31488,R0017316,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,33954,R0017323,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35770,R0017368,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,21563,R0017554,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,36341,R0017647,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,16800,R0018489,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,842,R0018892,energy_value,0.163,,removed,conflicting duplicate; kept value 0.033 closest to neighbouring-hour median 0.033
+energy_readings.csv,13693,R0019358,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,23417,R0019559,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,33561,R0019577,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,30715,R0019910,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,4579,R0020490,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,34812,R0020507,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,28969,R0020765,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,3180,R0021174,energy_value,0.1811,,removed,conflicting duplicate; kept value 0.0511 closest to neighbouring-hour median 0.06635
+energy_readings.csv,35219,R0021352,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,26089,R0021501,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,21491,R0021829,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,29517,R0022215,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,22457,R0022579,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,15636,R0022588,energy_value,0.2205,,removed,conflicting duplicate; kept value 0.0905 closest to neighbouring-hour median 0.1239
+energy_readings.csv,12184,R0022751,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,33616,R0023725,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,8267,R0023727,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,32514,R0023810,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35968,R0023811,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,29655,R0023880,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,14608,R0024134,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,37000,R0024530,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,34200,R0024832,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,30588,R0025773,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,27763,R0025988,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,29503,R0026198,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,27550,R0026386,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,32020,R0026703,energy_value,0.207,,removed,conflicting duplicate; kept value 0.077 closest to neighbouring-hour median 0.077
+energy_readings.csv,28450,R0026786,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,28891,R0026980,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35607,R0027178,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,25955,R0027376,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,31128,R0027415,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,30644,R0027928,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,14407,R0028379,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,34714,R0028428,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35348,R0028485,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,30108,R0028683,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,30789,R0029420,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,15733,R0029748,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,8623,R0029816,energy_value,0.13,,removed,conflicting duplicate; kept value 0 closest to neighbouring-hour median 0
+energy_readings.csv,23047,R0030751,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,16247,R0031235,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,37607,R0031342,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,29955,R0032426,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,30302,R0032693,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,6356,R0033261,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35415,R0033375,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,27936,R0033729,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,10687,R0033879,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,27005,R0034098,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,24214,R0034147,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,36851,R0034299,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,34856,R0035260,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,21657,R0035422,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,7363,R0035669,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,15077,R0035850,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,32752,R0036519,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,20942,R0036564,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,12616,R0036905,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,35116,R0037104,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+energy_readings.csv,17221,R0037285,row,duplicate,,removed,exact duplicate of reading_id (kept first occurrence)
+hourly_context.csv,309,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,452,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,733,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,894,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,933,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,947,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,1029,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,1138,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,1569,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,2232,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,2277,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,2703,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,2885,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,3517,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,3660,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,3766,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,4200,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,4811,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,4951,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,5356,,outdoor_temp_c,-99.0,,set_missing,sentinel -99 (physically implausible for October SE3)
+hourly_context.csv,735,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,996,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,1382,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,1941,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,2108,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,2530,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,2605,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,3146,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,3969,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,4122,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,4619,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_context.csv,5321,,occupants_home,9.0,,set_missing,occupants_home exceeds flat's resident count
+hourly_prices.csv,53,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)
+hourly_prices.csv,83,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)
+hourly_prices.csv,87,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)
+hourly_prices.csv,136,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)
+hourly_prices.csv,146,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)
+hourly_prices.csv,311,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)
+hourly_prices.csv,317,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)
+hourly_prices.csv,504,,spot_sek_per_kwh,,,kept_missing,no spot price; cost for this hour left missing (not zero)

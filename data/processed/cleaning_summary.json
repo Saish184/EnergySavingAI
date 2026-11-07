@@ -1,0 +1,384 @@
+{
+  "stats": {
+    "readings": {
+      "raw_rows": 37715,
+      "legacy_timestamps": 79,
+      "timestamp_vs_id_hour_mismatch": 0,
+      "out_of_period": 0,
+      "appliance_id_case_whitespace": 65,
+      "appliance_id_placeholder_fixed": 12,
+      "flat_id_mismatch_fixed": 24,
+      "identifier_unresolved": 0,
+      "unit_spelling_fixed": 70,
+      "decimal_comma_fixed": 100,
+      "wh_converted": 141,
+      "duplicate_rows_total": 125,
+      "duplicate_exact_removed": 100,
+      "duplicate_conflicts_resolved": 25,
+      "conflicts": [
+        {
+          "reading_id": "R0001432",
+          "appliance_id": "F005-A04",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0003337",
+          "appliance_id": "F005-A05",
+          "values": [
+            0.004,
+            0.134
+          ],
+          "neighbour_median": 0.004,
+          "kept": 0.004
+        },
+        {
+          "reading_id": "R0003421",
+          "appliance_id": "F001-A05",
+          "values": [
+            0.004,
+            0.134
+          ],
+          "neighbour_median": 0.004,
+          "kept": 0.004
+        },
+        {
+          "reading_id": "R0005848",
+          "appliance_id": "F004-A03",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0006485",
+          "appliance_id": "F007-A03",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0006662",
+          "appliance_id": "F008-A05",
+          "values": [
+            0.053,
+            0.183
+          ],
+          "neighbour_median": 0.053,
+          "kept": 0.053
+        },
+        {
+          "reading_id": "R0007639",
+          "appliance_id": "F004-A02",
+          "values": [
+            0.0,
+            0.0001
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0007678",
+          "appliance_id": "F001-A06",
+          "values": [
+            0.0583,
+            0.1883
+          ],
+          "neighbour_median": 0.0793,
+          "kept": 0.0583
+        },
+        {
+          "reading_id": "R0007774",
+          "appliance_id": "F007-A04",
+          "values": [
+            0.8391,
+            0.9691
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.8391
+        },
+        {
+          "reading_id": "R0008082",
+          "appliance_id": "F003-A04",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0009677",
+          "appliance_id": "F007-A03",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0011832",
+          "appliance_id": "F003-A02",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0011979",
+          "appliance_id": "F008-A02",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0013509",
+          "appliance_id": "F002-A06",
+          "values": [
+            0.033,
+            0.163
+          ],
+          "neighbour_median": 0.033,
+          "kept": 0.033
+        },
+        {
+          "reading_id": "R0015519",
+          "appliance_id": "F001-A07",
+          "values": [
+            0.3319,
+            0.4619
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.3319
+        },
+        {
+          "reading_id": "R0018489",
+          "appliance_id": "F002-A02",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0018892",
+          "appliance_id": "F003-A06",
+          "values": [
+            0.033,
+            0.163
+          ],
+          "neighbour_median": 0.033,
+          "kept": 0.033
+        },
+        {
+          "reading_id": "R0021174",
+          "appliance_id": "F001-A06",
+          "values": [
+            0.0511,
+            0.1811
+          ],
+          "neighbour_median": 0.0664,
+          "kept": 0.0511
+        },
+        {
+          "reading_id": "R0021829",
+          "appliance_id": "F007-A03",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0022588",
+          "appliance_id": "F003-A06",
+          "values": [
+            0.0905,
+            0.2205
+          ],
+          "neighbour_median": 0.1239,
+          "kept": 0.0905
+        },
+        {
+          "reading_id": "R0023727",
+          "appliance_id": "F006-A04",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0023880",
+          "appliance_id": "F004-A03",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0026198",
+          "appliance_id": "F007-A04",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        },
+        {
+          "reading_id": "R0026703",
+          "appliance_id": "F007-A05",
+          "values": [
+            0.077,
+            0.207
+          ],
+          "neighbour_median": 0.077,
+          "kept": 0.077
+        },
+        {
+          "reading_id": "R0029816",
+          "appliance_id": "F004-A03",
+          "values": [
+            0.0,
+            0.13
+          ],
+          "neighbour_median": 0.0,
+          "kept": 0.0
+        }
+      ],
+      "slots": 37632,
+      "status_counts": {
+        "ok": 37040,
+        "missing_empty": 380,
+        "missing_na": 110,
+        "missing_no_record": 42,
+        "invalid_negative": 35,
+        "invalid_spike": 25
+      }
+    },
+    "flats": {
+      "rows": 8,
+      "price_areas": [
+        "SE3"
+      ],
+      "tariff_ids": [
+        "T01"
+      ],
+      "residents_total": 25
+    },
+    "context": {
+      "rows": 5376,
+      "duplicate_flat_ts": 0,
+      "local_timestamp_mismatch_vs_tzdb": 0,
+      "local_instant_mismatch_vs_utc": 0,
+      "repeated_local_wall_times": [
+        [
+          "2026-10-25 00:00:00+00:00",
+          "2026-10-25T02:00:00+02:00"
+        ],
+        [
+          "2026-10-25 01:00:00+00:00",
+          "2026-10-25T02:00:00+01:00"
+        ]
+      ],
+      "offsets": {
+        "+02:00": 4616,
+        "+01:00": 760
+      },
+      "outdoor_sentinel_set_missing": 20,
+      "occupancy_exceeds_residents_set_missing": 12,
+      "occupancy_missing_raw": 85,
+      "indoor_range": [
+        19.2,
+        23.5
+      ],
+      "outdoor_range_after": [
+        1.8,
+        13.8
+      ]
+    },
+    "prices": {
+      "rows": 672,
+      "duplicate_ts": 0,
+      "missing_hours": 0,
+      "spot_missing": 8,
+      "spot_missing_hours": [
+        "2026-10-03T03:00Z",
+        "2026-10-04T09:00Z",
+        "2026-10-04T13:00Z",
+        "2026-10-06T14:00Z",
+        "2026-10-07T00:00Z",
+        "2026-10-13T21:00Z",
+        "2026-10-14T03:00Z",
+        "2026-10-21T22:00Z"
+      ],
+      "carbon_missing": 0,
+      "negative_prices_kept": 13
+    },
+    "join": {
+      "rows": 37632,
+      "context_unmatched": 0,
+      "price_unmatched": 0
+    }
+  },
+  "impact": {
+    "valid_slots": 37040,
+    "missing_slots": 592,
+    "coverage_pct": 98.43,
+    "observed_kwh": 1904.5,
+    "est_kwh_in_missing_slots": 31.0,
+    "est_missing_share_pct": 1.6,
+    "kwh_in_unpriced_hours": 17.18,
+    "kwh_in_unpriced_share_pct": 0.9,
+    "kwh_in_unknown_occupancy_hours": 38.07,
+    "missing_by_flat": {
+      "F001": 57,
+      "F002": 66,
+      "F003": 83,
+      "F004": 78,
+      "F005": 69,
+      "F006": 104,
+      "F007": 67,
+      "F008": 68
+    },
+    "missing_by_channel": {
+      "A01": 88,
+      "A02": 82,
+      "A03": 80,
+      "A04": 88,
+      "A05": 83,
+      "A06": 88,
+      "A07": 83
+    },
+    "max_missing_run_hours": 6
+  },
+  "original_sha256": {
+    "energy_readings.csv": "766bfd5c4a54377412eaa6324710b9c9c6d1933ac22abaf6c3227548460eca17",
+    "flats.csv": "5941dea70fb9dfdfd5e497d452ee1e4b245ad0433475e5f6b89f2e11d5cc1952",
+    "hourly_context.csv": "204ec5648883f9b82e45889e75cacb8562c0a8108089af77c58264e53e36b2b8",
+    "hourly_prices.csv": "14959072f199b7f88c0ef3b973443867a92b922bfb78fedffd39d53ec9c02ff4",
+    "README.md": "71e9f5520dd671b7b292c5aa3db7d9e847fa18280b9187a1fc7cce180d630556",
+    "DATA_DICTIONARY.md": "f04a0bd389778a67e48e343e43807d0f78cdeb7227e47e0765d9292b8ef20c6c"
+  }
+}
