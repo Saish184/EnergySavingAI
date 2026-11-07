@@ -7,6 +7,8 @@
 - `analysis/math_experiments.py` → `reports/math_experiments.json`.
 - Previous: `reports/opportunities.json`, `reports/consistency_audit.md`, `reports/math_review_numbers.json`.
 
+> **Update:** the implementation has since been found on branch `saish` (commit `ddc02ce`, pushed after the inspection below). It was audited on our validated data in [`saish_engine_audit.md`](saish_engine_audit.md). Its 7 confirmed defects (D1–D7) are pinned in `tests/math/test_saish_engine.py`. The section below is kept as the historical record of that earlier inspection.
+
 ## 0. Status of the teammate's four-pillar model
 
 **Unavailable. Nothing was verified.**

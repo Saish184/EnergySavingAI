@@ -1,6 +1,8 @@
 """Loader for the teammate's sustainability-score implementation.
 
-STATUS: the implementation (score.py) is NOT in the repository or on any accessible branch as of this commit.
+STATUS (updated): the implementation exists on branch `saish`, commit ddc02ce, as the package backend/app/core/
+(score.py, pillars.py, evaluate.py, ...). Set $SAISH_BACKEND to a read-only checkout of that backend/ folder;
+load() then wraps it via saish_engine.SaishLensModel. Earlier inspections preceded that push (see decision report).
 This module therefore does not, and must not, guess its code. It only:
   1. locates a score.py (env var SCORE_PY, or known candidate paths),
   2. imports it in isolation,
@@ -59,8 +61,19 @@ def wrap(module):  # pragma: no cover - written by the reviewer once the real AP
         + ", ".join(n for n in dir(module) if not n.startswith("_")))
 
 
-def load():
-    """Return a ScoreModel for the teammate's implementation, or raise Unavailable with the reason."""
+def load(lens: str | None = None):
+    """Return a ScoreModel for the teammate's implementation, or raise Unavailable with the reason.
+
+    UPDATE: the implementation was found on branch `saish` (commit ddc02ce, backend/app/core/). It is a package,
+    not a single score.py; it is wrapped by saish_engine.SaishLensModel when $SAISH_BACKEND points to a read-only
+    checkout of that branch's backend/ folder."""
+    if os.environ.get("SAISH_BACKEND"):
+        import saish_engine
+        try:
+            return saish_engine.SaishLensModel(lens or os.environ.get("SAISH_LENS", "apartment"),
+                                               os.environ.get("SAISH_VARIANT", "A_O2_as_resident"))
+        except saish_engine.Unavailable as e:
+            raise Unavailable(str(e)) from e
     path = locate()
     if path is None:
         raise Unavailable("Teammate score.py not found in the repository, candidate paths, or $SCORE_PY.")
