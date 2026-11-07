@@ -1,0 +1,96 @@
+{
+  "_readme": "Our own wording, no API needed. Edit freely. {placeholders} are filled with engine numbers. Lists = variants; each card picks one variant deterministically. Run `python -m pytest tests/test_llm.py` after editing: every variant must pass the validator (no invented numbers, status wording kept, 'projected' for yearly values, no blame, '-like' appliances).",
+  "version": "phrases-v1",
+
+  "status_phrase": {
+    "DETECTED": "an unusual pattern",
+    "PLAUSIBLE": {
+      "manager": "a possible fault",
+      "resident": "a possible saving opportunity",
+      "unknown": "a possible heating opportunity that needs confirmation"
+    },
+    "CONFIRMED": "a confirmed issue",
+    "REPAIRED": "repaired, waiting for new data to measure the saving",
+    "VERIFIED": "a measured saving after the repair",
+    "DISMISSED": "checked by a technician with no fault found"
+  },
+
+  "titles": {
+    "fault_step_change": ["Sudden lasting increase", "Appliance using more than before"],
+    "peer_outlier": ["Higher than in other flats", "Uses more than similar flats"],
+    "heater_pattern": ["Heater-like use pattern", "Extra heating at night"],
+    "away_usage": ["Use while nobody is home", "On while the flat is empty"],
+    "night_baseload": ["High night-time use", "Things left on at night"],
+    "peak_usage": ["Use in expensive hours", "Running at the priciest time"]
+  },
+
+  "finding_student": {
+    "body": [
+      "The {appliance} shows {phrase} since {since}, about {sek} SEK measured over the last 4 weeks (projected {low}-{high} SEK per year, not a promise).",
+      "Since {since} the {appliance} shows {phrase}: about {sek} SEK measured over the last 4 weeks, projected {low}-{high} SEK per year if nothing changes."
+    ],
+    "body_shift": [
+      "The {appliance} often runs in expensive hours, {phrase}. Running it later would have saved about {sek} SEK measured over the last 4 weeks, with the same energy use (projected {low}-{high} SEK per year, not a promise).",
+      "The {appliance} mostly runs when electricity is expensive, {phrase}. Starting it later would have cost about {sek} SEK less over the last 4 weeks for the same use (projected {low}-{high} SEK per year)."
+    ],
+    "manager_suffix": [
+      " This is an equipment question for your building manager, not something residents caused.",
+      " The building manager can look at this; it is not about how you use it."
+    ],
+    "action": {
+      "fault_step_change": ["Check that the door closes properly, then report it with the button below."],
+      "peer_outlier": ["Check that nothing is left running on it, then report it with the button below."],
+      "heater_pattern": ["Check whether a portable heater is on and tell your manager if rooms feel cold."],
+      "away_usage": ["Switch lights and devices off when the last person leaves the flat.",
+                     "Agree in the flat that whoever leaves last does a quick switch-off round."],
+      "night_baseload": ["Before bed, switch off chargers, screens and anything else left on standby."],
+      "_default": ["Have a quick look at the appliance."]
+    },
+    "action_shift": ["Start it at {hour} or later instead of in the evening."],
+    "action_closed": ["Nothing to do right now."]
+  },
+
+  "finding_manager": {
+    "title": "{flat_id} {appliance_id}: {title}",
+    "summary": [
+      "{appliance_id} ({appliance}) shows {phrase} since {since}, status {status} with detector confidence {confidence}. Measured over the last 4 weeks: {kwh} kWh and {sek} SEK; projected {sek_low}-{sek_high} SEK per year if nothing changes."
+    ],
+    "evidence": [
+      "Observed {observed} kWh/h vs baseline {baseline} kWh/h",
+      "Window of {days} days; responsibility: {responsibility}"
+    ],
+    "check": {
+      "fault_step_change": "Check door seal, thermostat setting and compressor; compare with the appliance's normal cycle.",
+      "peer_outlier": "Inspect the appliance and its settings against the same model in other flats.",
+      "heater_pattern": "Check radiator function and indoor temperature before treating this as resident behaviour.",
+      "away_usage": "No technician needed; behaviour finding for residents.",
+      "night_baseload": "No technician needed unless residents report a device they cannot switch off.",
+      "peak_usage": "No technician needed; residents can run the appliance later.",
+      "_default": "Inspect the appliance."
+    }
+  },
+
+  "weekly_digest": {
+    "headline": ["Your week: {sek} SEK of electricity measured", "This week in your flat: {sek} SEK of electricity"],
+    "went_well": ["Going well: your {pillar} score is {value} out of 100.",
+                  "Nice work: {pillar} is your strongest area at {value} out of 100."],
+    "look_at": ["Worth a look: {title} on the {appliance}, {phrase}."],
+    "look_at_none": ["Worth a look: nothing unusual was found for your flat."],
+    "action_hour": ["Simple action: start the dishwasher-like appliance at {hour} or later."],
+    "action_default": ["Simple action: switch things off when the last person leaves."],
+    "encouragement": ["Small habits add up, and every check helps the whole flat.",
+                      "Keep it up: small changes together make a real difference."]
+  },
+
+  "score_explainer": {
+    "summary": [
+      "Your Resident Actions score is {score} (band {band}), built from use {use}, waste {waste} and timing {timing} out of 100. Your strongest area is {strongest} and the one with most room is {weakest}.",
+      "Your flat scores {score} (band {band}) on Resident Actions: use {use}, waste {waste} and timing {timing} out of 100. {Strongest} is going best, {weakest} has the most room to improve."
+    ],
+    "next_step": {
+      "use": ["Switch off devices you are not using, such as chargers, lights and screens."],
+      "waste": ["Make switching things off part of leaving the flat."],
+      "timing": ["Run the dishwasher-like appliance late in the evening instead of during the evening peak."]
+    }
+  }
+}

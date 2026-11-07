@@ -42,14 +42,17 @@ Any JSON; passed through to `/health` → `data_quality.cleaning_log`.
 | GET | /flats/{id}/findings | findings for this flat |
 | POST | /flats/{id}/findings/{fid}/report | `{"message": "..."}` → manager inbox |
 | POST | /flats/{id}/scenarios | `{"scenario": "return_to_baseline", "params": {"anomaly_id": "AN001"}}`, `shift_flexible_load` `{"channel": "A04"}`, `reduce_away_usage` `{"fraction": 0.5}` |
-| GET | /flats/{id}/tips | |
+| GET | /flats/{id}/tips | student texts of the top 3 findings |
+| GET | /flats/{id}/digest | weekly digest (LLM or template) |
+| POST | /llm/regenerate | `{"flat_id"?, "finding_id"?}` clears cached texts |
+| POST | /llm/warm, GET /llm/status | pre-generate all texts / client + cache status |
 | GET | /flats/{id}/notifications | |
 | GET | /prices/today?hourly_contract=true | live SE3 (15-min intervals); `shown: false` otherwise |
 | GET | /portfolio | all flats |
 | GET | /portfolio/findings?status=&responsibility= | sorted by projected SEK |
 | GET | /reports, /notifications, /workorders | manager lists |
-| POST | /workorders | `{"finding_id": "AN001"}` → finding becomes CONFIRMED |
-| PATCH | /workorders/{id} | `{"status": "sent" \| "repaired"}` (open → sent → repaired) |
+| POST | /workorders | `{"finding_id": "AN001"}`; the finding keeps its status |
+| PATCH | /workorders/{id} | `{"status": "sent" \| "repaired", "fault_found": true \| false}`: true → CONFIRMED, false → DISMISSED + work order `closed_no_fault`, repaired → REPAIRED (open → sent → repaired) |
 | POST | /workorders/{id}/verify | `{"post_readings": [{"timestamp_utc", "kwh"}]}` or `{"simulate": true}` (flagged `simulated: true`) |
 | GET | /business-case/reference | engine-measured reference values |
 | POST | /business-case | all inputs explicit, see `BusinessCaseInput` in `backend/app/models.py` |
@@ -64,6 +67,9 @@ avoidable_28d{kwh, sek, co2_kg, horizon, scenario, method},
 score_if_fixed{apartment{before,after}, resident{before,after}},
 projection_annual{kwh|sek|co2_kg: {label:"projection", value, low, high, factor, assumptions[]}},
 assumptions[], uncertainty{}, verification, simulated`
+
+`/flats/{id}/findings` adds `student_text`, and `/portfolio/findings` adds `manager_text`. `/flats/{id}/scores` adds `explainer`. Each of these is
+`{use_case, source: "llm"|"template", prompt_version, model, output{...schema fields}, validation{passed, failures[], checks{}}, llm_attempts[], cached}`.
 
 ## out/ (static fallback, `python -m app.export`)
 `scores.json` and `breakdown.json` (keyed by flat), `findings.json` (list), `portfolio.json`, `tips.json` (keyed by flat). Same shapes as the API.

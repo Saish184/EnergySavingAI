@@ -28,7 +28,15 @@ def test_student_endpoints(c):
     for f in c.get("/flats/F003/findings").json():
         assert f["status"] and f["responsibility"] and f["wording"] and f["assumptions"]
     for t in c.get("/flats/F003/tips").json():
-        assert t["source"] == "template" and t["text"]
+        assert t["source"] == "template" and t["text"] and t["prompt_version"]
+    for f in c.get("/flats/F003/findings").json():
+        assert f["student_text"]["source"] == "template" and f["student_text"]["prompt_version"]
+        assert f["student_text"]["validation"]["passed"]
+    for f in c.get("/portfolio/findings").json():
+        assert f["manager_text"]["source"] == "template"
+    d = c.get("/flats/F003/digest").json()
+    assert d["source"] == "template" and len(d["output"]["bullets"]) == 3
+    assert s["explainer"]["source"] == "template"
 
 
 def test_student_own_flat_only(c):
@@ -63,14 +71,16 @@ def test_manager_workflow_to_verified(c):
     fs = c.get("/portfolio/findings", params={"responsibility": "manager"}).json()
     sek = [f["projection_annual"]["sek"]["value"] for f in fs]
     assert sek == sorted(sek, reverse=True)
-    fid = fs[0]["id"]
+    fid = next(f["id"] for f in fs if f["status"] == "PLAUSIBLE")
     w = c.post("/workorders", json={"finding_id": fid}).json()
-    assert c.get("/portfolio/findings").json()[0]  # still serves
     f = next(x for x in c.get("/portfolio/findings").json() if x["id"] == fid)
-    assert f["status"] == "CONFIRMED"
+    assert f["status"] == "PLAUSIBLE"                          # opening a work order confirms nothing
     assert c.post(f"/workorders/{w['id']}/verify", json={"simulate": True}).status_code == 400  # not repaired yet
     assert c.patch(f"/workorders/{w['id']}", json={"status": "repaired"}).status_code == 400   # must be sent first
     assert c.patch(f"/workorders/{w['id']}", json={"status": "sent"}).json()["status"] == "sent"
+    assert c.patch(f"/workorders/{w['id']}", json={"fault_found": True}).json()["fault_found"] is True
+    f = next(x for x in c.get("/portfolio/findings").json() if x["id"] == fid)
+    assert f["status"] == "CONFIRMED"
     assert c.patch(f"/workorders/{w['id']}", json={"status": "repaired"}).json()["status"] == "repaired"
     f = next(x for x in c.get("/portfolio/findings").json() if x["id"] == fid)
     assert f["status"] == "REPAIRED" and f["wording"] == "repaired, awaiting data"
@@ -81,6 +91,18 @@ def test_manager_workflow_to_verified(c):
     v = c.post(f"/workorders/{w['id']}/verify", json={"simulate": True}).json()
     assert v["verification"]["simulated"] is True
     assert v["finding"]["status"] == "VERIFIED" and v["finding"]["simulated"] is True
+
+
+def test_workorder_no_fault_found_dismisses(c):
+    fs = [f for f in c.get("/portfolio/findings", params={"responsibility": "manager"}).json()
+          if f["status"] in ("DETECTED", "PLAUSIBLE")]
+    target = next(f for f in fs if f["status"] == "PLAUSIBLE") if any(f["status"] == "PLAUSIBLE" for f in fs) else fs[0]
+    w = c.post("/workorders", json={"finding_id": target["id"]}).json()
+    assert c.patch(f"/workorders/{w['id']}", json={"fault_found": False, "status": "repaired"}).status_code == 400
+    r = c.patch(f"/workorders/{w['id']}", json={"fault_found": False}).json()
+    assert r["status"] == "closed_no_fault"
+    f = next(x for x in c.get("/portfolio/findings").json() if x["id"] == target["id"])
+    assert f["status"] == "DISMISSED"
 
 
 def test_business_case(c):

@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 
 from ..state import AppState
 from ..utils import jsonable
-from . import manager, prices, student
+from . import llm, manager, prices, student
 
 
 @asynccontextmanager
@@ -54,3 +54,4 @@ def recompute(request: Request):
 app.include_router(student.router)
 app.include_router(manager.router)
 app.include_router(prices.router)
+app.include_router(llm.router)

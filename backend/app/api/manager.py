@@ -38,13 +38,13 @@ def list_workorders(request: Request):
 
 @router.post("/workorders")
 def create_workorder(body: WorkOrderCreate, request: Request):
-    """Opening a work order counts as the manager CONFIRMING the finding."""
+    """Opening a work order does not change the finding's status (technician outcome does)."""
     return jsonable(request.app.state.engine.create_workorder(body.finding_id, body.note))
 
 
 @router.patch("/workorders/{wid}")
 def patch_workorder(wid: str, body: WorkOrderPatch, request: Request):
-    return jsonable(request.app.state.engine.patch_workorder(wid, body.status))
+    return jsonable(request.app.state.engine.patch_workorder(wid, body.status, body.fault_found))
 
 
 @router.post("/workorders/{wid}/verify")

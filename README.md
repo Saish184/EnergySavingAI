@@ -70,11 +70,13 @@ The score also comes with its **sensitivity**. The engine redraws the weights 20
 |---|---|---|
 | DETECTED | "unusual pattern" | Engine (default) |
 | PLAUSIBLE | "possible fault" | Engine, when the detector's confidence is ≥ 0.7 **and** the pattern lasts ≥ 3 days |
-| CONFIRMED | "confirmed" | A person: the manager opens a work order |
-| REPAIRED | "repaired, awaiting data" | A person: the manager marks the work order repaired |
+| CONFIRMED | "confirmed" | A person: the technician reports `fault_found: true` |
+| REPAIRED | "repaired, awaiting data" | A person: the work order is marked repaired |
 | VERIFIED | "saving measured" | Only the verification step, after ≥ 7 days of post-repair data that shows a saving (90% interval above zero) |
 
 Heating findings say "possible heating opportunity, needs confirmation" until a person confirms them.
+
+Opening a work order does **not** change a finding's status. If the technician reports `fault_found: false`, the finding becomes DISMISSED ("checked, no fault found") and no longer counts in HEALTH. Residents are still not scored on it.
 
 Every finding is assigned to someone:
 
@@ -95,12 +97,57 @@ Every finding is assigned to someone:
 
 Channel types such as "fridge-like" (A01), "dishwasher-like" (A04) and "heater-like" (A07) are **assumptions**. The dataset has no appliance labels.
 
+## AI texts (wording only)
+
+The AI never calculates anything. It only rewrites engine output as plain language, in four use cases:
+
+- `finding_student`
+- `finding_manager`
+- `weekly_digest`
+- `score_explainer`
+
+**Choosing a provider:** set `FEC_LLM_PROVIDER` in `.env`.
+
+| provider | what it does | needs |
+|---|---|---|
+| `template` (default) | our own wording from [phrases.json](backend/app/llm/phrases.json), with no network calls | nothing |
+| `gonka` | Gonka broker, OpenAI-compatible, over plain HTTP | `GONKA_BROKER_API_KEY`, `GONKA_BROKER_URL`, `GONKA_MODEL` |
+| `anthropic` | Claude | `ANTHROPIC_API_KEY` |
+
+If the key is missing or the provider name is unknown, the app uses `template` and logs one warning. Keys belong **only in `.env`**, which is gitignored. Don't put them in `.env.example`, which is committed. API keys are never logged or returned. `GET /llm/status` shows `key_present: true/false`.
+
+**How each text is made:**
+1. The provider replies.
+2. [validator.py](backend/app/llm/validator.py) checks the reply:
+   - every number appears in the engine input
+   - the wording matches the claim status
+   - yearly values say "projected"
+   - a load shift doesn't claim to save energy
+   - there is no blame
+   - appliance types are written as "-like"
+   - the length limits hold
+   - the priority and pillars match the engine
+3. If the check fails, the provider gets one retry with the list of failures.
+4. If it still fails, the app uses the `phrases.json` wording.
+
+Every text carries:
+- `source`: "llm" or "template"
+- `provider`, `model` and `prompt_version`
+- its validation report
+
+**Commands:**
+- `python -m app.llm.evaluate` writes the pass-rate table to `out/llm_eval.json`.
+- `python -m app.export` fills `out/llm_cache.json`. That file is committed, so the demo shows the AI texts offline.
+- `POST /llm/regenerate` clears cached texts.
+
 ## Layout
 
 ```
 backend/app/core/       pure math: metrics, claims, attribution, pillars, score, sensitivity,
                         counterfactual, projection, verification (+ evaluate, dataset)
-backend/app/services/   findings, workorders, reports, tips (LLM), live_prices, business_case, notifications
+backend/app/services/   findings, workorders, reports, tips, live_prices, business_case, notifications
+backend/app/llm/        prompts, schemas, validator, templates + phrases.json, generate, cache, evaluate,
+                        providers/ (gonka, anthropic, template)
 backend/app/api/        FastAPI routers (student, manager, prices)
 backend/app/state.py    loaded data + views shared by the API and the export
 backend/mock_data.py    mock data/processed files (same schema)

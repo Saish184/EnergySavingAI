@@ -47,7 +47,12 @@ def scenarios(flat_id: str, body: ScenarioRequest, request: Request, x_flat_id: 
 @router.get("/tips")
 def get_tips(flat_id: str, request: Request, x_flat_id: str | None = Header(None)):
     s = _engine(request, flat_id, x_flat_id)
-    return jsonable(tips.tips_for_flat(s.findings, flat_id))
+    return jsonable(tips.tips_for_flat(s, flat_id))
+
+
+@router.get("/digest")
+def digest(flat_id: str, request: Request, x_flat_id: str | None = Header(None)):
+    return jsonable(_engine(request, flat_id, x_flat_id).digest(flat_id))
 
 
 @router.get("/notifications")

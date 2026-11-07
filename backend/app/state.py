@@ -15,7 +15,9 @@ from .core.evaluate import evaluate
 from .core.projection import project_triplet
 from .core.verification import simulate_post_repair, verify
 from .loader import load
-from .services import business_case, findings as F, notifications, tips
+from .llm import prompts as LP
+from .llm.generate import generate, generate_many
+from .services import business_case, findings as F, notifications
 from .services.reports import Reports
 from .services.workorders import WorkOrders
 
@@ -46,7 +48,7 @@ class AppState:
         self.ev = evaluate(self.ds)
         self.findings = F.build_findings(self.ds, self.ev)
         self.findings_by_id = {f["id"]: f for f in self.findings}
-        tips._cache.clear()
+        self.llm_ctx = self._llm_context()
         self.computed_seconds = time.time() - t0
         return {"ok": True, "seconds": self.computed_seconds, "data_source": self.quality["data_source"]}
 
@@ -57,10 +59,67 @@ class AppState:
                 a = self.ds.anomaly(w["finding_id"])
             except KeyError:
                 continue
-            a["status"] = Status.REPAIRED if w["status"] == "repaired" else max(a["status"], Status.CONFIRMED)
+            if w.get("fault_found") is False:
+                a["status"] = Status.DISMISSED
+                continue
+            if w.get("fault_found"):
+                a["status"] = max(a["status"], Status.CONFIRMED)
+            if w["status"] == "repaired":
+                a["status"] = Status.REPAIRED
             if w.get("verification") and w["verification"]["status"] == "VERIFIED":
                 a["status"] = Status.VERIFIED
                 a["verification"] = w["verification"]
+
+    def _llm_context(self) -> dict:
+        """Engine facts the LLM may quote (it never derives them itself)."""
+        p = self.ds.prices.dropna(subset=["spot"])
+        hod = p["timestamp_utc"].dt.tz_convert(C.TZ_LOCAL).dt.hour
+        by_h = p.groupby(hod)["spot"].mean().drop(list(C.PEAK_HOURS_LOCAL), errors="ignore")
+        live = [f for f in self.findings if f["status"] != "DISMISSED"]
+        largest = max(live, key=lambda f: f["avoidable_28d"]["sek"] or 0)["id"] if live else None
+        return {"cheapest_hour_local": f"{int(by_h.idxmin()):02d}:00", "largest_sek_finding_id": largest}
+
+    def week_summary(self, flat_id: str) -> dict:
+        d = metrics.daily_flat_series(self.ev["enriched"], flat_id).sort_index()
+        last, prev = d.iloc[-7:], d.iloc[-14:-7]
+        fmt = lambda ix: f"{ix[0].day} {ix[0].strftime('%b')} - {ix[-1].day} {ix[-1].strftime('%b')}"  # noqa: E731
+        ls, ps = last["sek"].sum(), prev["sek"].sum()
+        return {"last_7d": {"kwh": last["kwh"].sum(), "sek": ls, "dates": fmt(last.index)},
+                "prev_7d": {"kwh": prev["kwh"].sum(), "sek": ps, "dates": fmt(prev.index)},
+                "change_pct": (ls - ps) / ps * 100 if ps else None,
+                "horizon": "last 7 days of data vs the 7 days before", "status": "measured"}
+
+    # ---------- LLM texts (wording only) ----------
+    def _student_job(self, f):
+        return ("finding_student", LP.payload_finding_student(f, self.llm_ctx),
+                {"flat_id": f["flat_id"], "finding_id": f["id"]})
+
+    def _manager_job(self, f):
+        return ("finding_manager", LP.payload_finding_manager(f, self.llm_ctx),
+                {"flat_id": f["flat_id"], "finding_id": f["id"]})
+
+    def digest(self, flat_id: str) -> dict:
+        self.check_flat(flat_id)
+        mine = [f for f in self.findings if f["flat_id"] == flat_id and f["status"] != "DISMISSED"]
+        week = self.week_summary(flat_id)
+        payload = LP.payload_digest(self.scores(flat_id, with_explainer=False), week, mine[0] if mine else None,
+                                    self.llm_ctx)
+        res = generate("weekly_digest", payload, {"flat_id": flat_id})
+        return {"flat_id": flat_id, **res, "week": week, "horizon": week["horizon"],
+                "assumptions": ["texts only reword engine numbers", "synthetic data"]}
+
+    def explainer(self, flat_id: str) -> dict:
+        payload = LP.payload_score(self.scores(flat_id, with_explainer=False))
+        return generate("score_explainer", payload, {"flat_id": flat_id})
+
+    def warm_llm(self) -> dict:
+        """Pre-generate every text (fills out/llm_cache.json for the demo)."""
+        jobs = [self._student_job(f) for f in self.findings] + [self._manager_job(f) for f in self.findings]
+        res = generate_many(jobs)
+        for fid in self.ds.flat_ids:
+            res += [self.digest(fid), self.explainer(fid)]
+        return {"texts": len(res), "llm": sum(r["source"] == "llm" for r in res),
+                "template": sum(r["source"] == "template" for r in res)}
 
     def check_flat(self, flat_id: str):
         if flat_id not in self.ds.flat_ids:
@@ -81,10 +140,10 @@ class AppState:
             "excludes": [] if lens == "apartment" else ["manager-attributed equipment excess", "HEALTH pillar"],
         }
 
-    def scores(self, flat_id: str) -> dict:
+    def scores(self, flat_id: str, with_explainer: bool = True) -> dict:
         self.check_flat(flat_id)
         d = self.ev["detail"]
-        return {
+        out = {
             "flat_id": flat_id,
             "horizon": "28d measured",
             "status": "measured",
@@ -106,6 +165,9 @@ class AppState:
             "uncertainty": {"method": f"{C.SENS_DRAWS} Dirichlet weight draws (alpha = weight x {C.SENS_CONCENTRATION})",
                             "data_coverage": self.ev["totals"].loc[flat_id, "coverage"]},
         }
+        if with_explainer:
+            out["explainer"] = self.explainer(flat_id)
+        return out
 
     def breakdown(self, flat_id: str) -> dict:
         self.check_flat(flat_id)
@@ -133,7 +195,9 @@ class AppState:
 
     def flat_findings(self, flat_id: str) -> list[dict]:
         self.check_flat(flat_id)
-        return [f for f in self.findings if f["flat_id"] == flat_id]
+        mine = [f for f in self.findings if f["flat_id"] == flat_id]
+        texts = generate_many([self._student_job(f) for f in mine])
+        return [{**f, "student_text": t} for f, t in zip(mine, texts)]
 
     def scenario(self, flat_id: str, scenario: str, params: dict) -> dict:
         self.check_flat(flat_id)
@@ -154,7 +218,7 @@ class AppState:
             ap = self.ev["lenses"]["apartment"].loc[fid]
             rs = self.ev["lenses"]["resident"].loc[fid]
             t = self.ev["totals"].loc[fid]
-            open_f = [f for f in self.findings if f["flat_id"] == fid and f["status_level"] < Status.VERIFIED]
+            open_f = [f for f in self.findings if f["flat_id"] == fid and f["status_level"] not in (Status.VERIFIED, Status.DISMISSED)]
             rows.append({
                 "flat_id": fid, "residents": t["residents"], "floor_area_m2": t["floor_area_m2"],
                 "apartment_score": ap["score"], "apartment_band": ap["band"], "apartment_rank": ap["rank"],
@@ -180,7 +244,8 @@ class AppState:
             out = [f for f in out if f["status"] == status.upper()]
         if responsibility:
             out = [f for f in out if f["responsibility"] == responsibility]
-        return out
+        texts = generate_many([self._manager_job(f) for f in out])
+        return [{**f, "manager_text": t} for f, t in zip(out, texts)]
 
     # ---------- actions ----------
     def _set_status(self, finding_id: str, target: Status):
@@ -197,18 +262,33 @@ class AppState:
         f = self.findings_by_id.get(finding_id)
         if not f:
             raise KeyError(f"unknown finding {finding_id}")
-        w = self.workorders.create(f, note)
-        a = self.ds.anomaly(finding_id)
-        if a["status"] < Status.CONFIRMED:            # manager opening a work order = human confirmation
-            self._set_status(finding_id, Status.CONFIRMED)
-        self.recompute()
-        return w
+        # opening a work order does NOT confirm anything: the finding keeps its engine status
+        return self.workorders.create(f, note)
 
-    def patch_workorder(self, wid: str, status: str) -> dict:
-        w = self.workorders.advance(wid, status)
-        if status == "repaired":
-            self._set_status(w["finding_id"], Status.REPAIRED)
-            self.recompute()
+    def patch_workorder(self, wid: str, status: str | None = None, fault_found: bool | None = None) -> dict:
+        """Technician outcome: fault_found=true -> CONFIRMED, false -> DISMISSED (excluded from HEALTH);
+        status=repaired -> REPAIRED."""
+        w = self.workorders.get(wid)
+        if status is None and fault_found is None:
+            raise ValueError("send status and/or fault_found")
+        if fault_found is False and status == "repaired":
+            raise ValueError("cannot be repaired when no fault was found")
+        a = self.ds.anomaly(w["finding_id"])
+        if fault_found is False:
+            self._set_status(a["id"], Status.DISMISSED)
+            w["fault_found"] = False
+            self.workorders.advance(wid, "closed_no_fault")
+        elif fault_found:
+            if a["status"] < Status.CONFIRMED:
+                self._set_status(a["id"], Status.CONFIRMED)
+            w["fault_found"] = True
+        if status:
+            self.workorders.advance(wid, status)
+            if status == "repaired":
+                w["fault_found"] = True
+                if a["status"] < Status.REPAIRED:
+                    self._set_status(a["id"], Status.REPAIRED)
+        self.recompute()
         return w
 
     def verify_workorder(self, wid: str, post_readings: list[dict] | None, simulate: bool) -> dict:

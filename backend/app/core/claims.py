@@ -16,6 +16,7 @@ from .. import config as C
 
 
 class Status(IntEnum):
+    DISMISSED = 0      # technician checked, no fault found (human only); below DETECTED -> never in HEALTH
     DETECTED = 1
     PLAUSIBLE = 2
     CONFIRMED = 3
@@ -24,6 +25,7 @@ class Status(IntEnum):
 
 
 WORDING = {
+    Status.DISMISSED: "checked, no fault found",
     Status.DETECTED: "unusual pattern",
     Status.PLAUSIBLE: "possible fault",
     Status.CONFIRMED: "confirmed",
@@ -45,11 +47,17 @@ def initial_status(confidence: float | None, start, end) -> Status:
 
 
 def human_transition(current: Status, target: Status) -> Status:
-    """A person (manager) moves a finding to CONFIRMED or REPAIRED. Never VERIFIED."""
+    """A person (manager/technician) moves a finding to CONFIRMED, REPAIRED or DISMISSED. Never VERIFIED."""
     if target == Status.VERIFIED:
         raise ValueError("VERIFIED can only be set by verification with >= 7 days of post-repair data")
+    if current == Status.DISMISSED:
+        raise ValueError("finding was dismissed (no fault found)")
+    if target == Status.DISMISSED:
+        if current >= Status.REPAIRED:
+            raise ValueError(f"cannot dismiss a finding that is {current.name}")
+        return target
     if target not in (Status.CONFIRMED, Status.REPAIRED):
-        raise ValueError(f"humans can only set CONFIRMED or REPAIRED, not {target.name}")
+        raise ValueError(f"humans can only set CONFIRMED, REPAIRED or DISMISSED, not {target.name}")
     if current >= Status.REPAIRED:
         raise ValueError(f"finding is already {current.name}")
     if target <= current:
